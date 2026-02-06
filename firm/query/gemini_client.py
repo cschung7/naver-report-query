@@ -1,7 +1,9 @@
 """
-Gemini Client for Research Summarization (via OpenRouter)
+Gemini Client for Research Summarization
 
-Generates research summaries from search results using Google's Gemini via OpenRouter API.
+Generates research summaries using:
+  1. Native Google Gemini API (primary)
+  2. OpenRouter API (fallback)
 """
 import os
 import requests
@@ -19,18 +21,66 @@ except ImportError:
 
 
 class GeminiClient:
-    """Client for generating research summaries using Gemini via OpenRouter."""
+    """Client for generating research summaries using Gemini (native or OpenRouter)."""
 
+    NATIVE_GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
     OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
     def __init__(self, api_key: Optional[str] = None):
-        # Model configuration - use Gemini 2.5 Flash via OpenRouter
-        self.model_name = os.getenv("GEMINI_MODEL", "google/gemini-2.5-flash")
+        # Try native Gemini API key first
+        self.gemini_api_key = os.getenv("GEMINI_API_KEY")
+        # Then OpenRouter as fallback
+        self.openrouter_api_key = api_key or os.getenv("OPENROUTER_API_KEY")
 
-        # Get OpenRouter API key
-        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
-        if not self.api_key:
-            raise ValueError("OPENROUTER_API_KEY not configured")
+        if not self.gemini_api_key and not self.openrouter_api_key:
+            raise ValueError("Neither GEMINI_API_KEY nor OPENROUTER_API_KEY configured")
+
+        # Model configuration
+        self.native_model = os.getenv("GEMINI_MODEL_NATIVE", "gemini-2.5-flash")
+        self.openrouter_model = os.getenv("GEMINI_MODEL_OPENROUTER", "google/gemini-3-flash-preview")
+
+        backend = "native Gemini" if self.gemini_api_key else "OpenRouter"
+        print(f"  GeminiClient initialized (primary: {backend})")
+
+    def _call_native_gemini(self, prompt: str, max_tokens: int) -> str:
+        """Call native Google Gemini API."""
+        url = self.NATIVE_GEMINI_URL.format(model=self.native_model)
+        response = requests.post(
+            url,
+            params={"key": self.gemini_api_key},
+            headers={"Content-Type": "application/json"},
+            json={
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "maxOutputTokens": max_tokens,
+                    "temperature": 0.3,
+                }
+            },
+            timeout=60
+        )
+        response.raise_for_status()
+        result = response.json()
+        return result["candidates"][0]["content"]["parts"][0]["text"]
+
+    def _call_openrouter(self, prompt: str, max_tokens: int) -> str:
+        """Call OpenRouter API (fallback)."""
+        response = requests.post(
+            self.OPENROUTER_API_URL,
+            headers={
+                "Authorization": f"Bearer {self.openrouter_api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": self.openrouter_model,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": max_tokens,
+                "temperature": 0.3,
+            },
+            timeout=60
+        )
+        response.raise_for_status()
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
 
     def summarize_research(
         self,
@@ -42,18 +92,10 @@ class GeminiClient:
         """
         Generate a research summary from search results.
 
-        Args:
-            query: Original user query
-            reports: List of report dictionaries with title, summary, company, etc.
-            claims: Optional list of claims/insights from Neo4j
-            max_tokens: Maximum tokens for response
-
-        Returns:
-            Dictionary with summary, key_findings, and references
+        Tries native Gemini first, falls back to OpenRouter on failure.
         """
         # Build context from reports
-        report_context = self._build_report_context(reports[:10])  # Top 10 reports
-        claim_context = self._build_claim_context(claims[:20]) if claims else ""
+        report_context = self._build_report_context(reports[:10])
 
         prompt = f"""[질문] {query}
 
@@ -68,47 +110,44 @@ class GeminiClient:
 ⚠ 리스크: (10자)
 💡 시사점: (15자)"""
 
-        try:
-            response = requests.post(
-                self.OPENROUTER_API_URL,
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "model": self.model_name,
-                    "messages": [
-                        {"role": "user", "content": prompt}
-                    ],
-                    "max_tokens": max_tokens,
-                    "temperature": 0.3,
-                },
-                timeout=60
-            )
+        used_model = None
+        summary_text = None
+        last_error = None
 
-            response.raise_for_status()
-            result = response.json()
+        # Try native Gemini first
+        if self.gemini_api_key:
+            try:
+                summary_text = self._call_native_gemini(prompt, max_tokens)
+                used_model = f"native:{self.native_model}"
+            except Exception as e:
+                last_error = e
+                print(f"  Native Gemini failed: {e}, trying OpenRouter...")
 
-            summary_text = result["choices"][0]["message"]["content"]
+        # Fallback to OpenRouter
+        if summary_text is None and self.openrouter_api_key:
+            try:
+                summary_text = self._call_openrouter(prompt, max_tokens)
+                used_model = f"openrouter:{self.openrouter_model}"
+            except Exception as e:
+                last_error = e
+                print(f"  OpenRouter also failed: {e}")
 
-            # Extract references from reports
-            references = self._extract_references(reports[:10])
-
-            return {
-                "success": True,
-                "summary": summary_text,
-                "references": references,
-                "model": self.model_name,
-                "reports_used": len(reports[:10])
-            }
-
-        except Exception as e:
+        if summary_text is None:
             return {
                 "success": False,
-                "error": str(e),
+                "error": str(last_error) if last_error else "No API key available",
                 "summary": None,
                 "references": []
             }
+
+        references = self._extract_references(reports[:10])
+        return {
+            "success": True,
+            "summary": summary_text,
+            "references": references,
+            "model": used_model,
+            "reports_used": len(reports[:10])
+        }
 
     def _build_report_context(self, reports: List[Dict[str, Any]]) -> str:
         """Build context string from reports."""

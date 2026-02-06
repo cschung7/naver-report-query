@@ -380,19 +380,27 @@ def chart_ohlcv():
     if not stock_name:
         return jsonify({"success": False, "error": "Stock name required"}), 400
 
-    # CSV file path - chart data (NAS only, disabled on Railway)
+    # CSV file path - chart data (NAS only)
     krx_data_dir = os.environ.get('KRX_DATA_PATH', '/mnt/nas/AutoGluon/AutoML_Krx/KRXNOTTRAINED')
     csv_path = f"{krx_data_dir}/{stock_name}.csv"
 
     try:
-        if not os.path.exists(csv_path):
+        df_full = None
+
+        # Try local CSV first
+        if os.path.exists(csv_path):
+            df_full = pd.read_csv(csv_path, index_col=0, parse_dates=True)
+        else:
+            # Fallback: Yahoo Finance
+            df_full = _fetch_yahoo_ohlcv(stock_name, days)
+
+        if df_full is None or df_full.empty:
             return jsonify({"success": False, "error": f"Data not found for {stock_name}"}), 404
 
-        # Read CSV - need extra data for indicator calculations
-        df_full = pd.read_csv(csv_path, index_col=0, parse_dates=True)
+        # Ensure lowercase column names
+        df_full.columns = [c.lower() for c in df_full.columns]
 
         # Calculate indicators on full data, then slice
-        # Moving Averages
         df_full['ma10'] = df_full['close'].rolling(window=10).mean()
         df_full['ma20'] = df_full['close'].rolling(window=20).mean()
         df_full['ma60'] = df_full['close'].rolling(window=60).mean()
@@ -424,7 +432,7 @@ def chart_ohlcv():
         bb_lower_data = []
 
         for date, row in df.iterrows():
-            time_str = date.strftime('%Y-%m-%d')
+            time_str = date.strftime('%Y-%m-%d') if hasattr(date, 'strftime') else str(date)[:10]
 
             data.append({
                 "time": time_str,
@@ -435,7 +443,6 @@ def chart_ohlcv():
                 "volume": int(row['volume'])
             })
 
-            # MA data (skip NaN)
             if pd.notna(row['ma10']):
                 ma10_data.append({"time": time_str, "value": round(float(row['ma10']), 0)})
             if pd.notna(row['ma20']):
@@ -443,12 +450,10 @@ def chart_ohlcv():
             if pd.notna(row['ma60']):
                 ma60_data.append({"time": time_str, "value": round(float(row['ma60']), 0)})
 
-            # RSI data
             if pd.notna(row['rsi']):
                 rsi_data.append({"time": time_str, "value": round(float(row['rsi']), 2)})
 
-            # Bollinger Bands data
-            if pd.notna(row['bb_upper']):
+            if pd.notna(row.get('bb_upper', float('nan'))):
                 bb_upper_data.append({"time": time_str, "value": round(float(row['bb_upper']), 0)})
                 bb_middle_data.append({"time": time_str, "value": round(float(row['bb_middle']), 0)})
                 bb_lower_data.append({"time": time_str, "value": round(float(row['bb_lower']), 0)})
@@ -472,6 +477,68 @@ def chart_ohlcv():
 
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+
+
+def _fetch_yahoo_ohlcv(stock_name, days):
+    """Fetch OHLCV data from Yahoo Finance as fallback.
+
+    Maps Korean stock name to KRX ticker (e.g. 005930.KS) using db_final.csv.
+    Fetches extra data for indicator calculation.
+    """
+    try:
+        import yfinance as yf
+    except ImportError:
+        print("  yfinance not installed, cannot fetch chart data")
+        return None
+
+    # Resolve stock name to ticker code
+    name_map = get_ticker_name_map()
+    ticker_code = None
+
+    if stock_name in name_map:
+        val = name_map[stock_name]
+        # name_map stores both name->code and code->name; we need the 6-digit code
+        if val.isdigit() or (len(val) == 6 and val[0].isdigit()):
+            ticker_code = val.zfill(6)
+        else:
+            # stock_name is already a ticker code
+            ticker_code = stock_name.zfill(6)
+
+    if not ticker_code:
+        # Try treating input as ticker directly
+        if stock_name.isdigit():
+            ticker_code = stock_name.zfill(6)
+        else:
+            print(f"  Cannot resolve '{stock_name}' to KRX ticker")
+            return None
+
+    yahoo_ticker = f"{ticker_code}.KS"
+    # Fetch extra days for indicator warmup (60-day MA needs history)
+    fetch_days = days + 120
+
+    try:
+        period = f"{fetch_days}d"
+        df = yf.download(yahoo_ticker, period=period, progress=False, auto_adjust=True)
+        if df.empty:
+            # Try KOSDAQ suffix
+            yahoo_ticker = f"{ticker_code}.KQ"
+            df = yf.download(yahoo_ticker, period=period, progress=False, auto_adjust=True)
+
+        if df.empty:
+            print(f"  Yahoo Finance: no data for {yahoo_ticker}")
+            return None
+
+        # Flatten MultiIndex columns if present (yfinance >= 0.2.31)
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+
+        df.columns = [c.lower() for c in df.columns]
+        print(f"  Yahoo Finance: fetched {len(df)} rows for {yahoo_ticker}")
+        return df
+
+    except Exception as e:
+        print(f"  Yahoo Finance error for {yahoo_ticker}: {e}")
+        return None
 
 
 @app.route('/api')

@@ -431,9 +431,8 @@ body {
     </div>
 
     <script>
-// Configuration
-const API_BASE = window.location.hostname;
-const API_PORT = 8080;  // Always use FirmAnalysis for theme data (only server with theme endpoints)
+// Configuration - auto-detect protocol + host (works on both localhost and Railway)
+const API_BASE = window.location.origin;
 
 // State
 let network = null;
@@ -455,19 +454,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check for URL params
     const params = new URLSearchParams(window.location.search);
     const stockParam = params.get('stock') || params.get('name');
-    // Note: port param ignored - theme data only available on port 8080
-
     if (stockParam) {
         document.getElementById('search-input').value = stockParam;
         setTimeout(() => loadStock(stockParam), 500);
     }
 });
 
-// Theme data only available on FirmAnalysis (port 8080)
-// Port selector disabled - kept for potential future multi-API theme support
-
 function getApiUrl(path) {
-    return `http://${API_BASE}:${API_PORT}${path}`;
+    return `${API_BASE}${path}`;
 }
 
 function escapeHtml(text) {

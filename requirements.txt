@@ -18,7 +18,10 @@ requests
 # Metrics (used by invest and industry)
 prometheus_client
 
-# AI summarization (Gemini via OpenRouter)
+# Stock data (Yahoo Finance fallback for OHLCV charts)
+yfinance
+
+# AI summarization (Gemini - native + OpenRouter fallback)
 # Uses requests directly, no special package needed
 
 # Optional: Neo4j (Phase 2)
