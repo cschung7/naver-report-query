@@ -1125,22 +1125,27 @@ def stock_signal():
     if not symbol:
         return jsonify({"success": False, "error": "Missing symbol"}), 400
 
-    # Try to get from themes/stock endpoint (internal call)
+    # Get signal data from NaverThemeService
     try:
         service = get_naver_theme_service()
         if service:
             result = service.get_stock_themes(symbol)
-            if result:
+            if result and result.get('success'):
                 return jsonify({
                     "success": True,
                     "scores": result.get('scores', {}),
                     "momentum": result.get('momentum', ''),
                     "theme_count": result.get('theme_count', 0)
                 })
-    except:
-        pass
-
-    return jsonify({"success": True, "scores": None, "momentum": "", "theme_count": 0})
+            else:
+                return jsonify({"success": True, "scores": None, "momentum": "", "theme_count": 0,
+                                "debug": f"service_ok=True, result_success={result.get('success') if result else 'None'}"})
+        else:
+            return jsonify({"success": True, "scores": None, "momentum": "", "theme_count": 0,
+                            "debug": "service=None"})
+    except Exception as e:
+        return jsonify({"success": True, "scores": None, "momentum": "", "theme_count": 0,
+                        "debug": f"exception: {str(e)}"})
 
 
 @app.route('/chart/ohlcv/multi')
