@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테마분석 Explorer - NaverReport</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style>
+/* =============================================================================
+   WWAI-UI DESIGN TOKENS
+   ============================================================================= */
+:root {
+  --wwai-radius: 0.625rem;
+  --wwai-radius-sm: calc(var(--wwai-radius) - 4px);
+  --wwai-radius-md: calc(var(--wwai-radius) - 2px);
+  --wwai-radius-lg: var(--wwai-radius);
+
+  --wwai-bg-primary: #0f172a;
+  --wwai-bg-secondary: #1e293b;
+  --wwai-bg-tertiary: #334155;
+  --wwai-bg-hover: #475569;
+
+  --wwai-text-primary: #f8fafc;
+  --wwai-text-secondary: #cbd5e1;
+  --wwai-text-muted: #94a3b8;
+  --wwai-text-subtle: #64748b;
+
+  --wwai-border-primary: #475569;
+  --wwai-border-secondary: #334155;
+  --wwai-border-focus: #3b82f6;
+
+  --wwai-bullish: #10b981;
+  --wwai-bullish-light: #34d399;
+  --wwai-bullish-bg: rgba(16, 185, 129, 0.2);
+
+  --wwai-bearish: #ef4444;
+  --wwai-bearish-light: #f87171;
+  --wwai-bearish-bg: rgba(239, 68, 68, 0.2);
+
+  --wwai-neutral: #f59e0b;
+  --wwai-neutral-light: #fbbf24;
+  --wwai-neutral-bg: rgba(245, 158, 11, 0.2);
+
+  --wwai-accent: #3b82f6;
+  --wwai-accent-light: #60a5fa;
+  --wwai-accent-dark: #2563eb;
+  --wwai-accent-bg: rgba(59, 130, 246, 0.2);
+
+  --wwai-purple: #8b5cf6;
+  --wwai-cyan: #06b6d4;
+  --wwai-pink: #ec4899;
+
+  --wwai-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wwai-font-korean: 'Noto Sans KR', var(--wwai-font-sans);
+  --wwai-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --wwai-shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+  --wwai-transition-base: 0.2s ease;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--wwai-font-korean);
+  background: var(--wwai-bg-primary);
+  color: var(--wwai-text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* =============================================================================
+   MAIN LAYOUT
+   ============================================================================= */
+.theme-explorer {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =============================================================================
+   SIDEBAR
+   ============================================================================= */
+.sidebar {
+  width: 320px;
+  background: var(--wwai-bg-secondary);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-right: 1px solid var(--wwai-border-secondary);
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--wwai-purple), var(--wwai-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--wwai-border-secondary);
+}
+
+.sidebar-section {
+  background: var(--wwai-bg-primary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-md);
+  padding: 1rem;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  color: var(--wwai-accent-light);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--wwai-bg-primary);
+  border: 2px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-primary);
+  font-size: 0.9rem;
+  transition: border-color var(--wwai-transition-base);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--wwai-border-focus);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+.search-btn {
+  width: 100%;
+  padding: 0.625rem;
+  background: linear-gradient(135deg, var(--wwai-purple), var(--wwai-accent-dark));
+  border: none;
+  border-radius: var(--wwai-radius-sm);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: all var(--wwai-transition-base);
+}
+
+.search-btn:hover { transform: translateY(-1px); box-shadow: var(--wwai-shadow-glow); }
+
+.sector-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.sector-btn {
+  padding: 0.5rem;
+  background: var(--wwai-bg-tertiary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-secondary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+  text-align: center;
+}
+
+.sector-btn:hover { background: var(--wwai-purple); border-color: var(--wwai-purple); color: white; }
+.sector-btn.active { background: var(--wwai-purple); border-color: var(--wwai-purple); color: white; }
+
+.info-box {
+  background: var(--wwai-bg-primary);
+  border-left: 3px solid var(--wwai-purple);
+  border-radius: var(--wwai-radius-sm);
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--wwai-text-secondary);
+}
+
+.info-box .highlight {
+  color: var(--wwai-accent-light);
+  font-weight: 600;
+}
+
+.results-list {
+  max-height: 180px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+}
+
+.result-item {
+  padding: 0.5rem 0.625rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result-item:hover { background: var(--wwai-bg-tertiary); }
+.result-item.stock { color: var(--wwai-accent-light); }
+.result-item.theme { color: var(--wwai-text-primary); }
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ctrl-btn {
+  flex: 1;
+  min-width: 70px;
+  padding: 0.5rem;
+  background: var(--wwai-bg-tertiary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-secondary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+}
+
+.ctrl-btn:hover { background: var(--wwai-purple); border-color: var(--wwai-purple); color: white; }
+
+.back-link {
+  display: block;
+  text-align: center;
+  padding: 0.5rem;
+  background: var(--wwai-bg-tertiary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-secondary);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all var(--wwai-transition-base);
+}
+
+.back-link:hover { background: var(--wwai-accent); border-color: var(--wwai-accent); color: white; }
+
+/* =============================================================================
+   MAIN CONTENT
+   ============================================================================= */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.main-header {
+  padding: 0.75rem 1.25rem;
+  background: var(--wwai-bg-tertiary);
+  border-bottom: 1px solid var(--wwai-border-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats-row {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--wwai-font-mono);
+}
+
+.stat-value.stock { color: var(--wwai-accent-light); }
+.stat-value.theme { color: var(--wwai-purple); }
+.stat-value.conn { color: var(--wwai-bullish); }
+
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--wwai-text-muted);
+  text-transform: uppercase;
+}
+
+.current-view {
+  color: var(--wwai-text-secondary);
+  font-size: 0.9rem;
+}
+
+.api-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.api-btn {
+  padding: 0.4rem 0.8rem;
+  background: var(--wwai-bg-secondary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-secondary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+}
+
+.api-btn:hover { border-color: var(--wwai-accent); color: var(--wwai-accent-light); }
+.api-btn.active { background: var(--wwai-accent); border-color: var(--wwai-accent); color: white; }
+
+.network-canvas {
+  flex: 1;
+  background: radial-gradient(circle at center, var(--wwai-bg-secondary) 0%, var(--wwai-bg-primary) 100%);
+  min-height: 0;
+  position: relative;
+}
+
+#network {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+@media (max-width: 768px) {
+  .theme-explorer {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 40vh;
+    border-right: none;
+    border-bottom: 1px solid var(--wwai-border-secondary);
+  }
+  .main-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="theme-explorer">
+        <div class="sidebar">
+            <div class="sidebar-title">🗺️ 테마분석 Explorer</div>
+
+            <a href="javascript:history.back()" class="back-link">← 이전 페이지로</a>
+
+            <div class="sidebar-section">
+                <div class="section-title">💬 종목 검색</div>
+                <input type="text" class="search-input" id="search-input" placeholder="종목명을 입력하세요 (예: 삼성전자)">
+                <button class="search-btn" onclick="searchStock()">🔍 검색</button>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">🏷️ 테마 카테고리</div>
+                <div class="sector-grid" id="theme-categories">
+                    <button class="sector-btn" style="border-color:#FFD700;" onclick="filterByCategory('반도체')">반도체</button>
+                    <button class="sector-btn" style="border-color:#00BCD4;" onclick="filterByCategory('바이오')">바이오/헬스</button>
+                    <button class="sector-btn" style="border-color:#2196F3;" onclick="filterByCategory('IT')">IT/소프트웨어</button>
+                    <button class="sector-btn" style="border-color:#FF9800;" onclick="filterByCategory('에너지')">에너지/화학</button>
+                    <button class="sector-btn" style="border-color:#4CAF50;" onclick="filterByCategory('금융')">금융/부동산</button>
+                    <button class="sector-btn" style="border-color:#E91E63;" onclick="filterByCategory('소비재')">소비재/유통</button>
+                    <button class="sector-btn" style="border-color:#9C27B0;" onclick="filterByCategory('자동차')">자동차/운송</button>
+                    <button class="sector-btn" style="border-color:#607D8B;" onclick="filterByCategory('기타')">기타</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">ℹ️ 현재 상태</div>
+                <div class="info-box" id="info-box">
+                    종목 또는 테마를 선택하면<br>
+                    <span class="highlight">마인드맵</span>이 표시됩니다.
+                </div>
+            </div>
+
+            <div class="sidebar-section" id="results-section" style="display: none;">
+                <div class="section-title">📋 검색 결과</div>
+                <div class="results-list" id="results-list"></div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">⚙️ 컨트롤</div>
+                <div class="controls">
+                    <button class="ctrl-btn" onclick="resetNetwork()">🔄 초기화</button>
+                    <button class="ctrl-btn" onclick="fitNetwork()">🔍 맞춤</button>
+                    <button class="ctrl-btn" onclick="togglePhysics()">⚡ 물리</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="main-header">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value stock" id="stock-count">0</div>
+                        <div class="stat-label">종목</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value theme" id="theme-count">0</div>
+                        <div class="stat-label">테마</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value conn" id="conn-count">0</div>
+                        <div class="stat-label">연결</div>
+                    </div>
+                </div>
+                <div class="current-view" id="current-view">전체 보기</div>
+                <div class="api-selector" title="테마 데이터는 기업분석(8080)에서만 제공됩니다">
+                    <span class="api-btn active" style="cursor: default;">🏢 기업분석</span>
+                </div>
+            </div>
+            <div class="network-canvas">
+                <div id="network"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+// Configuration
+const API_BASE = window.location.hostname;
+const API_PORT = 8080;  // Always use FirmAnalysis for theme data (only server with theme endpoints)
+
+// State
+let network = null;
+let nodes = null;
+let edges = null;
+let physicsEnabled = true;
+let currentStock = null;
+const expandedThemes = new Set();
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', function() {
+    initNetwork();
+
+    // Handle Enter key in search
+    document.getElementById('search-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') searchStock();
+    });
+
+    // Check for URL params
+    const params = new URLSearchParams(window.location.search);
+    const stockParam = params.get('stock') || params.get('name');
+    // Note: port param ignored - theme data only available on port 8080
+
+    if (stockParam) {
+        document.getElementById('search-input').value = stockParam;
+        setTimeout(() => loadStock(stockParam), 500);
+    }
+});
+
+// Theme data only available on FirmAnalysis (port 8080)
+// Port selector disabled - kept for potential future multi-API theme support
+
+function getApiUrl(path) {
+    return `http://${API_BASE}:${API_PORT}${path}`;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function initNetwork() {
+    const container = document.getElementById('network');
+
+    nodes = new vis.DataSet([]);
+    edges = new vis.DataSet([]);
+
+    const data = { nodes: nodes, edges: edges };
+
+    const options = {
+        nodes: {
+            borderWidth: 2,
+            shadow: true,
+            font: { color: '#fff', size: 14 }
+        },
+        edges: {
+            width: 2,
+            color: { color: '#8b5cf6', opacity: 0.5 },
+            arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+            smooth: { type: 'curvedCW', roundness: 0.15 }
+        },
+        physics: {
+            enabled: true,
+            solver: 'forceAtlas2Based',
+            forceAtlas2Based: {
+                gravitationalConstant: -100,
+                springLength: 150,
+                springConstant: 0.05,
+                avoidOverlap: 0.5
+            },
+            stabilization: { iterations: 100 }
+        },
+        interaction: {
+            hover: true,
+            tooltipDelay: 100,
+            dragNodes: true,
+            dragView: true,
+            zoomView: true
+        },
+        layout: { improvedLayout: false, randomSeed: 42 }
+    };
+
+    network = new vis.Network(container, data, options);
+
+    // Resize after creation
+    setTimeout(resizeNetwork, 100);
+
+    // Node click handler
+    network.on('click', function(params) {
+        if (params.nodes.length > 0) {
+            const nodeId = params.nodes[0];
+            const node = nodes.get(nodeId);
+            if (node) {
+                if (node.type === 'stock') {
+                    loadStock(node.label.split('\n')[0]);
+                } else if (node.type === 'theme') {
+                    expandTheme(node.themeName || node.label);
+                }
+            }
+        }
+    });
+
+    // Double-click to open stock detail
+    network.on('doubleClick', function(params) {
+        if (params.nodes.length > 0) {
+            const nodeId = params.nodes[0];
+            const node = nodes.get(nodeId);
+            if (node && node.type === 'stock') {
+                const stockName = node.label.split('\n')[0];
+                window.open(getApiUrl('/stock?name=' + encodeURIComponent(stockName)), '_blank');
+            }
+        }
+    });
+
+    // Fit on stabilize
+    network.on('stabilized', function() {
+        network.fit({ animation: true });
+    });
+}
+
+function resizeNetwork() {
+    if (!network) return;
+
+    const canvas = document.querySelector('.network-canvas');
+    const container = document.getElementById('network');
+
+    const w = canvas.offsetWidth;
+    const h = canvas.offsetHeight;
+
+    container.style.width = w + 'px';
+    container.style.height = h + 'px';
+
+    network.setSize(w + 'px', h + 'px');
+    network.redraw();
+    network.fit();
+}
+
+window.addEventListener('resize', resizeNetwork);
+
+function searchStock() {
+    const query = document.getElementById('search-input').value.trim();
+    if (!query) return;
+    loadStock(query);
+}
+
+async function loadStock(stockName) {
+    currentStock = stockName;
+    document.getElementById('current-view').textContent = stockName;
+    document.getElementById('info-box').innerHTML = `<span class="highlight">${escapeHtml(stockName)}</span>의 테마를 로딩 중...`;
+
+    try {
+        const response = await fetch(getApiUrl('/themes/stock?name=' + encodeURIComponent(stockName)));
+        const data = await response.json();
+
+        if (data.success && data.themes?.length) {
+            renderStockNetwork(stockName, data);
+        } else {
+            document.getElementById('info-box').innerHTML = `<span style="color: var(--wwai-bearish);">종목을 찾을 수 없습니다.</span>`;
+        }
+    } catch (e) {
+        console.error('Load error:', e);
+        document.getElementById('info-box').innerHTML = `<span style="color: var(--wwai-bearish);">오류: ${e.message}</span>`;
+    }
+}
+
+function renderStockNetwork(stockName, data) {
+    nodes.clear();
+    edges.clear();
+    expandedThemes.clear();
+
+    const themes = data.themes || [];
+    const scores = data.scores || {};
+
+    const bullish = scores.bullish || 0;
+    const bearish = scores.bearish || 0;
+    const isBuyable = bullish > bearish;
+
+    // Center node (stock)
+    const stockBgColor = isBuyable ? '#ef4444' : '#3b82f6';
+    const stockBorderColor = isBuyable ? '#dc2626' : '#2563eb';
+    const stockHighlightBg = isBuyable ? '#f87171' : '#60a5fa';
+
+    nodes.add({
+        id: 'stock_' + stockName,
+        label: stockName + (isBuyable ? '\n🔴 매수' : '\n🔵 관망'),
+        type: 'stock',
+        color: {
+            background: stockBgColor,
+            border: stockBorderColor,
+            highlight: { background: stockHighlightBg, border: stockBgColor }
+        },
+        shape: 'box',
+        font: { size: 16, color: '#fff', bold: true },
+        size: 45,
+        borderWidth: 3
+    });
+
+    // Theme nodes
+    themes.forEach((theme, idx) => {
+        const nodeId = 'theme_' + theme;
+        const hue = 270 + (idx * 5) % 40;  // Purple range
+        const bgColor = `hsl(${hue}, 60%, 45%)`;
+        const borderColor = `hsl(${hue}, 60%, 35%)`;
+
+        nodes.add({
+            id: nodeId,
+            label: theme,
+            themeName: theme,
+            type: 'theme',
+            color: {
+                background: bgColor,
+                border: borderColor,
+                highlight: { background: `hsl(${hue}, 60%, 55%)`, border: bgColor }
+            },
+            shape: 'box',
+            font: { size: 12, color: '#fff' },
+            size: 25
+        });
+
+        edges.add({
+            id: 'edge_' + stockName + '_' + theme,
+            from: 'stock_' + stockName,
+            to: nodeId,
+            color: { color: '#8b5cf6', opacity: 0.6 }
+        });
+    });
+
+    // Update stats
+    document.getElementById('stock-count').textContent = '1';
+    document.getElementById('theme-count').textContent = themes.length;
+    document.getElementById('conn-count').textContent = themes.length;
+
+    // Update info
+    const bullishPct = ((scores.bullish || 0) * 100).toFixed(1);
+    const bearishPct = ((scores.bearish || 0) * 100).toFixed(1);
+    const neutralPct = ((scores.neutral || 0) * 100).toFixed(1);
+
+    document.getElementById('info-box').innerHTML = `
+        <span class="highlight">${escapeHtml(stockName)}</span><br>
+        테마: ${themes.length}개<br>
+        시그널: <span style="color: var(--wwai-bullish);">▲${bullishPct}%</span>
+        <span style="color: var(--wwai-neutral);">●${neutralPct}%</span>
+        <span style="color: var(--wwai-bearish);">▼${bearishPct}%</span><br>
+        <a href="${getApiUrl('/stock?name=' + encodeURIComponent(stockName))}" target="_blank" style="color: var(--wwai-accent-light); text-decoration: underline; font-size: 12px;">📊 상세 보기 →</a>
+    `;
+
+    // Show results
+    const resultsSection = document.getElementById('results-section');
+    const resultsList = document.getElementById('results-list');
+    resultsSection.style.display = 'block';
+
+    let resultsHtml = '';
+    themes.slice(0, 15).forEach(theme => {
+        resultsHtml += `<div class="result-item theme" onclick="expandTheme('${escapeHtml(theme).replace(/'/g, "\\'")}')">${escapeHtml(theme)}</div>`;
+    });
+    resultsList.innerHTML = resultsHtml;
+
+    setTimeout(resizeNetwork, 200);
+}
+
+async function expandTheme(themeName) {
+    const themeNodeId = 'theme_' + themeName;
+
+    if (expandedThemes.has(themeName)) {
+        collapseTheme(themeName);
+        return;
+    }
+
+    document.getElementById('info-box').innerHTML += `<br>📊 <span class="highlight">${escapeHtml(themeName)}</span> 종목 로딩...`;
+
+    try {
+        const response = await fetch(getApiUrl('/themes/stocks?theme=' + encodeURIComponent(themeName) + '&limit=10'));
+        const data = await response.json();
+
+        if (data.success && data.stocks?.length) {
+            addThemeStocks(themeName, data.stocks);
+            expandedThemes.add(themeName);
+
+            const themeNode = nodes.get(themeNodeId);
+            if (themeNode) {
+                nodes.update({
+                    id: themeNodeId,
+                    label: '📂 ' + themeName,
+                    font: { size: 12, color: '#fff', bold: true }
+                });
+            }
+        }
+    } catch (e) {
+        console.error('Theme stocks error:', e);
+    }
+}
+
+function collapseTheme(themeName) {
+    const themeNodeId = 'theme_' + themeName;
+
+    const edgesToRemove = [];
+    const nodesToRemove = [];
+
+    const allEdges = edges.get();
+    allEdges.forEach(edge => {
+        if (edge.from === themeNodeId && edge.id && edge.id.startsWith('edge_' + themeName + '_')) {
+            edgesToRemove.push(edge.id);
+            const stockNodeId = edge.to;
+            const otherConnections = edges.get({
+                filter: e => e.to === stockNodeId && e.from !== themeNodeId
+            });
+            if (otherConnections.length === 0) {
+                nodesToRemove.push(stockNodeId);
+            }
+        }
+    });
+
+    edgesToRemove.forEach(id => edges.remove(id));
+    nodesToRemove.forEach(id => nodes.remove(id));
+
+    const currentStocks = Math.max(0, parseInt(document.getElementById('stock-count').textContent) - nodesToRemove.length);
+    const currentConns = Math.max(0, parseInt(document.getElementById('conn-count').textContent) - edgesToRemove.length);
+    document.getElementById('stock-count').textContent = currentStocks;
+    document.getElementById('conn-count').textContent = currentConns;
+
+    const themeNode = nodes.get(themeNodeId);
+    if (themeNode) {
+        nodes.update({
+            id: themeNodeId,
+            label: '📁 ' + themeName,
+            font: { size: 11, color: '#fff', bold: false }
+        });
+    }
+
+    expandedThemes.delete(themeName);
+}
+
+function addThemeStocks(themeName, stocks) {
+    const themeNodeId = 'theme_' + themeName;
+    if (!nodes.get(themeNodeId)) return;
+
+    let addedCount = 0;
+
+    stocks.forEach((stock, idx) => {
+        const stockNodeId = 'stock_' + stock.name;
+
+        if (nodes.get(stockNodeId)) return;
+        if (stock.name === currentStock) return;
+
+        let isBuyable;
+        if (stock.buyable !== null && stock.buyable !== undefined) {
+            isBuyable = stock.buyable === true || stock.buyable === 'True';
+        } else {
+            const score = stock.total_score || 0;
+            isBuyable = score > 0;
+        }
+
+        let bgColor, borderColor, highlightBg;
+        if (isBuyable) {
+            bgColor = '#ef4444';
+            borderColor = '#dc2626';
+            highlightBg = '#f87171';
+        } else {
+            bgColor = '#3b82f6';
+            borderColor = '#2563eb';
+            highlightBg = '#60a5fa';
+        }
+
+        const marketCap = stock.market_cap || 0;
+        let capLabel;
+        if (marketCap >= 1) {
+            capLabel = marketCap.toFixed(1) + '조';
+        } else if (marketCap >= 0.01) {
+            capLabel = Math.round(marketCap * 10000).toLocaleString() + '억';
+        } else {
+            capLabel = '-';
+        }
+
+        const nodeSize = marketCap > 0 ? 18 + Math.log10(marketCap * 10000 + 1) * 5 : 18;
+
+        nodes.add({
+            id: stockNodeId,
+            label: stock.name + '\n' + (isBuyable ? '🔴' : '🔵') + ' ' + capLabel,
+            type: 'stock',
+            color: {
+                background: bgColor,
+                border: borderColor,
+                highlight: { background: highlightBg, border: bgColor }
+            },
+            shape: 'ellipse',
+            font: { size: 10, color: '#fff' },
+            size: nodeSize
+        });
+
+        edges.add({
+            id: 'edge_' + themeName + '_' + stock.name,
+            from: themeNodeId,
+            to: stockNodeId,
+            color: { color: '#10b981', opacity: 0.4 },
+            width: 1
+        });
+
+        addedCount++;
+    });
+
+    const currentStocks = parseInt(document.getElementById('stock-count').textContent) + addedCount;
+    const currentConns = parseInt(document.getElementById('conn-count').textContent) + addedCount;
+    document.getElementById('stock-count').textContent = currentStocks;
+    document.getElementById('conn-count').textContent = currentConns;
+}
+
+function filterByCategory(category) {
+    document.querySelectorAll('.sector-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(category));
+    });
+
+    document.getElementById('current-view').textContent = category + ' 카테고리';
+    document.getElementById('info-box').innerHTML = `<span class="highlight">${category}</span> 관련 테마를 검색하려면<br>종목명을 입력하세요.`;
+}
+
+function resetNetwork() {
+    if (nodes) nodes.clear();
+    if (edges) edges.clear();
+    expandedThemes.clear();
+
+    document.getElementById('stock-count').textContent = '0';
+    document.getElementById('theme-count').textContent = '0';
+    document.getElementById('conn-count').textContent = '0';
+    document.getElementById('current-view').textContent = '전체 보기';
+    document.getElementById('info-box').innerHTML = '종목 또는 테마를 선택하면<br><span class="highlight">마인드맵</span>이 표시됩니다.';
+    document.getElementById('results-section').style.display = 'none';
+    document.getElementById('search-input').value = '';
+
+    document.querySelectorAll('.sector-btn').forEach(btn => btn.classList.remove('active'));
+
+    currentStock = null;
+}
+
+function fitNetwork() {
+    if (network) {
+        resizeNetwork();
+    }
+}
+
+function togglePhysics() {
+    physicsEnabled = !physicsEnabled;
+    if (network) {
+        network.setOptions({ physics: { enabled: physicsEnabled } });
+    }
+}
+
+// Handle Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        resetNetwork();
+    }
+});
+    </script>
+</body>
+</html>

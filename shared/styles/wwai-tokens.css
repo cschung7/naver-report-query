@@ -1,0 +1,480 @@
+/**
+ * WWAI-UI Design Tokens for NaverReport APIs
+ *
+ * Unified token system for Korean financial dashboards
+ * Based on: /mnt/nas/WWAI/wwai-ui/packages/tokens/
+ */
+
+/* =============================================================================
+   CSS VARIABLES (Dark Theme - Default)
+   ============================================================================= */
+
+:root {
+  /* Radius */
+  --wwai-radius: 0.625rem;
+  --wwai-radius-sm: calc(var(--wwai-radius) - 4px);
+  --wwai-radius-md: calc(var(--wwai-radius) - 2px);
+  --wwai-radius-lg: var(--wwai-radius);
+  --wwai-radius-xl: calc(var(--wwai-radius) + 4px);
+
+  /* Background Colors */
+  --wwai-bg-primary: #0f172a;
+  --wwai-bg-secondary: #1e293b;
+  --wwai-bg-tertiary: #334155;
+  --wwai-bg-hover: #475569;
+
+  /* Text Colors */
+  --wwai-text-primary: #f8fafc;
+  --wwai-text-secondary: #cbd5e1;
+  --wwai-text-muted: #94a3b8;
+  --wwai-text-subtle: #64748b;
+
+  /* Border Colors */
+  --wwai-border-primary: #475569;
+  --wwai-border-secondary: #334155;
+  --wwai-border-focus: #3b82f6;
+
+  /* Financial Semantic Colors */
+  --wwai-bullish: #10b981;
+  --wwai-bullish-light: #34d399;
+  --wwai-bullish-dark: #059669;
+  --wwai-bullish-bg: rgba(16, 185, 129, 0.2);
+
+  --wwai-bearish: #ef4444;
+  --wwai-bearish-light: #f87171;
+  --wwai-bearish-dark: #dc2626;
+  --wwai-bearish-bg: rgba(239, 68, 68, 0.2);
+
+  --wwai-neutral: #f59e0b;
+  --wwai-neutral-light: #fbbf24;
+  --wwai-neutral-bg: rgba(245, 158, 11, 0.2);
+
+  /* Accent Colors */
+  --wwai-accent: #3b82f6;
+  --wwai-accent-light: #60a5fa;
+  --wwai-accent-dark: #2563eb;
+  --wwai-accent-bg: rgba(59, 130, 246, 0.2);
+
+  /* Secondary Accents */
+  --wwai-purple: #8b5cf6;
+  --wwai-purple-light: #a78bfa;
+  --wwai-cyan: #06b6d4;
+  --wwai-pink: #ec4899;
+
+  /* Fonts */
+  --wwai-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wwai-font-korean: 'Noto Sans KR', var(--wwai-font-sans);
+  --wwai-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Shadows */
+  --wwai-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --wwai-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --wwai-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+  --wwai-shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+
+  /* Transitions */
+  --wwai-transition-fast: 0.1s ease;
+  --wwai-transition-base: 0.2s ease;
+  --wwai-transition-slow: 0.3s ease;
+}
+
+/* =============================================================================
+   COLORBLIND MODE
+   ============================================================================= */
+
+[data-colorblind="true"] {
+  --wwai-bullish: #2563eb;        /* Blue instead of green */
+  --wwai-bullish-light: #3b82f6;
+  --wwai-bullish-dark: #1d4ed8;
+  --wwai-bullish-bg: rgba(37, 99, 235, 0.2);
+
+  --wwai-bearish: #ea580c;        /* Orange instead of red */
+  --wwai-bearish-light: #f97316;
+  --wwai-bearish-dark: #c2410c;
+  --wwai-bearish-bg: rgba(234, 88, 12, 0.2);
+}
+
+/* =============================================================================
+   REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =============================================================================
+   BASE STYLES
+   ============================================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--wwai-font-korean);
+  background: var(--wwai-bg-primary);
+  color: var(--wwai-text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* =============================================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================================= */
+
+.wwai-heading {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.wwai-price {
+  font-family: var(--wwai-font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.wwai-percent {
+  font-family: var(--wwai-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.wwai-korean {
+  font-family: var(--wwai-font-korean);
+  word-break: keep-all;
+}
+
+/* =============================================================================
+   COMPONENT PATTERNS
+   ============================================================================= */
+
+/* Card */
+.wwai-card {
+  background: var(--wwai-bg-secondary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-lg);
+  overflow: hidden;
+}
+
+.wwai-card-header {
+  padding: 1rem 1.25rem;
+  background: var(--wwai-bg-tertiary);
+  border-bottom: 1px solid var(--wwai-border-secondary);
+}
+
+.wwai-card-body {
+  padding: 1.25rem;
+}
+
+/* Badge */
+.wwai-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--wwai-radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.wwai-badge-bullish {
+  background: var(--wwai-bullish-bg);
+  color: var(--wwai-bullish-light);
+}
+
+.wwai-badge-bearish {
+  background: var(--wwai-bearish-bg);
+  color: var(--wwai-bearish-light);
+}
+
+.wwai-badge-neutral {
+  background: var(--wwai-neutral-bg);
+  color: var(--wwai-neutral-light);
+}
+
+.wwai-badge-accent {
+  background: var(--wwai-accent-bg);
+  color: var(--wwai-accent-light);
+}
+
+/* Tag */
+.wwai-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  background: var(--wwai-bg-tertiary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-secondary);
+}
+
+/* Button */
+.wwai-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--wwai-radius-md);
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+}
+
+.wwai-btn-primary {
+  background: linear-gradient(135deg, var(--wwai-accent) 0%, var(--wwai-accent-dark) 100%);
+  color: white;
+}
+
+.wwai-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--wwai-shadow-glow);
+}
+
+.wwai-btn-primary:disabled {
+  background: var(--wwai-bg-hover);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Input */
+.wwai-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  font-family: var(--wwai-font-korean);
+  background: var(--wwai-bg-primary);
+  border: 2px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-md);
+  color: var(--wwai-text-primary);
+  outline: none;
+  transition: border-color var(--wwai-transition-base);
+}
+
+.wwai-input:focus {
+  border-color: var(--wwai-border-focus);
+}
+
+.wwai-input::placeholder {
+  color: var(--wwai-text-subtle);
+}
+
+/* Select */
+.wwai-select {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  background: var(--wwai-bg-primary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-primary);
+}
+
+/* Spinner */
+.wwai-spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--wwai-border-secondary);
+  border-top-color: var(--wwai-accent);
+  border-radius: 50%;
+  animation: wwai-spin 1s linear infinite;
+}
+
+@keyframes wwai-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Loading State */
+.wwai-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--wwai-text-muted);
+  gap: 1rem;
+}
+
+/* Error State */
+.wwai-error {
+  padding: 1rem;
+  background: var(--wwai-bearish-bg);
+  border-radius: var(--wwai-radius-md);
+  color: var(--wwai-bearish-light);
+  text-align: center;
+}
+
+/* Empty State */
+.wwai-empty {
+  padding: 3rem;
+  text-align: center;
+  color: var(--wwai-text-muted);
+}
+
+/* =============================================================================
+   INTENT BADGES (Query Types)
+   ============================================================================= */
+
+.wwai-intent-badge {
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.wwai-intent-lookup { background: var(--wwai-cyan); color: white; }
+.wwai-intent-semantic_qa { background: var(--wwai-purple); color: white; }
+.wwai-intent-relationship { background: var(--wwai-neutral); color: white; }
+.wwai-intent-filter { background: var(--wwai-bullish); color: white; }
+.wwai-intent-research { background: var(--wwai-bearish); color: white; }
+.wwai-intent-comparison { background: var(--wwai-pink); color: white; }
+
+/* =============================================================================
+   REPORT CARD
+   ============================================================================= */
+
+.wwai-report-card {
+  background: var(--wwai-bg-primary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-md);
+  padding: 1rem;
+  transition: border-color var(--wwai-transition-base);
+}
+
+.wwai-report-card:hover {
+  border-color: var(--wwai-border-primary);
+}
+
+.wwai-report-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.625rem;
+}
+
+.wwai-report-card-title {
+  font-weight: 600;
+  color: var(--wwai-text-primary);
+  flex: 1;
+}
+
+.wwai-report-card-date {
+  color: var(--wwai-text-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.wwai-report-card-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.625rem;
+}
+
+.wwai-report-card-summary {
+  color: var(--wwai-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* =============================================================================
+   STAT DISPLAY
+   ============================================================================= */
+
+.wwai-stat {
+  text-align: center;
+}
+
+.wwai-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--wwai-font-mono);
+  color: var(--wwai-accent);
+}
+
+.wwai-stat-label {
+  font-size: 0.75rem;
+  color: var(--wwai-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* =============================================================================
+   ANSWER SECTION
+   ============================================================================= */
+
+.wwai-answer {
+  background: var(--wwai-bg-primary);
+  padding: 1rem;
+  border-radius: var(--wwai-radius-md);
+  border-left: 3px solid var(--wwai-accent);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* =============================================================================
+   ROUTING INFO
+   ============================================================================= */
+
+.wwai-routing {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem;
+  background: var(--wwai-bg-primary);
+  border-radius: var(--wwai-radius-md);
+}
+
+.wwai-routing-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8rem;
+}
+
+.wwai-routing-db {
+  color: var(--wwai-text-muted);
+}
+
+.wwai-routing-priority {
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.wwai-priority-primary { background: var(--wwai-bullish); color: white; }
+.wwai-priority-secondary { background: var(--wwai-accent); color: white; }
+.wwai-priority-optional { background: var(--wwai-text-subtle); color: white; }
+.wwai-priority-skip { background: var(--wwai-bg-tertiary); color: var(--wwai-text-muted); }
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 640px) {
+  .wwai-card-body {
+    padding: 1rem;
+  }
+
+  .wwai-stat-value {
+    font-size: 1.25rem;
+  }
+}

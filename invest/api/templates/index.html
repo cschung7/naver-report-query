@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQuery - NaverReport</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+/* =============================================================================
+   WWAI-UI DESIGN TOKENS
+   ============================================================================= */
+
+:root {
+  --wwai-radius: 0.625rem;
+  --wwai-radius-sm: calc(var(--wwai-radius) - 4px);
+  --wwai-radius-md: calc(var(--wwai-radius) - 2px);
+  --wwai-radius-lg: var(--wwai-radius);
+
+  --wwai-bg-primary: #0f172a;
+  --wwai-bg-secondary: #1e293b;
+  --wwai-bg-tertiary: #334155;
+  --wwai-bg-hover: #475569;
+
+  --wwai-text-primary: #f8fafc;
+  --wwai-text-secondary: #cbd5e1;
+  --wwai-text-muted: #94a3b8;
+  --wwai-text-subtle: #64748b;
+
+  --wwai-border-primary: #475569;
+  --wwai-border-secondary: #334155;
+  --wwai-border-focus: #3b82f6;
+
+  --wwai-bullish: #10b981;
+  --wwai-bullish-light: #34d399;
+  --wwai-bullish-bg: rgba(16, 185, 129, 0.2);
+
+  --wwai-bearish: #ef4444;
+  --wwai-bearish-light: #f87171;
+  --wwai-bearish-bg: rgba(239, 68, 68, 0.2);
+
+  --wwai-neutral: #f59e0b;
+  --wwai-neutral-light: #fbbf24;
+  --wwai-neutral-bg: rgba(245, 158, 11, 0.2);
+
+  --wwai-accent: #3b82f6;
+  --wwai-accent-light: #60a5fa;
+  --wwai-accent-dark: #2563eb;
+  --wwai-accent-bg: rgba(59, 130, 246, 0.2);
+
+  --wwai-purple: #8b5cf6;
+  --wwai-cyan: #06b6d4;
+  --wwai-pink: #ec4899;
+
+  --wwai-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wwai-font-korean: 'Noto Sans KR', var(--wwai-font-sans);
+  --wwai-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --wwai-shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+  --wwai-transition-base: 0.2s ease;
+}
+
+[data-colorblind="true"] {
+  --wwai-bullish: #2563eb;
+  --wwai-bullish-light: #3b82f6;
+  --wwai-bullish-bg: rgba(37, 99, 235, 0.2);
+  --wwai-bearish: #ea580c;
+  --wwai-bearish-light: #f97316;
+  --wwai-bearish-bg: rgba(234, 88, 12, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--wwai-font-korean);
+  background: var(--wwai-bg-primary);
+  color: var(--wwai-text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* =============================================================================
+   LAYOUT
+   ============================================================================= */
+
+.container { max-width: 1200px; margin: 0 auto; padding: 1.25rem; }
+
+.header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, var(--wwai-bg-secondary) 0%, var(--wwai-bg-tertiary) 100%);
+  border-radius: var(--wwai-radius-lg);
+  border: 1px solid var(--wwai-border-secondary);
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--wwai-accent-light), var(--api-accent, var(--wwai-accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-subtitle { color: var(--wwai-text-secondary); font-size: 0.9rem; }
+
+.header-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.wwai-stat { text-align: center; }
+.wwai-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--wwai-font-mono);
+  color: var(--wwai-accent);
+}
+.wwai-stat-label {
+  font-size: 0.75rem;
+  color: var(--wwai-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* =============================================================================
+   SEARCH SECTION
+   ============================================================================= */
+
+.search-section {
+  background: var(--wwai-bg-secondary);
+  border-radius: var(--wwai-radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--wwai-border-secondary);
+}
+
+.search-row { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+
+.wwai-input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  font-family: var(--wwai-font-korean);
+  background: var(--wwai-bg-primary);
+  border: 2px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-md);
+  color: var(--wwai-text-primary);
+  outline: none;
+  transition: border-color var(--wwai-transition-base);
+}
+.wwai-input:focus { border-color: var(--wwai-border-focus); }
+.wwai-input::placeholder { color: var(--wwai-text-subtle); }
+
+.wwai-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--wwai-radius-md);
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+  background: linear-gradient(135deg, var(--wwai-accent), var(--wwai-accent-dark));
+  color: white;
+}
+.wwai-btn:hover { transform: translateY(-1px); box-shadow: var(--wwai-shadow-glow); }
+.wwai-btn:disabled { background: var(--wwai-bg-hover); cursor: not-allowed; transform: none; box-shadow: none; }
+
+.wwai-btn-secondary {
+  background: linear-gradient(135deg, var(--wwai-bullish), #059669);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+.wwai-btn-secondary:hover { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+
+.wwai-btn-theme {
+  background: linear-gradient(135deg, var(--wwai-purple), #7c3aed);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+}
+.wwai-btn-theme:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+
+.wwai-summary {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--wwai-radius-lg);
+  padding: 1.25rem;
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+.wwai-references {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--wwai-border-secondary);
+}
+
+.wwai-reference-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--wwai-border-secondary);
+  font-size: 0.85rem;
+}
+
+.wwai-reference-item:last-child { border-bottom: none; }
+
+.wwai-reference-company { color: var(--wwai-accent-light); font-weight: 500; }
+.wwai-reference-issuer { color: var(--wwai-text-muted); }
+.wwai-reference-date { color: var(--wwai-text-subtle); }
+
+.options-row { display: flex; gap: 1.25rem; flex-wrap: wrap; align-items: center; }
+.option-group { display: flex; align-items: center; gap: 0.5rem; }
+.option-group label { color: var(--wwai-text-muted); font-size: 0.85rem; }
+
+.wwai-select {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  background: var(--wwai-bg-primary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-primary);
+}
+
+.examples { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--wwai-border-secondary); }
+.examples-title { color: var(--wwai-text-muted); font-size: 0.8rem; margin-bottom: 0.625rem; }
+.examples-list { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.example-btn {
+  padding: 0.375rem 0.75rem;
+  background: var(--wwai-bg-tertiary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+}
+.example-btn:hover { background: var(--api-accent, var(--wwai-accent)); border-color: var(--api-accent, var(--wwai-accent)); color: white; }
+
+/* =============================================================================
+   RESULTS SECTION
+   ============================================================================= */
+
+.results {
+  background: var(--wwai-bg-secondary);
+  border-radius: var(--wwai-radius-lg);
+  border: 1px solid var(--wwai-border-secondary);
+  overflow: hidden;
+}
+
+.results-header {
+  padding: 1rem 1.25rem;
+  background: var(--wwai-bg-tertiary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.results-meta { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.meta-item { display: flex; align-items: center; gap: 0.375rem; }
+.meta-label { color: var(--wwai-text-muted); font-size: 0.8rem; }
+.meta-value { color: var(--wwai-text-primary); font-weight: 500; }
+
+.results-body { padding: 1.25rem; }
+.section { margin-bottom: 1.5rem; }
+.section:last-child { margin-bottom: 0; }
+.section-title {
+  color: var(--api-accent, var(--wwai-accent));
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reports-grid { display: grid; gap: 0.75rem; }
+
+/* =============================================================================
+   COMPONENTS
+   ============================================================================= */
+
+.wwai-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--wwai-radius-sm);
+  text-transform: uppercase;
+}
+.wwai-badge-bullish { background: var(--wwai-bullish-bg); color: var(--wwai-bullish-light); }
+.wwai-badge-bearish { background: var(--wwai-bearish-bg); color: var(--wwai-bearish-light); }
+.wwai-badge-neutral { background: var(--wwai-neutral-bg); color: var(--wwai-neutral-light); }
+.wwai-badge-accent { background: var(--wwai-accent-bg); color: var(--wwai-accent-light); }
+
+.wwai-intent-badge { padding: 0.25rem 0.625rem; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+.wwai-intent-lookup { background: var(--wwai-cyan); color: white; }
+.wwai-intent-semantic_qa { background: var(--wwai-purple); color: white; }
+.wwai-intent-relationship { background: var(--wwai-neutral); color: white; }
+.wwai-intent-filter { background: var(--wwai-bullish); color: white; }
+.wwai-intent-research { background: var(--wwai-bearish); color: white; }
+.wwai-intent-comparison { background: var(--wwai-pink); color: white; }
+
+.wwai-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  background: var(--wwai-bg-tertiary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-secondary);
+}
+
+.wwai-answer {
+  background: var(--wwai-bg-primary);
+  padding: 1rem;
+  border-radius: var(--wwai-radius-md);
+  border-left: 3px solid var(--api-accent, var(--wwai-accent));
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.wwai-report-card {
+  background: var(--wwai-bg-primary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-md);
+  padding: 1rem;
+  transition: border-color var(--wwai-transition-base);
+}
+.wwai-report-card:hover { border-color: var(--wwai-border-primary); }
+.wwai-report-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.625rem; }
+.wwai-report-card-title { font-weight: 600; color: var(--wwai-text-primary); flex: 1; }
+.wwai-report-card-title a { color: var(--wwai-accent-light); text-decoration: none; }
+.wwai-report-card-title a:hover { text-decoration: underline; }
+.wwai-report-card-date { color: var(--wwai-text-muted); font-size: 0.8rem; white-space: nowrap; }
+.wwai-report-card-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.625rem; }
+.wwai-report-card-summary { color: var(--wwai-text-secondary); font-size: 0.875rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+.source-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.source-chip { padding: 0.375rem 0.75rem; background: var(--wwai-bg-tertiary); border-radius: var(--wwai-radius-sm); font-size: 0.8rem; color: var(--wwai-text-secondary); }
+.source-chip .similarity { color: var(--wwai-bullish); margin-left: 0.375rem; font-family: var(--wwai-font-mono); }
+
+.wwai-routing { display: flex; gap: 1rem; flex-wrap: wrap; padding: 0.75rem; background: var(--wwai-bg-primary); border-radius: var(--wwai-radius-md); }
+.wwai-routing-item { display: flex; align-items: center; gap: 0.375rem; font-size: 0.8rem; }
+.wwai-routing-db { color: var(--wwai-text-muted); }
+.wwai-routing-priority { padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.7rem; font-weight: 600; }
+.wwai-priority-primary { background: var(--wwai-bullish); color: white; }
+.wwai-priority-secondary { background: var(--wwai-accent); color: white; }
+.wwai-priority-optional { background: var(--wwai-text-subtle); color: white; }
+.wwai-priority-skip { background: var(--wwai-bg-tertiary); color: var(--wwai-text-muted); }
+
+.wwai-spinner { display: inline-block; width: 2rem; height: 2rem; border: 3px solid var(--wwai-border-secondary); border-top-color: var(--wwai-accent); border-radius: 50%; animation: wwai-spin 1s linear infinite; }
+@keyframes wwai-spin { to { transform: rotate(360deg); } }
+
+.wwai-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem; color: var(--wwai-text-muted); gap: 1rem; }
+.wwai-error { padding: 1rem; background: var(--wwai-bearish-bg); border-radius: var(--wwai-radius-md); color: var(--wwai-bearish-light); text-align: center; }
+.wwai-empty { padding: 3rem; text-align: center; color: var(--wwai-text-muted); }
+
+/* =============================================================================
+   ACCESSIBILITY CONTROLS
+   ============================================================================= */
+
+.a11y-controls { position: fixed; bottom: 1rem; right: 1rem; display: flex; gap: 0.5rem; }
+.a11y-btn {
+  padding: 0.5rem;
+  background: var(--wwai-bg-tertiary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+}
+.a11y-btn:hover, .a11y-btn.active { background: var(--wwai-accent); border-color: var(--wwai-accent); color: white; }
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 640px) {
+  .search-row { flex-direction: column; }
+  .header-stats { gap: 1rem; }
+  .results-header { flex-direction: column; align-items: flex-start; }
+  .wwai-stat-value { font-size: 1.25rem; }
+  .a11y-controls { bottom: 0.5rem; right: 0.5rem; }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title">SmartQuery</h1>
+            <p class="header-subtitle" id="api-subtitle">NaverReport Multi-Database Query System</p>
+            <div class="header-stats" id="header-stats">
+                <div class="wwai-stat">
+                    <div class="wwai-stat-value" id="stat-reports">-</div>
+                    <div class="wwai-stat-label">Reports</div>
+                </div>
+                <div class="wwai-stat">
+                    <div class="wwai-stat-value" id="stat-sources">-</div>
+                    <div class="wwai-stat-label">Sources</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-section">
+            <div class="search-row">
+                <input type="text" class="wwai-input" id="query-input" placeholder="질문을 입력하세요..." autocomplete="off">
+                <button class="wwai-btn" id="search-btn" onclick="executeQuery()">검색</button>
+            </div>
+            <div class="options-row">
+                <div class="option-group">
+                    <label>최대 리포트:</label>
+                    <select class="wwai-select" id="max-reports">
+                        <option value="3">3</option>
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+                <div class="option-group" id="option-claims" style="display: none;">
+                    <label>최대 Claims:</label>
+                    <select class="wwai-select" id="max-claims">
+                        <option value="10">10</option>
+                        <option value="30">30</option>
+                        <option value="50" selected>50</option>
+                    </select>
+                </div>
+            </div>
+            <div class="examples">
+                <div class="examples-title">예시 질문:</div>
+                <div class="examples-list" id="examples-list"></div>
+            </div>
+        </div>
+
+        <div class="results" id="results">
+            <div class="wwai-empty">질문을 입력하고 검색 버튼을 클릭하세요</div>
+        </div>
+    </div>
+
+    <div class="a11y-controls">
+        <button class="a11y-btn" id="colorblind-toggle" onclick="toggleColorblind()" title="색맹 모드">👁</button>
+    </div>
+
+    <script>
+const API_CONFIG = {
+    firm: { name: 'FirmAnalysis', subtitle: '기업분석 리포트 검색 시스템', accent: '#3b82f6', examples: ['삼성전자 HBM 전망', 'AI 반도체 위험요인', '저평가 반도체', 'SK하이닉스 투자의견', '2차전지 관련주'], showClaims: true },
+    strategy: { name: 'InvestmentStrategy', subtitle: '투자전략 리포트 검색 시스템', accent: '#3b82f6', examples: ['미국 증시 전망', '채권 비중 전략', 'AI 테마 전략', '키움증권 리포트', '금리 인상 영향'], showClaims: false },
+    industry: { name: 'IndustryAnalysis', subtitle: '산업분석 리포트 검색 시스템', accent: '#8b5cf6', examples: ['반도체 산업 전망', '자동차 수요 증가', '철강 업황 회복', '석유화학 사이클'], showClaims: false },
+    econ: { name: 'EconAnalysis', subtitle: '경제분석 리포트 검색 시스템', accent: '#10b981', examples: ['금리 인상 전망', '환율 전망', '물가 상승', '미국 경제'], showClaims: false }
+};
+
+const portMap = { '8080': 'firm', '8001': 'strategy', '8002': 'industry', '8003': 'econ' };
+const API_TYPE = portMap[window.location.port] || 'firm';
+const CONFIG = API_CONFIG[API_TYPE];
+
+// Store last search results for summarization
+let lastSearchResults = null;
+let lastQuery = '';
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.documentElement.style.setProperty('--api-accent', CONFIG.accent);
+    document.getElementById('api-subtitle').textContent = CONFIG.subtitle;
+    if (CONFIG.showClaims) document.getElementById('option-claims').style.display = 'flex';
+
+    const examplesList = document.getElementById('examples-list');
+    CONFIG.examples.forEach(ex => {
+        const btn = document.createElement('button');
+        btn.className = 'example-btn';
+        btn.textContent = ex;
+        btn.onclick = () => setQuery(ex);
+        examplesList.appendChild(btn);
+    });
+
+    loadStats();
+    document.getElementById('query-input').addEventListener('keypress', e => { if (e.key === 'Enter') executeQuery(); });
+});
+
+async function loadStats() {
+    try {
+        const r = await fetch('/stats');
+        const d = await r.json();
+        if (d.postgresql) document.getElementById('stat-reports').textContent = (d.postgresql.total_reports || 0).toLocaleString();
+        if (d.postgresql?.issuers) document.getElementById('stat-sources').textContent = d.postgresql.issuers;
+        else if (d.vector?.total_documents) document.getElementById('stat-sources').textContent = d.vector.total_documents.toLocaleString();
+    } catch (e) { console.error('Stats error:', e); }
+}
+
+function setQuery(q) { document.getElementById('query-input').value = q; executeQuery(); }
+
+async function executeQuery() {
+    const query = document.getElementById('query-input').value.trim();
+    if (!query) return;
+
+    const maxReports = document.getElementById('max-reports').value;
+    const maxClaims = document.getElementById('max-claims')?.value || 50;
+    const resultsDiv = document.getElementById('results');
+    const searchBtn = document.getElementById('search-btn');
+
+    searchBtn.disabled = true;
+    searchBtn.textContent = '검색 중...';
+    resultsDiv.innerHTML = '<div class="wwai-loading"><div class="wwai-spinner"></div><div>검색 중입니다...</div></div>';
+
+    try {
+        const body = { question: query, max_reports: parseInt(maxReports) };
+        if (CONFIG.showClaims) body.max_claims = parseInt(maxClaims);
+
+        const response = await fetch('/query', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        const data = await response.json();
+
+        if (data.success) renderResults(data);
+        else resultsDiv.innerHTML = '<div class="results-body"><div class="wwai-error"><strong>오류가 발생했습니다</strong><br>' + (data.error || '알 수 없는 오류') + '</div></div>';
+    } catch (e) {
+        resultsDiv.innerHTML = '<div class="results-body"><div class="wwai-error"><strong>연결 오류</strong><br>서버에 연결할 수 없습니다.</div></div>';
+    } finally {
+        searchBtn.disabled = false;
+        searchBtn.textContent = '검색';
+    }
+}
+
+function renderResults(data) {
+    // Store for summarization
+    lastSearchResults = data;
+    lastQuery = document.getElementById('query-input').value.trim();
+
+    const resultsDiv = document.getElementById('results');
+    let html = '<div class="results-header"><div class="results-meta">';
+    html += '<div class="meta-item"><span class="meta-label">Intent:</span><span class="wwai-intent-badge wwai-intent-' + data.intent + '">' + data.intent + '</span></div>';
+    html += '<div class="meta-item"><span class="meta-label">소요시간:</span><span class="meta-value">' + Math.round(data.execution_time_ms) + 'ms</span></div>';
+    html += '<div class="meta-item"><span class="meta-label">리포트:</span><span class="meta-value">' + data.reports_count + '건</span></div>';
+    if (data.claims_count) html += '<div class="meta-item"><span class="meta-label">Claims:</span><span class="meta-value">' + data.claims_count + '건</span></div>';
+    if (data.cache_hit) html += '<div class="meta-item"><span class="meta-label">Cache:</span><span class="wwai-badge ' + (data.cache_hit.includes('HIT') ? 'wwai-badge-bullish' : 'wwai-badge-neutral') + '">' + data.cache_hit + '</span></div>';
+
+    // Add summarize and theme buttons for all APIs
+    if (data.reports?.length) {
+        html += '<div style="display: flex; gap: 0.5rem; margin-left: auto;">';
+        html += '<button class="wwai-btn wwai-btn-secondary" id="summarize-btn" onclick="generateSummary()">🔬 요약분석</button>';
+        html += '<button class="wwai-btn wwai-btn-theme" onclick="openThemeExplorer()">🗺️ 테마분석</button>';
+        html += '</div>';
+    }
+
+    html += '</div></div><div class="results-body">';
+
+    // Summary section (initially hidden)
+    html += '<div id="summary-section" class="section" style="display: none;"></div>';
+
+    if (data.answer) html += '<div class="section"><div class="section-title">📊 분석 결과</div><div class="wwai-answer">' + escapeHtml(data.answer) + '</div></div>';
+
+    if (data.reports?.length) {
+        html += '<div class="section"><div class="section-title">📋 관련 리포트 (' + data.reports.length + '건)</div><div class="reports-grid">';
+        data.reports.forEach(r => { html += renderReportCard(r); });
+        html += '</div></div>';
+    }
+
+    if (data.graph_insights) html += '<div class="section"><div class="section-title">🔗 Graph 인사이트</div><div class="wwai-answer">' + escapeHtml(data.graph_insights) + '</div></div>';
+
+    const related = data.related_themes || data.related_industries || data.related_sectors;
+    if (related?.length) {
+        const label = data.related_themes ? '테마' : (data.related_industries ? '산업' : '섹터');
+        html += '<div class="section"><div class="section-title">🏷️ 관련 ' + label + '</div><div class="source-list">';
+        related.forEach(item => { html += '<span class="source-chip">' + escapeHtml(typeof item === 'string' ? item : item.name) + '</span>'; });
+        html += '</div></div>';
+    }
+
+    const sources = data.vector_sources || data.semantic_matches;
+    if (sources?.length) {
+        html += '<div class="section"><div class="section-title">🔍 유사 리포트</div><div class="source-list">';
+        sources.slice(0, 5).forEach(s => {
+            html += '<div class="source-chip">' + escapeHtml(s.company || s.title || s.report_id || 'Unknown');
+            if (s.similarity) html += '<span class="similarity">' + (s.similarity * 100).toFixed(1) + '%</span>';
+            html += '</div>';
+        });
+        html += '</div></div>';
+    }
+
+
+    html += '</div>';
+    resultsDiv.innerHTML = html;
+}
+
+function renderReportCard(r) {
+    const date = r.issue_date ? formatDate(r.issue_date) : '-';
+    let tags = '';
+    if (r.company) tags += '<span class="wwai-tag">🏢 ' + escapeHtml(r.company) + '</span>';
+    if (r.issuer) tags += '<span class="wwai-tag">📝 ' + escapeHtml(r.issuer) + '</span>';
+    if (r.sector) tags += '<span class="wwai-tag">📁 ' + escapeHtml(r.sector) + '</span>';
+    if (r.industry) tags += '<span class="wwai-tag">🏭 ' + escapeHtml(r.industry) + '</span>';
+    if (r.market_outlook) tags += '<span class="wwai-tag wwai-badge-bullish">📈 ' + r.market_outlook + '</span>';
+    if (r.market_regime) tags += '<span class="wwai-tag wwai-badge-neutral">🎯 ' + r.market_regime + '</span>';
+    if (r.cycle_stage) tags += '<span class="wwai-tag">📊 ' + r.cycle_stage + '</span>';
+    if (r.geography) tags += '<span class="wwai-tag">🌍 ' + r.geography + '</span>';
+
+    const hasUrl = r.pdf_link && r.pdf_link !== 'NaN' && r.pdf_link.startsWith('http');
+    const title = hasUrl ? '<a href="' + r.pdf_link + '" target="_blank">' + escapeHtml(r.title || '제목 없음') + '</a>' : escapeHtml(r.title || '제목 없음');
+
+    let html = '<div class="wwai-report-card"><div class="wwai-report-card-header"><div class="wwai-report-card-title">' + title + '</div><div class="wwai-report-card-date">' + date + '</div></div>';
+    if (tags) html += '<div class="wwai-report-card-meta">' + tags + '</div>';
+    if (r.summary) html += '<div class="wwai-report-card-summary">' + escapeHtml(r.summary.substring(0, 300)) + (r.summary.length > 300 ? '...' : '') + '</div>';
+    html += '</div>';
+    return html;
+}
+
+async function generateSummary() {
+    if (!lastSearchResults || !lastQuery) {
+        alert('먼저 검색을 수행해주세요.');
+        return;
+    }
+
+    const btn = document.getElementById('summarize-btn');
+    const summarySection = document.getElementById('summary-section');
+
+    btn.disabled = true;
+    btn.textContent = '요약 생성 중...';
+    summarySection.innerHTML = '<div class="wwai-loading"><div class="wwai-spinner"></div><div>AI가 리서치 요약을 생성하고 있습니다...</div></div>';
+    summarySection.style.display = 'block';
+
+    try {
+        const response = await fetch('/summarize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                question: lastQuery,
+                reports: lastSearchResults.reports,
+                claims: lastSearchResults.claims || [],
+                max_reports: 10
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            let html = '<div class="section-title">🔬 AI 요약분석</div>';
+            html += '<div class="wwai-summary">' + escapeHtml(data.summary) + '</div>';
+
+            if (data.references?.length) {
+                html += '<div class="wwai-references"><div class="section-title" style="font-size: 0.9rem; margin-bottom: 0.75rem;">📚 참고 리포트 (' + data.references.length + '건)</div>';
+                data.references.forEach(ref => {
+                    // Support different field names: company, sector, strategy, category
+                    const label = ref.company || ref.sector || ref.strategy || ref.category || ref.title?.substring(0, 30) || '-';
+                    html += '<div class="wwai-reference-item">';
+                    html += '<span class="wwai-reference-company">' + escapeHtml(label) + '</span>';
+                    html += '<span class="wwai-reference-issuer">' + escapeHtml(ref.issuer) + '</span>';
+                    html += '<span class="wwai-reference-date">' + escapeHtml(ref.date) + '</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            summarySection.innerHTML = html;
+        } else {
+            summarySection.innerHTML = '<div class="wwai-error"><strong>요약 생성 실패</strong><br>' + (data.error || '알 수 없는 오류') + '</div>';
+        }
+    } catch (e) {
+        summarySection.innerHTML = '<div class="wwai-error"><strong>연결 오류</strong><br>요약 서비스에 연결할 수 없습니다.</div>';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '🔬 요약분석';
+    }
+}
+
+function escapeHtml(t) { if (!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+function formatDate(s) { if (!s) return ''; try { return new Date(s).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }); } catch (e) { return s; } }
+function toggleColorblind() {
+    const btn = document.getElementById('colorblind-toggle');
+    const active = document.documentElement.getAttribute('data-colorblind') === 'true';
+    if (active) { document.documentElement.removeAttribute('data-colorblind'); btn.classList.remove('active'); }
+    else { document.documentElement.setAttribute('data-colorblind', 'true'); btn.classList.add('active'); }
+}
+
+function openThemeExplorer() {
+    let stockParam = '';
+    if (lastQuery) {
+        const match = lastQuery.match(/^([가-힣A-Za-z0-9]+)/);
+        if (match) stockParam = '?stock=' + encodeURIComponent(match[1]) + '&port=' + window.location.port;
+    }
+    window.open('/theme-explorer' + stockParam, '_blank');
+}
+    </script>
+</body>
+</html>

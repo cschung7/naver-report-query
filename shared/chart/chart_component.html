@@ -1,0 +1,397 @@
+<!--
+Universal Chart Component
+=========================
+Standalone chart component using TradingView Lightweight Charts.
+Can be embedded in any project via iframe or included directly.
+
+Usage Options:
+1. Iframe: <iframe src="/shared/chart/chart_component.html?api=/usa/chart/ohlcv&symbol=AAPL"></iframe>
+2. Include: Copy the <div id="chart-container"> and <script> sections
+3. Import: Load as module and call initChart()
+
+Query Parameters:
+  - api: API endpoint URL (required)
+  - symbol: Stock symbol (required)
+  - days: Number of days (default: 180)
+  - theme: dark|light (default: dark)
+  - height: Chart height in px (default: 500)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Chart</title>
+    <script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
+    <style>
+        :root {
+            --chart-bg: #0f172a;
+            --chart-grid: #1e293b;
+            --chart-text: #94a3b8;
+            --chart-border: #334155;
+            --btn-bg: #1e293b;
+            --btn-hover: #334155;
+            --btn-active: #3b82f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--chart-bg);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--chart-text);
+        }
+
+        .chart-wrapper {
+            width: 100%;
+            padding: 1rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .indicator-btn {
+            padding: 0.25rem 0.75rem;
+            background: var(--btn-bg);
+            border: 1px solid var(--chart-border);
+            border-radius: 4px;
+            color: var(--chart-text);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .indicator-btn:hover {
+            background: var(--btn-hover);
+        }
+
+        .indicator-btn.active {
+            background: var(--btn-active);
+            border-color: var(--btn-active);
+            color: white;
+        }
+
+        #chart-container {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--chart-bg);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            color: var(--chart-text);
+        }
+
+        .error {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            color: #ef4444;
+        }
+
+        /* Light theme */
+        .light {
+            --chart-bg: #ffffff;
+            --chart-grid: #f1f5f9;
+            --chart-text: #64748b;
+            --chart-border: #e2e8f0;
+            --btn-bg: #f8fafc;
+            --btn-hover: #f1f5f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-wrapper" id="chartWrapper">
+        <div class="chart-header">
+            <div class="chart-title" id="chartTitle">Loading...</div>
+            <div class="chart-controls">
+                <button class="indicator-btn active" data-indicator="ma" id="btnMA">MA</button>
+                <button class="indicator-btn" data-indicator="rsi" id="btnRSI">RSI</button>
+                <button class="indicator-btn" data-indicator="bb" id="btnBB">BB</button>
+            </div>
+        </div>
+        <div id="chart-container">
+            <div class="loading">Loading chart data...</div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration from URL params or defaults
+        const params = new URLSearchParams(window.location.search);
+        const apiParam = params.get('api') || '/chart/ohlcv';
+
+        // Extract symbol from api param if present
+        let symbolFromApi = '';
+        try {
+            const apiUrl = new URL(apiParam, window.location.origin);
+            symbolFromApi = apiUrl.searchParams.get('symbol') || apiUrl.searchParams.get('name') || '';
+        } catch (e) {
+            // apiParam might not be a valid URL, try parsing as query string
+            const apiParams = new URLSearchParams(apiParam.split('?')[1] || '');
+            symbolFromApi = apiParams.get('symbol') || apiParams.get('name') || '';
+        }
+
+        const CONFIG = {
+            api: apiParam,
+            symbol: params.get('symbol') || params.get('name') || symbolFromApi || '',
+            days: parseInt(params.get('days')) || 180,
+            theme: params.get('theme') || 'dark',
+            height: parseInt(params.get('height')) || 500
+        };
+
+        // State
+        let chart = null;
+        let candleSeries = null;
+        let volumeSeries = null;
+        let maSeries = { ma10: null, ma20: null, ma60: null };
+        let rsiChart = null;
+        let rsiSeries = null;
+        let bbSeries = { upper: null, middle: null, lower: null };
+        let chartData = null;
+
+        // Initialize
+        async function initChart() {
+            const container = document.getElementById('chart-container');
+            const wrapper = document.getElementById('chartWrapper');
+
+            // Apply theme
+            if (CONFIG.theme === 'light') {
+                wrapper.classList.add('light');
+            }
+
+            // Fetch data
+            try {
+                // Build URL - check if api already has query params
+                let url;
+                if (CONFIG.api.includes('?')) {
+                    // API URL already has params, just use it directly
+                    url = CONFIG.api;
+                } else {
+                    // Build URL with symbol and days
+                    url = `${CONFIG.api}?symbol=${encodeURIComponent(CONFIG.symbol)}&days=${CONFIG.days}`;
+                }
+                const response = await fetch(url);
+                chartData = await response.json();
+
+                if (!chartData.success) {
+                    throw new Error(chartData.error || 'Failed to load data');
+                }
+
+                // Update title
+                document.getElementById('chartTitle').textContent =
+                    `${chartData.symbol || CONFIG.symbol} (${chartData.market || 'Chart'})`;
+
+                // Create chart
+                createChart(container);
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="error">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem">⚠️</div>
+                        <div>${error.message}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function createChart(container) {
+            container.innerHTML = '';
+
+            const isDark = CONFIG.theme === 'dark';
+
+            // Main chart
+            chart = LightweightCharts.createChart(container, {
+                width: container.clientWidth,
+                height: CONFIG.height,
+                layout: {
+                    background: { color: isDark ? '#0f172a' : '#ffffff' },
+                    textColor: isDark ? '#94a3b8' : '#64748b',
+                },
+                grid: {
+                    vertLines: { color: isDark ? '#1e293b' : '#f1f5f9' },
+                    horzLines: { color: isDark ? '#1e293b' : '#f1f5f9' },
+                },
+                crosshair: { mode: LightweightCharts.CrosshairMode.Normal },
+                rightPriceScale: { borderColor: isDark ? '#334155' : '#e2e8f0' },
+                timeScale: {
+                    borderColor: isDark ? '#334155' : '#e2e8f0',
+                    timeVisible: true,
+                    secondsVisible: false
+                },
+            });
+
+            // Volume (background histogram)
+            volumeSeries = chart.addHistogramSeries({
+                color: '#3b82f6',
+                priceFormat: { type: 'volume' },
+                priceScaleId: 'volume',
+                scaleMargins: { top: 0.85, bottom: 0 },
+            });
+
+            // Candlestick
+            candleSeries = chart.addCandlestickSeries({
+                upColor: '#22c55e',
+                downColor: '#ef4444',
+                borderUpColor: '#22c55e',
+                borderDownColor: '#ef4444',
+                wickUpColor: '#22c55e',
+                wickDownColor: '#ef4444',
+            });
+
+            // Set data
+            const ohlcv = chartData.ohlcv || [];
+            candleSeries.setData(ohlcv);
+            volumeSeries.setData(ohlcv.map(d => ({
+                time: d.time,
+                value: d.volume,
+                color: d.close >= d.open ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)'
+            })));
+
+            // Moving Averages (default on)
+            addMovingAverages();
+
+            // Fit content
+            chart.timeScale().fitContent();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                chart.applyOptions({ width: container.clientWidth });
+            });
+        }
+
+        function addMovingAverages() {
+            if (!chartData.indicators) return;
+
+            const maColors = {
+                ma10: '#f59e0b',  // Yellow
+                ma20: '#3b82f6',  // Blue
+                ma60: '#a855f7'   // Purple
+            };
+
+            for (const [key, color] of Object.entries(maColors)) {
+                if (chartData.indicators[key] && chartData.indicators[key].length > 0) {
+                    maSeries[key] = chart.addLineSeries({
+                        color: color,
+                        lineWidth: 1,
+                        lineStyle: LightweightCharts.LineStyle.Dotted,
+                        priceLineVisible: false,
+                        lastValueVisible: false,
+                    });
+                    maSeries[key].setData(chartData.indicators[key]);
+                }
+            }
+        }
+
+        function removeMovingAverages() {
+            for (const key in maSeries) {
+                if (maSeries[key]) {
+                    chart.removeSeries(maSeries[key]);
+                    maSeries[key] = null;
+                }
+            }
+        }
+
+        function addBollingerBands() {
+            if (!chartData.indicators) return;
+
+            const bbColors = {
+                upper: 'rgba(168, 85, 247, 0.5)',
+                middle: 'rgba(168, 85, 247, 0.8)',
+                lower: 'rgba(168, 85, 247, 0.5)'
+            };
+
+            for (const [key, color] of Object.entries(bbColors)) {
+                const dataKey = `bb_${key}`;
+                if (chartData.indicators[dataKey] && chartData.indicators[dataKey].length > 0) {
+                    bbSeries[key] = chart.addLineSeries({
+                        color: color,
+                        lineWidth: key === 'middle' ? 2 : 1,
+                        lineStyle: key === 'middle' ? LightweightCharts.LineStyle.Solid : LightweightCharts.LineStyle.Dashed,
+                        priceLineVisible: false,
+                        lastValueVisible: false,
+                    });
+                    bbSeries[key].setData(chartData.indicators[dataKey]);
+                }
+            }
+        }
+
+        function removeBollingerBands() {
+            for (const key in bbSeries) {
+                if (bbSeries[key]) {
+                    chart.removeSeries(bbSeries[key]);
+                    bbSeries[key] = null;
+                }
+            }
+        }
+
+        // Button handlers
+        document.getElementById('btnMA').addEventListener('click', function() {
+            this.classList.toggle('active');
+            if (this.classList.contains('active')) {
+                addMovingAverages();
+            } else {
+                removeMovingAverages();
+            }
+        });
+
+        document.getElementById('btnRSI').addEventListener('click', function() {
+            this.classList.toggle('active');
+            // RSI would need a separate pane - simplified for now
+            alert('RSI pane coming soon');
+        });
+
+        document.getElementById('btnBB').addEventListener('click', function() {
+            this.classList.toggle('active');
+            if (this.classList.contains('active')) {
+                addBollingerBands();
+            } else {
+                removeBollingerBands();
+            }
+        });
+
+        // Public API for external control
+        window.UniversalChart = {
+            init: initChart,
+            setSymbol: async (symbol) => {
+                CONFIG.symbol = symbol;
+                await initChart();
+            },
+            setDays: async (days) => {
+                CONFIG.days = days;
+                await initChart();
+            },
+            getData: () => chartData
+        };
+
+        // Auto-initialize if symbol is provided
+        if (CONFIG.symbol) {
+            initChart();
+        }
+    </script>
+</body>
+</html>

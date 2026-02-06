@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQuery - 통합 리서치</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+/* =============================================================================
+   WWAI-UI DESIGN TOKENS
+   ============================================================================= */
+
+:root {
+  --wwai-radius: 0.625rem;
+  --wwai-radius-sm: calc(var(--wwai-radius) - 4px);
+  --wwai-radius-md: calc(var(--wwai-radius) - 2px);
+  --wwai-radius-lg: var(--wwai-radius);
+
+  --wwai-bg-primary: #0f172a;
+  --wwai-bg-secondary: #1e293b;
+  --wwai-bg-tertiary: #334155;
+  --wwai-bg-hover: #475569;
+
+  --wwai-text-primary: #f8fafc;
+  --wwai-text-secondary: #cbd5e1;
+  --wwai-text-muted: #94a3b8;
+  --wwai-text-subtle: #64748b;
+
+  --wwai-border-primary: #475569;
+  --wwai-border-secondary: #334155;
+  --wwai-border-focus: #3b82f6;
+
+  --wwai-bullish: #10b981;
+  --wwai-bullish-light: #34d399;
+  --wwai-bullish-bg: rgba(16, 185, 129, 0.2);
+
+  --wwai-bearish: #ef4444;
+  --wwai-bearish-light: #f87171;
+  --wwai-bearish-bg: rgba(239, 68, 68, 0.2);
+
+  --wwai-neutral: #f59e0b;
+  --wwai-neutral-light: #fbbf24;
+  --wwai-neutral-bg: rgba(245, 158, 11, 0.2);
+
+  --wwai-accent: #3b82f6;
+  --wwai-accent-light: #60a5fa;
+  --wwai-accent-dark: #2563eb;
+  --wwai-accent-bg: rgba(59, 130, 246, 0.2);
+
+  --wwai-purple: #8b5cf6;
+  --wwai-cyan: #06b6d4;
+  --wwai-pink: #ec4899;
+
+  --wwai-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wwai-font-korean: 'Noto Sans KR', var(--wwai-font-sans);
+  --wwai-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --wwai-shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+  --wwai-transition-base: 0.2s ease;
+}
+
+[data-colorblind="true"] {
+  --wwai-bullish: #2563eb;
+  --wwai-bullish-light: #3b82f6;
+  --wwai-bullish-bg: rgba(37, 99, 235, 0.2);
+  --wwai-bearish: #ea580c;
+  --wwai-bearish-light: #f97316;
+  --wwai-bearish-bg: rgba(234, 88, 12, 0.2);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--wwai-font-korean);
+  background: var(--wwai-bg-primary);
+  color: var(--wwai-text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* =============================================================================
+   LAYOUT
+   ============================================================================= */
+
+.container { max-width: 1400px; margin: 0 auto; padding: 1rem; }
+
+.header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--wwai-bg-secondary) 0%, var(--wwai-bg-tertiary) 100%);
+  border-radius: var(--wwai-radius-lg);
+  border: 1px solid var(--wwai-border-secondary);
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--wwai-accent-light), var(--wwai-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-subtitle {
+  color: var(--wwai-text-muted);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* =============================================================================
+   DOMAIN TABS
+   ============================================================================= */
+
+.domain-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.5rem;
+  background: var(--wwai-bg-secondary);
+  border-radius: var(--wwai-radius-lg);
+  border: 1px solid var(--wwai-border-secondary);
+}
+
+.domain-tab {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--wwai-radius-md);
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+  background: transparent;
+  color: var(--wwai-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.domain-tab:hover {
+  background: var(--wwai-bg-tertiary);
+  color: var(--wwai-text-primary);
+}
+
+.domain-tab.active {
+  background: linear-gradient(135deg, var(--wwai-accent), var(--wwai-accent-dark));
+  color: white;
+  box-shadow: var(--wwai-shadow-glow);
+}
+
+.domain-tab[data-domain="firm"].active { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.domain-tab[data-domain="invest"].active { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+.domain-tab[data-domain="industry"].active { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.domain-tab[data-domain="econ"].active { background: linear-gradient(135deg, #10b981, #059669); }
+
+.domain-tab .tab-icon { font-size: 1.25rem; }
+.domain-tab .tab-label { font-size: 0.95rem; }
+
+/* =============================================================================
+   SEARCH SECTION
+   ============================================================================= */
+
+.search-section {
+  background: var(--wwai-bg-secondary);
+  border-radius: var(--wwai-radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--wwai-border-secondary);
+}
+
+.search-row { display: flex; gap: 0.75rem; margin-bottom: 0.75rem; }
+
+.wwai-input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  font-family: var(--wwai-font-korean);
+  background: var(--wwai-bg-primary);
+  border: 2px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-md);
+  color: var(--wwai-text-primary);
+  outline: none;
+  transition: border-color var(--wwai-transition-base);
+}
+.wwai-input:focus { border-color: var(--wwai-border-focus); }
+.wwai-input::placeholder { color: var(--wwai-text-subtle); }
+
+.wwai-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--wwai-radius-md);
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+  background: linear-gradient(135deg, var(--wwai-accent), var(--wwai-accent-dark));
+  color: white;
+}
+.wwai-btn:hover { transform: translateY(-1px); box-shadow: var(--wwai-shadow-glow); }
+.wwai-btn:disabled { background: var(--wwai-bg-hover); cursor: not-allowed; transform: none; box-shadow: none; }
+
+.wwai-btn-secondary {
+  background: linear-gradient(135deg, var(--wwai-bullish), #059669);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+.wwai-btn-secondary:hover { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+
+.wwai-btn-theme {
+  background: linear-gradient(135deg, var(--wwai-purple), #7c3aed);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+.wwai-btn-theme:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+
+.search-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--wwai-text-muted);
+}
+
+.hint-chip {
+  padding: 0.25rem 0.75rem;
+  background: var(--wwai-bg-tertiary);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all var(--wwai-transition-base);
+}
+.hint-chip:hover { background: var(--wwai-bg-hover); color: var(--wwai-text-primary); }
+
+/* =============================================================================
+   STATUS BAR
+   ============================================================================= */
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--wwai-bg-secondary);
+  border-radius: var(--wwai-radius-md);
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--wwai-border-secondary);
+}
+
+.status-item { display: flex; align-items: center; gap: 0.5rem; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; }
+.status-dot.online { background: var(--wwai-bullish); box-shadow: 0 0 8px var(--wwai-bullish); }
+.status-dot.offline { background: var(--wwai-bearish); }
+
+/* =============================================================================
+   RESULTS
+   ============================================================================= */
+
+.results-container {
+  background: var(--wwai-bg-secondary);
+  border-radius: var(--wwai-radius-lg);
+  border: 1px solid var(--wwai-border-secondary);
+  overflow: hidden;
+}
+
+.results-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--wwai-bg-tertiary);
+  border-bottom: 1px solid var(--wwai-border-secondary);
+}
+
+.results-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.meta-label { color: var(--wwai-text-muted); }
+.meta-value { color: var(--wwai-text-primary); font-weight: 500; }
+
+.results-body { padding: 1rem; }
+
+.section {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--wwai-border-secondary);
+}
+.section:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--wwai-text-primary);
+}
+
+.wwai-answer {
+  padding: 1rem;
+  background: var(--wwai-bg-primary);
+  border-radius: var(--wwai-radius-md);
+  border: 1px solid var(--wwai-border-secondary);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* =============================================================================
+   REPORTS GRID
+   ============================================================================= */
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1rem;
+}
+
+.report-card {
+  background: var(--wwai-bg-primary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-md);
+  padding: 1rem;
+  transition: all var(--wwai-transition-base);
+}
+
+.report-card:hover {
+  border-color: var(--wwai-border-focus);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.report-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  color: var(--wwai-text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.report-title a {
+  color: inherit;
+  text-decoration: none;
+}
+.report-title a:hover { color: var(--wwai-accent-light); }
+
+.report-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--wwai-text-muted);
+}
+
+.report-issuer { color: var(--wwai-accent-light); }
+.report-date { color: var(--wwai-text-subtle); }
+
+.report-summary {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--wwai-text-secondary);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* =============================================================================
+   LOADING & SUMMARY
+   ============================================================================= */
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--wwai-text-muted);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--wwai-border-secondary);
+  border-top-color: var(--wwai-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.wwai-summary {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--wwai-radius-lg);
+  padding: 1.25rem;
+  white-space: pre-wrap;
+  line-height: 1.7;
+}
+
+/* =============================================================================
+   BADGES & CHIPS
+   ============================================================================= */
+
+.wwai-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--wwai-radius-sm);
+  background: var(--wwai-bg-tertiary);
+}
+
+.wwai-badge-bullish { background: var(--wwai-bullish-bg); color: var(--wwai-bullish-light); }
+.wwai-badge-bearish { background: var(--wwai-bearish-bg); color: var(--wwai-bearish-light); }
+.wwai-badge-neutral { background: var(--wwai-neutral-bg); color: var(--wwai-neutral-light); }
+
+.source-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.source-chip {
+  padding: 0.375rem 0.75rem;
+  background: var(--wwai-bg-tertiary);
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  color: var(--wwai-text-secondary);
+}
+
+/* =============================================================================
+   INTENT BADGES
+   ============================================================================= */
+
+.wwai-intent-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.wwai-intent-company { background: var(--wwai-accent-bg); color: var(--wwai-accent-light); }
+.wwai-intent-theme { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+.wwai-intent-industry { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+.wwai-intent-general { background: var(--wwai-neutral-bg); color: var(--wwai-neutral-light); }
+.wwai-intent-outlook { background: var(--wwai-bullish-bg); color: var(--wwai-bullish-light); }
+.wwai-intent-strategy { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+
+/* =============================================================================
+   ACCESSIBILITY
+   ============================================================================= */
+
+.a11y-bar {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+.a11y-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--wwai-bg-secondary);
+  color: var(--wwai-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all var(--wwai-transition-base);
+  border: 1px solid var(--wwai-border-secondary);
+}
+
+.a11y-btn:hover { background: var(--wwai-bg-tertiary); color: var(--wwai-text-primary); }
+.a11y-btn.active { background: var(--wwai-accent); color: white; }
+
+/* =============================================================================
+   RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  .domain-tabs { flex-wrap: wrap; }
+  .domain-tab { flex: 1 1 45%; min-width: 0; }
+  .domain-tab .tab-label { display: none; }
+  .domain-tab .tab-icon { font-size: 1.5rem; }
+  .reports-grid { grid-template-columns: 1fr; }
+  .search-row { flex-direction: column; }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 SmartQuery</h1>
+            <div class="header-subtitle">NaverReport 통합 리서치 플랫폼</div>
+        </div>
+
+        <!-- Domain Tabs -->
+        <div class="domain-tabs">
+            <button class="domain-tab active" data-domain="firm" onclick="switchDomain('firm')">
+                <span class="tab-icon">🏢</span>
+                <span class="tab-label">기업분석</span>
+            </button>
+            <button class="domain-tab" data-domain="invest" onclick="switchDomain('invest')">
+                <span class="tab-icon">📈</span>
+                <span class="tab-label">투자전략</span>
+            </button>
+            <button class="domain-tab" data-domain="industry" onclick="switchDomain('industry')">
+                <span class="tab-icon">🏭</span>
+                <span class="tab-label">산업분석</span>
+            </button>
+            <button class="domain-tab" data-domain="econ" onclick="switchDomain('econ')">
+                <span class="tab-icon">🌐</span>
+                <span class="tab-label">경제분석</span>
+            </button>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-row">
+                <input type="text" class="wwai-input" id="search-input" placeholder="질문을 입력하세요..." autofocus>
+                <button class="wwai-btn" id="search-btn" onclick="executeQuery()">🔍 검색</button>
+            </div>
+            <div class="search-hints" id="search-hints">
+                <!-- Dynamic hints based on domain -->
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-dot online" id="status-dot"></span>
+                <span id="status-text">준비됨</span>
+            </div>
+            <div class="status-item">
+                <span id="domain-label">기업분석</span>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="results"></div>
+    </div>
+
+    <!-- Accessibility -->
+    <div class="a11y-bar">
+        <button class="a11y-btn" onclick="openThemeExplorer()" title="테마분석">🗺️</button>
+        <button class="a11y-btn" id="colorblind-toggle" onclick="toggleColorblind()" title="색맹 모드">👁</button>
+    </div>
+
+<script>
+// =============================================================================
+// STATE
+// =============================================================================
+
+let currentDomain = 'firm';
+let lastQuery = '';
+let lastResult = null;
+
+const DOMAIN_CONFIG = {
+    firm: {
+        name: '기업분석',
+        hints: ['삼성전자 실적', 'SK하이닉스 전망', 'LG에너지솔루션 밸류에이션', '현대차 목표주가'],
+        placeholder: '기업명 또는 관련 질문을 입력하세요...'
+    },
+    invest: {
+        name: '투자전략',
+        hints: ['반도체 투자전략', '배당주 추천', '2024년 유망 섹터', '포트폴리오 리밸런싱'],
+        placeholder: '투자 전략 관련 질문을 입력하세요...'
+    },
+    industry: {
+        name: '산업분석',
+        hints: ['전기차 배터리 시장', '반도체 산업 전망', '바이오 업종 분석', '조선업 수주 현황'],
+        placeholder: '산업 또는 섹터 관련 질문을 입력하세요...'
+    },
+    econ: {
+        name: '경제분석',
+        hints: ['금리 전망', '환율 영향', '인플레이션 분석', '경기 침체 가능성'],
+        placeholder: '경제 관련 질문을 입력하세요...'
+    }
+};
+
+// =============================================================================
+// INITIALIZATION
+// =============================================================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('search-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') executeQuery();
+    });
+    updateDomainUI();
+    checkHealth();
+});
+
+// =============================================================================
+// DOMAIN SWITCHING
+// =============================================================================
+
+function switchDomain(domain) {
+    currentDomain = domain;
+    document.querySelectorAll('.domain-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.domain === domain);
+    });
+    updateDomainUI();
+    document.getElementById('results').innerHTML = '';
+}
+
+function updateDomainUI() {
+    const config = DOMAIN_CONFIG[currentDomain];
+    document.getElementById('search-input').placeholder = config.placeholder;
+    document.getElementById('domain-label').textContent = config.name;
+
+    const hintsHtml = config.hints.map(hint =>
+        `<span class="hint-chip" onclick="setQuery('${hint}')">${hint}</span>`
+    ).join('');
+    document.getElementById('search-hints').innerHTML = hintsHtml;
+}
+
+function setQuery(query) {
+    document.getElementById('search-input').value = query;
+    executeQuery();
+}
+
+// =============================================================================
+// QUERY EXECUTION
+// =============================================================================
+
+async function executeQuery() {
+    const question = document.getElementById('search-input').value.trim();
+    if (!question) return;
+
+    lastQuery = question;
+    setStatus('검색 중...', false);
+    document.getElementById('results').innerHTML = '<div class="loading"><div class="spinner"></div><div>검색 중...</div></div>';
+
+    try {
+        const response = await fetch(`/api/${currentDomain}/query`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question, max_reports: 20 })
+        });
+
+        const data = await response.json();
+        lastResult = data;
+
+        if (data.success || data.reports) {
+            renderResults(data);
+            setStatus(`${data.reports_count || data.reports?.length || 0}건 검색됨`, true);
+        } else {
+            document.getElementById('results').innerHTML = `<div class="loading">❌ ${data.error || '검색 실패'}</div>`;
+            setStatus('검색 실패', false);
+        }
+    } catch (error) {
+        document.getElementById('results').innerHTML = `<div class="loading">❌ 오류: ${error.message}</div>`;
+        setStatus('오류 발생', false);
+    }
+}
+
+// =============================================================================
+// RENDER RESULTS
+// =============================================================================
+
+function renderResults(data) {
+    let html = '<div class="results-container">';
+
+    // Header with metadata
+    html += '<div class="results-header"><div class="results-meta">';
+    html += `<div class="meta-item"><span class="meta-label">도메인:</span><span class="meta-value">${DOMAIN_CONFIG[currentDomain].name}</span></div>`;
+    if (data.intent) html += `<div class="meta-item"><span class="meta-label">Intent:</span><span class="wwai-intent-badge wwai-intent-${data.intent}">${data.intent}</span></div>`;
+    html += `<div class="meta-item"><span class="meta-label">소요시간:</span><span class="meta-value">${Math.round(data.execution_time_ms || 0)}ms</span></div>`;
+    html += `<div class="meta-item"><span class="meta-label">리포트:</span><span class="meta-value">${data.reports_count || data.reports?.length || 0}건</span></div>`;
+
+    // Action buttons
+    if (data.reports?.length) {
+        html += '<div style="display: flex; gap: 0.5rem; margin-left: auto;">';
+        html += '<button class="wwai-btn wwai-btn-secondary" id="summarize-btn" onclick="generateSummary()">🔬 요약분석</button>';
+        html += '<button class="wwai-btn wwai-btn-theme" onclick="openThemeExplorer()">🗺️ 테마분석</button>';
+        html += '</div>';
+    }
+
+    html += '</div></div><div class="results-body">';
+
+    // Summary section (initially hidden)
+    html += '<div id="summary-section" class="section" style="display: none;"></div>';
+
+    // Answer
+    if (data.answer) {
+        html += `<div class="section"><div class="section-title">📊 분석 결과</div><div class="wwai-answer">${escapeHtml(data.answer)}</div></div>`;
+    }
+
+    // Reports
+    if (data.reports?.length) {
+        html += `<div class="section"><div class="section-title">📋 관련 리포트 (${data.reports.length}건)</div><div class="reports-grid">`;
+        data.reports.forEach(r => { html += renderReportCard(r); });
+        html += '</div></div>';
+    }
+
+    // Graph insights
+    if (data.graph_insights) {
+        html += `<div class="section"><div class="section-title">🔗 Graph 인사이트</div><div class="wwai-answer">${escapeHtml(data.graph_insights)}</div></div>`;
+    }
+
+    // Related themes/industries/sectors
+    const related = data.related_themes || data.related_industries || data.related_sectors;
+    if (related?.length) {
+        const label = data.related_themes ? '테마' : (data.related_industries ? '산업' : '섹터');
+        html += `<div class="section"><div class="section-title">🏷️ 관련 ${label}</div><div class="source-list">`;
+        related.forEach(item => {
+            const name = typeof item === 'string' ? item : item.name;
+            html += `<span class="source-chip">${escapeHtml(name)}</span>`;
+        });
+        html += '</div></div>';
+    }
+
+    // Semantic matches
+    const sources = data.vector_sources || data.semantic_matches;
+    if (sources?.length) {
+        html += '<div class="section"><div class="section-title">🔍 유사 리포트</div><div class="source-list">';
+        sources.slice(0, 5).forEach(s => {
+            html += `<div class="source-chip">${escapeHtml(s.company || s.title || s.report_id || 'Unknown')}`;
+            if (s.similarity) html += `<span style="margin-left:0.5rem;color:var(--wwai-accent-light)">${(s.similarity * 100).toFixed(1)}%</span>`;
+            html += '</div>';
+        });
+        html += '</div></div>';
+    }
+
+    html += '</div></div>';
+    document.getElementById('results').innerHTML = html;
+}
+
+function renderReportCard(report) {
+    const title = report.title || report.report_title || 'Untitled';
+    const company = report.company || report.stock_name || '';
+    const issuer = report.issuer || report.securities_firm || '';
+    const date = formatDate(report.issue_date || report.date);
+    const summary = report.summary || report.content || '';
+    const pdfUrl = report.pdf_url || report.naver_url || '#';
+
+    return `
+        <div class="report-card">
+            <div class="report-title"><a href="${pdfUrl}" target="_blank">${escapeHtml(title)}</a></div>
+            <div class="report-meta">
+                ${company ? `<span class="report-company">${escapeHtml(company)}</span>` : ''}
+                ${issuer ? `<span class="report-issuer">${escapeHtml(issuer)}</span>` : ''}
+                ${date ? `<span class="report-date">${date}</span>` : ''}
+            </div>
+            ${summary ? `<div class="report-summary">${escapeHtml(summary)}</div>` : ''}
+        </div>
+    `;
+}
+
+// =============================================================================
+// SUMMARIZE
+// =============================================================================
+
+async function generateSummary() {
+    if (!lastResult?.reports?.length) return;
+
+    const btn = document.getElementById('summarize-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ 분석 중...';
+
+    const section = document.getElementById('summary-section');
+    section.style.display = 'block';
+    section.innerHTML = '<div class="loading"><div class="spinner"></div><div>AI 요약 생성 중...</div></div>';
+
+    try {
+        const response = await fetch(`/api/${currentDomain}/summarize`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                question: lastQuery,
+                reports: lastResult.reports.slice(0, 10),
+                max_reports: 10
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.summary) {
+            let html = '<div class="section-title">🔬 AI 요약분석</div>';
+            html += `<div class="wwai-summary">${escapeHtml(data.summary)}</div>`;
+
+            if (data.references?.length) {
+                html += '<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--wwai-border-secondary)"><div style="font-weight:600;margin-bottom:0.5rem">📚 참고 리포트</div>';
+                data.references.forEach(ref => {
+                    html += `<div style="font-size:0.85rem;padding:0.25rem 0"><span style="color:var(--wwai-accent-light)">${escapeHtml(ref.company || '')}</span> - ${escapeHtml(ref.title || '')} <span style="color:var(--wwai-text-subtle)">(${escapeHtml(ref.issuer || '')})</span></div>`;
+                });
+                html += '</div>';
+            }
+
+            section.innerHTML = html;
+        } else {
+            section.innerHTML = `<div class="loading">❌ ${data.error || '요약 생성 실패'}</div>`;
+        }
+    } catch (error) {
+        section.innerHTML = `<div class="loading">❌ 오류: ${error.message}</div>`;
+    }
+
+    btn.disabled = false;
+    btn.textContent = '🔬 요약분석';
+}
+
+// =============================================================================
+// UTILITIES
+// =============================================================================
+
+function setStatus(text, online) {
+    document.getElementById('status-text').textContent = text;
+    const dot = document.getElementById('status-dot');
+    dot.className = 'status-dot ' + (online ? 'online' : 'offline');
+}
+
+async function checkHealth() {
+    try {
+        const response = await fetch('/health');
+        const data = await response.json();
+        const domainStatus = data[currentDomain];
+        if (domainStatus?.status === 'healthy') {
+            setStatus('준비됨', true);
+        } else {
+            setStatus('백엔드 연결 실패', false);
+        }
+    } catch (e) {
+        setStatus('게이트웨이 연결 실패', false);
+    }
+}
+
+function escapeHtml(t) {
+    if (!t) return '';
+    const d = document.createElement('div');
+    d.textContent = t;
+    return d.innerHTML;
+}
+
+function formatDate(s) {
+    if (!s) return '';
+    try { return new Date(s).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }); }
+    catch (e) { return s; }
+}
+
+function openThemeExplorer() {
+    let stockParam = '';
+    if (lastQuery) {
+        const match = lastQuery.match(/^([가-힣A-Za-z0-9]+)/);
+        if (match) stockParam = '?stock=' + encodeURIComponent(match[1]);
+    }
+    window.open('/theme-explorer' + stockParam, '_blank');
+}
+
+function toggleColorblind() {
+    const btn = document.getElementById('colorblind-toggle');
+    const active = document.documentElement.getAttribute('data-colorblind') === 'true';
+    if (active) {
+        document.documentElement.removeAttribute('data-colorblind');
+        btn.classList.remove('active');
+    } else {
+        document.documentElement.setAttribute('data-colorblind', 'true');
+        btn.classList.add('active');
+    }
+}
+</script>
+</body>
+</html>

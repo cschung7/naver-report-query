@@ -1,0 +1,32 @@
+# Web framework
+flask
+flask-cors
+
+# Database
+psycopg2-binary
+
+# Data processing
+pandas
+numpy
+
+# Environment
+python-dotenv
+
+# HTTP
+requests
+
+# Metrics (used by invest and industry)
+prometheus_client
+
+# AI summarization (Gemini via OpenRouter)
+# Uses requests directly, no special package needed
+
+# Optional: Neo4j (Phase 2)
+# neo4j
+
+# Optional: Vector search (Phase 2)
+# chromadb
+# sentence-transformers
+
+# Optional: Pydantic (used by some router modules)
+pydantic
