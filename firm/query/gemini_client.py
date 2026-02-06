@@ -45,8 +45,8 @@ class GeminiClient:
     def _call_native_gemini(self, prompt: str, max_tokens: int) -> str:
         """Call native Google Gemini API."""
         url = self.NATIVE_GEMINI_URL.format(model=self.native_model)
-        # Gemini 2.5 models use thinking tokens that consume maxOutputTokens budget.
-        # Set generous output limit so thinking doesn't starve the actual response.
+        # Disable thinking for summarization — it's simple extraction, not reasoning.
+        # This cuts response time from ~4s to ~1-2s.
         response = requests.post(
             url,
             params={"key": self.gemini_api_key},
@@ -54,16 +54,15 @@ class GeminiClient:
             json={
                 "contents": [{"parts": [{"text": prompt}]}],
                 "generationConfig": {
-                    "maxOutputTokens": max(max_tokens, 2048),
+                    "maxOutputTokens": max(max_tokens, 1024),
                     "temperature": 0.3,
+                    "thinkingConfig": {"thinkingBudget": 0}
                 }
             },
-            timeout=60
+            timeout=30
         )
         response.raise_for_status()
         result = response.json()
-        # Gemini 2.5 may return multiple parts (thinking + response).
-        # The last text part is the actual response.
         parts = result["candidates"][0]["content"]["parts"]
         for part in reversed(parts):
             if "text" in part:
