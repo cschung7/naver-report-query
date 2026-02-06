@@ -1137,15 +1137,10 @@ def stock_signal():
                     "momentum": result.get('momentum', ''),
                     "theme_count": result.get('theme_count', 0)
                 })
-            else:
-                return jsonify({"success": True, "scores": None, "momentum": "", "theme_count": 0,
-                                "debug": f"service_ok=True, result_success={result.get('success') if result else 'None'}"})
-        else:
-            return jsonify({"success": True, "scores": None, "momentum": "", "theme_count": 0,
-                            "debug": "service=None"})
     except Exception as e:
-        return jsonify({"success": True, "scores": None, "momentum": "", "theme_count": 0,
-                        "debug": f"exception: {str(e)}"})
+        print(f"stock_signal error: {e}")
+
+    return jsonify({"success": True, "scores": None, "momentum": "", "theme_count": 0})
 
 
 @app.route('/chart/ohlcv/multi')
