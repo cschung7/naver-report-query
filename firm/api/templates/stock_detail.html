@@ -860,7 +860,7 @@
         // Update chart with data
         function updateChartData(result) {
             // Set candlestick data
-            const candleData = result.data.map(d => ({
+            const candleData = result.ohlcv.map(d => ({
                 time: d.time,
                 open: d.open,
                 high: d.high,
@@ -870,7 +870,7 @@
             candleSeries.setData(candleData);
 
             // Set volume data with colors (more transparent for background)
-            const volumeData = result.data.map(d => ({
+            const volumeData = result.ohlcv.map(d => ({
                 time: d.time,
                 value: d.volume,
                 color: d.close >= d.open ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)',
