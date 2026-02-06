@@ -1129,7 +1129,7 @@ def stock_signal():
     try:
         service = get_naver_theme_service()
         if service:
-            result = service.get_stock_info(symbol)
+            result = service.get_stock_themes(symbol)
             if result:
                 return jsonify({
                     "success": True,
