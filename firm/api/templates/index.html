@@ -1090,7 +1090,7 @@ function renderResults(data) {
         html += '<button class="wwai-tab-btn wwai-tab-btn-summary" id="summarize-btn" onclick="generateSummary()">🔬 요약분석</button>';
         // Add mindmap button for FirmAnalysis only
         if (API_TYPE === 'firm') {
-            html += '<button class="wwai-tab-btn wwai-tab-btn-mindmap" onclick="openMindmap()">🗺️ 테마분석</button>';
+            html += '<button class="wwai-tab-btn wwai-tab-btn-mindmap" onclick="window.open(\'/theme-graph.html\', \'_blank\')">🗺️ 테마분석</button>';
         }
         html += '</div>';
     }

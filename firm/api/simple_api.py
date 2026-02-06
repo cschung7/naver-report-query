@@ -1675,6 +1675,269 @@ def serve_theme_explorer():
         return f"Error loading theme explorer: {e}", 500
 
 
+# ============================================================
+# /api/network/* compatibility endpoints for theme-graph.html
+# ============================================================
+
+@app.route('/api/network/graph-data')
+def network_graph_data():
+    """Build vis.js graph data from theme endpoints.
+
+    Supports:
+      - No params: returns top themes overview
+      - ?stock=NAME: stock-centered graph with its themes
+      - ?theme=NAME: theme-centered graph with its stocks
+    """
+    stock = request.args.get('stock', '')
+    theme = request.args.get('theme', '')
+
+    service = get_naver_theme_service()
+    if not service:
+        return jsonify({"success": False, "detail": "Theme service unavailable"}), 503
+
+    graph_nodes = []
+    graph_edges = []
+
+    try:
+        if stock:
+            # Stock-centered view
+            data = service.get_stock_themes(stock)
+            if not data.get('success'):
+                return jsonify({"success": False, "detail": f"Stock '{stock}' not found"}), 404
+
+            bullish = data['scores'].get('bullish', 0)
+            buy_pct = bullish * 100
+
+            # Center stock node
+            graph_nodes.append({
+                "id": f"stock_{data['stock_name']}",
+                "label": data['stock_name'],
+                "type": "stock",
+                "ticker": data.get('ticker', ''),
+                "score": buy_pct,
+                "signal": "buy" if buy_pct >= 50 else "hold" if buy_pct >= 30 else "avoid",
+                "buy_pct": buy_pct,
+                "signal_probability": {
+                    "buy": bullish * 100,
+                    "neutral": data['scores'].get('neutral', 0) * 100,
+                    "sell": data['scores'].get('bearish', 0) * 100,
+                },
+                "isCenter": True
+            })
+
+            # Theme nodes
+            for theme_name in data.get('themes', []):
+                tid = f"theme_{theme_name}"
+                graph_nodes.append({
+                    "id": tid,
+                    "label": theme_name,
+                    "type": "theme",
+                    "color": "#3b82f6",
+                    "fiedler": 1.0,
+                    "size": 25
+                })
+                graph_edges.append({
+                    "id": f"edge_{data['stock_name']}_{theme_name}",
+                    "from": f"stock_{data['stock_name']}",
+                    "to": tid
+                })
+
+        elif theme:
+            # Theme-centered view
+            data = service.get_theme_stocks(theme, limit=20)
+            if not data.get('success'):
+                return jsonify({"success": False, "detail": f"Theme '{theme}' not found"}), 404
+
+            # Center theme node
+            tid = f"theme_{theme}"
+            graph_nodes.append({
+                "id": tid,
+                "label": theme,
+                "type": "theme",
+                "color": "#8b5cf6",
+                "fiedler": 1.0,
+                "size": 35
+            })
+
+            # Stock nodes
+            for s in data.get('stocks', []):
+                buy_pct = s['scores'].get('bullish', 0) * 100
+                sid = f"stock_{s['name']}"
+                graph_nodes.append({
+                    "id": sid,
+                    "label": s['name'],
+                    "type": "stock",
+                    "ticker": s.get('ticker', ''),
+                    "score": buy_pct,
+                    "buy_pct": buy_pct,
+                    "signal": "buy" if buy_pct >= 50 else "hold" if buy_pct >= 30 else "avoid",
+                    "signal_probability": {
+                        "buy": buy_pct,
+                        "neutral": s['scores'].get('neutral', 0) * 100,
+                        "sell": s['scores'].get('bearish', 0) * 100,
+                    },
+                    "isCenter": False
+                })
+                graph_edges.append({
+                    "id": f"edge_{theme}_{s['name']}",
+                    "from": tid,
+                    "to": sid
+                })
+
+        else:
+            # Default: overview with popular themes
+            # Search for some well-known themes
+            popular = ['반도체', '2차전지', 'AI(인공지능)', '방위산업', '로봇', '자율주행차']
+            for theme_name in popular:
+                tid = f"theme_{theme_name}"
+                graph_nodes.append({
+                    "id": tid,
+                    "label": theme_name,
+                    "type": "theme",
+                    "color": "#3b82f6",
+                    "fiedler": 1.0,
+                    "size": 30
+                })
+
+        stock_count = len([n for n in graph_nodes if n['type'] == 'stock'])
+        theme_count = len([n for n in graph_nodes if n['type'] == 'theme'])
+
+        return jsonify({
+            "success": True,
+            "nodes": graph_nodes,
+            "edges": graph_edges,
+            "stats": {
+                "stock_count": stock_count,
+                "theme_count": theme_count,
+                "edge_count": len(graph_edges)
+            }
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "detail": str(e)}), 500
+
+
+@app.route('/api/network/search')
+def network_search():
+    """Search stocks and themes for autocomplete."""
+    q = request.args.get('q', '')
+    limit = int(request.args.get('limit', 15))
+
+    if len(q) < 2:
+        return jsonify({"success": True, "stocks": [], "themes": []})
+
+    service = get_naver_theme_service()
+    if not service:
+        return jsonify({"success": False, "stocks": [], "themes": []})
+
+    try:
+        # Search themes
+        theme_results = service.search_themes(q, limit=limit)
+        themes_out = [{"theme": t, "fiedler": 1.0, "cohesion_level": "strong"} for t in theme_results]
+
+        # Search stocks by name from the ticker map
+        name_map = get_ticker_name_map()
+        stock_results = []
+        for name, val in name_map.items():
+            if q.lower() in name.lower() and not name.isdigit() and len(name) > 1:
+                # name_map has both name->ticker and ticker->name; filter to name entries
+                if val.isdigit() or (len(val) <= 6 and val[0].isdigit()):
+                    stock_data = service.get_stock_themes(name)
+                    buy_pct = stock_data.get('scores', {}).get('bullish', 0) * 100 if stock_data.get('success') else 0
+                    stock_results.append({
+                        "name": name,
+                        "ticker": val.zfill(6),
+                        "buy_pct": buy_pct,
+                        "signal": "buy" if buy_pct >= 50 else "hold" if buy_pct >= 30 else "avoid"
+                    })
+                    if len(stock_results) >= limit:
+                        break
+
+        return jsonify({
+            "success": True,
+            "stocks": stock_results[:limit],
+            "themes": themes_out[:limit]
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "stocks": [], "themes": [], "error": str(e)})
+
+
+@app.route('/api/network/stock-themes')
+def network_stock_themes():
+    """Get themes for a stock (sidebar list format)."""
+    name = request.args.get('name', '')
+    if not name:
+        return jsonify({"success": False, "themes": []})
+
+    service = get_naver_theme_service()
+    if not service:
+        return jsonify({"success": False, "themes": []})
+
+    try:
+        data = service.get_stock_themes(name)
+        if not data.get('success'):
+            return jsonify({"success": False, "themes": []})
+
+        themes_out = [{"theme": t, "fiedler": 1.0, "cohesion_level": "strong"} for t in data.get('themes', [])]
+        return jsonify({"success": True, "themes": themes_out})
+
+    except Exception as e:
+        return jsonify({"success": False, "themes": [], "error": str(e)})
+
+
+@app.route('/api/network/theme-stocks')
+def network_theme_stocks():
+    """Get stocks in a theme (sidebar list format)."""
+    theme = request.args.get('theme', '')
+    limit = int(request.args.get('limit', 20))
+
+    if not theme:
+        return jsonify({"success": False, "stocks": []})
+
+    service = get_naver_theme_service()
+    if not service:
+        return jsonify({"success": False, "stocks": []})
+
+    try:
+        data = service.get_theme_stocks(theme, limit=limit)
+        if not data.get('success'):
+            return jsonify({"success": False, "stocks": []})
+
+        stocks_out = []
+        for s in data.get('stocks', []):
+            buy_pct = s['scores'].get('bullish', 0) * 100
+            stocks_out.append({
+                "name": s['name'],
+                "ticker": s.get('ticker', ''),
+                "market": s.get('market', ''),
+                "buy_pct": buy_pct,
+                "total_score": s.get('total_score', 0),
+                "signal": "buy" if buy_pct >= 50 else "hold" if buy_pct >= 30 else "avoid"
+            })
+
+        return jsonify({
+            "success": True,
+            "theme": theme,
+            "fiedler": 1.0,
+            "stocks": stocks_out
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "stocks": [], "error": str(e)})
+
+
+@app.route('/theme-graph.html')
+def serve_theme_graph():
+    """Serve the theme network graph page."""
+    try:
+        path = os.path.join(_PROJECT_ROOT, 'shared', 'theme-graph.html')
+        with open(path, 'r') as f:
+            return f.read()
+    except Exception as e:
+        return f"Error loading theme graph: {e}", 500
+
+
 if __name__ == '__main__':
     print("=" * 60)
     print("SmartQuery API Server (Flask)")

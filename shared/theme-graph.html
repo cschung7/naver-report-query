@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Theme Network Graph - Investment Dashboard</title>
+    <!-- Version: 2026.01.30.v3 - KOR/ENG language toggle -->
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+            padding: 1rem 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: #334155;
+            color: #f8fafc;
+        }
+
+        .nav-links a.home-btn {
+            background: #3b82f6;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .nav-links a.home-btn:hover {
+            background: #2563eb;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 120px);
+        }
+
+        .sidebar {
+            width: 320px;
+            background: #1e293b;
+            border-right: 1px solid #334155;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .search-box {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .search-box label {
+            display: block;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .search-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-input input {
+            flex: 1;
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            color: #f8fafc;
+            font-size: 0.875rem;
+        }
+
+        .search-input input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .search-input button {
+            background: #3b82f6;
+            border: none;
+            border-radius: 0.375rem;
+            padding: 0.5rem 1rem;
+            color: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .search-input button:hover {
+            background: #2563eb;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.5rem;
+            background: #334155;
+            border: none;
+            border-radius: 0.375rem;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .tab.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .info-panel {
+            background: #334155;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-panel h3 {
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            color: #f8fafc;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.375rem 0;
+            border-bottom: 1px solid #475569;
+            font-size: 0.8125rem;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #94a3b8;
+        }
+
+        .info-value {
+            font-weight: 600;
+        }
+
+        .info-value.bullish { color: #10b981; }
+        .info-value.neutral { color: #3b82f6; }
+        .info-value.bearish { color: #ef4444; }
+        .info-value.very-strong { color: #10b981; }
+        .info-value.strong { color: #3b82f6; }
+        .info-value.moderate { color: #f59e0b; }
+        .info-value.weak { color: #ef4444; }
+
+        /* Stock list in theme */
+        .stock-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .stock-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.625rem 0.75rem;
+            background: #475569;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .stock-item:hover {
+            background: #64748b;
+        }
+
+        .stock-item.buy {
+            border-left-color: #10b981;
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .stock-item.avoid {
+            border-left-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .stock-item.hold {
+            border-left-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .stock-info {
+            flex: 1;
+        }
+
+        .stock-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .stock-ticker {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .stock-signal {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .signal-badge {
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .signal-badge.buy {
+            background: #10b981;
+            color: white;
+        }
+
+        .signal-badge.avoid {
+            background: #ef4444;
+            color: white;
+        }
+
+        .signal-badge.hold {
+            background: #f59e0b;
+            color: black;
+        }
+
+        .score-text {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.125rem;
+        }
+
+        .theme-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #475569;
+        }
+
+        .theme-header h4 {
+            font-size: 1rem;
+            color: #f8fafc;
+        }
+
+        .theme-stats {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .expand-hint {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-align: center;
+            padding: 0.5rem;
+            font-style: italic;
+        }
+
+        .theme-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .theme-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: #475569;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8125rem;
+        }
+
+        .theme-item:hover {
+            background: #64748b;
+        }
+
+        .theme-item.expanded {
+            background: #3b82f6;
+            border-left: 3px solid #60a5fa;
+        }
+
+        .theme-name {
+            flex: 1;
+        }
+
+        .theme-fiedler {
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .theme-fiedler.very-strong { background: #10b981; color: white; }
+        .theme-fiedler.strong { background: #3b82f6; color: white; }
+        .theme-fiedler.moderate { background: #f59e0b; color: black; }
+        .theme-fiedler.weak { background: #ef4444; color: white; }
+
+        .graph-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #network {
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+        }
+
+        .graph-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control-btn {
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            color: #f8fafc;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .control-btn:hover {
+            background: #475569;
+        }
+
+        .control-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        .stats-bar {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.75rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+        }
+
+        .legend {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .legend-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .loading-text {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 0.375rem;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            margin-top: 0.25rem;
+        }
+
+        .suggestion-item {
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .suggestion-item:hover, .suggestion-item.selected {
+            background: #334155;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-name {
+            font-size: 0.875rem;
+        }
+
+        .suggestion-type {
+            font-size: 0.7rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            background: #475569;
+        }
+
+        .suggestion-type.stock {
+            background: #3b82f6;
+        }
+
+        .suggestion-type.theme {
+            background: #8b5cf6;
+        }
+
+        .suggestion-fiedler {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        .suggestion-buy-pct {
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .suggestion-buy-pct.high { color: #10b981; }
+        .suggestion-buy-pct.medium { color: #f59e0b; }
+        .suggestion-buy-pct.low { color: #ef4444; }
+
+        /* Language Toggle */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .lang-toggle {
+            display: flex;
+            gap: 0.25rem;
+            background: #334155;
+            padding: 0.25rem;
+            border-radius: 0.5rem;
+        }
+
+        .lang-btn {
+            padding: 0.375rem 0.75rem;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover {
+            color: #f8fafc;
+        }
+
+        .lang-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        /* Quick Example Buttons */
+        .quick-examples {
+            margin-top: 0.75rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #334155;
+        }
+
+        .quick-examples-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-bottom: 0.375rem;
+        }
+
+        .example-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.7rem;
+            background: #334155;
+            border: 1px solid #475569;
+            color: #e2e8f0;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-btn:hover {
+            background: #475569;
+            border-color: #64748b;
+        }
+
+        .example-btn.theme {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: #8b5cf6;
+        }
+
+        .example-btn.theme:hover {
+            background: rgba(139, 92, 246, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-top">
+            <div class="header-content">
+                <h1 data-i18n="title">Theme Network Graph (테마 네트워크)</h1>
+                <p data-i18n="subtitle">Explore stock-theme relationships with Co-movement gravity</p>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLanguage('ko')">KOR</button>
+                <button class="lang-btn" onclick="setLanguage('en')">ENG</button>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <a href="https://landing-three-ecru.vercel.app" class="home-btn">🏠 Home</a>
+            <a href="/" data-i18n="nav.overview">SmartQuery</a>
+            <a href="theme-graph.html" class="active" data-i18n="nav.network">Network</a>
+        </nav>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <!-- Search -->
+            <div class="search-box">
+                <label data-i18n="search.label">Search Stock or Theme <span style="color: #64748b;">(partial match)</span></label>
+                <div class="tabs">
+                    <button class="tab active" onclick="setSearchMode('stock')" data-i18n="search.stock">Stock</button>
+                    <button class="tab" onclick="setSearchMode('theme')" data-i18n="search.theme">Theme</button>
+                </div>
+                <div class="search-input" style="position: relative;">
+                    <input type="text" id="searchInput" data-i18n-placeholder="search.placeholder"
+                           oninput="onSearchInput()" onkeydown="onSearchKeydown(event)">
+                    <button onclick="doSearch()" data-i18n="search.button">Search</button>
+                </div>
+                <div id="searchSuggestions" class="search-suggestions hidden"></div>
+                <div id="searchHint" style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;" data-i18n="search.hint">
+                    Type 2+ chars for suggestions (250+ themes)
+                </div>
+
+                <!-- Quick Examples -->
+                <div class="quick-examples">
+                    <div class="quick-examples-label" data-i18n="examples.stocks">Popular Stocks:</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.375rem; margin-bottom: 0.5rem;">
+                        <button class="example-btn" onclick="quickSearch('stock', '삼성전자')">삼성전자</button>
+                        <button class="example-btn" onclick="quickSearch('stock', 'SK하이닉스')">SK하이닉스</button>
+                        <button class="example-btn" onclick="quickSearch('stock', 'LG에너지솔루션')">LG에너지</button>
+                        <button class="example-btn" onclick="quickSearch('stock', '현대차')">현대차</button>
+                        <button class="example-btn" onclick="quickSearch('stock', 'NAVER')">NAVER</button>
+                        <button class="example-btn" onclick="quickSearch('stock', '카카오')">카카오</button>
+                    </div>
+                    <div class="quick-examples-label" data-i18n="examples.themes">Popular Themes:</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.375rem;">
+                        <button class="example-btn theme" onclick="quickSearch('theme', '반도체 장비')">반도체</button>
+                        <button class="example-btn theme" onclick="quickSearch('theme', '2차전지')">2차전지</button>
+                        <button class="example-btn theme" onclick="quickSearch('theme', '지능형로봇/인공지능(AI)')">AI</button>
+                        <button class="example-btn theme" onclick="quickSearch('theme', '방위산업/전쟁 및 테러')">방위산업</button>
+                        <button class="example-btn theme" onclick="quickSearch('theme', '로봇(산업용/협동로봇 등)')">로봇</button>
+                        <button class="example-btn theme" onclick="quickSearch('theme', '바이오시밀러(복제 바이오의약품)')">바이오</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selected Node Info -->
+            <div class="info-panel" id="nodeInfo">
+                <h3 data-i18n="panel.selectedNode">Selected Node</h3>
+                <div id="nodeDetails">
+                    <p style="color: #64748b; font-size: 0.8125rem;" data-i18n="panel.clickNode">Click a node to see details</p>
+                </div>
+            </div>
+
+            <!-- Connected Themes/Stocks -->
+            <div class="info-panel">
+                <h3 id="connectionTitle" data-i18n="panel.connectedThemes">Connected Themes</h3>
+                <div class="theme-list" id="connectionList">
+                    <p style="color: #64748b; font-size: 0.8125rem;" data-i18n="panel.searchToSee">Search for a stock to see themes</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <div id="network"></div>
+
+            <div class="loading-overlay hidden" id="loadingOverlay">
+                <div class="loading-text" data-i18n="loading">Loading graph...</div>
+            </div>
+
+            <div class="graph-controls">
+                <button class="control-btn active" id="physicsBtn" onclick="togglePhysics()" data-i18n="controls.physics">Physics: ON</button>
+                <button class="control-btn" onclick="fitGraph()" data-i18n="controls.fit">Fit View</button>
+                <button class="control-btn" onclick="resetGraph()" data-i18n="controls.reset">Reset</button>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value" id="statStocks">0</div>
+                    <div class="stat-label" data-i18n="stats.stocks">Stocks</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="statThemes">0</div>
+                    <div class="stat-label" data-i18n="stats.themes">Themes</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="statEdges">0</div>
+                    <div class="stat-label" data-i18n="stats.connections">Connections</div>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-title" data-i18n="legend.comovement">Co-movement Gravity</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #10b981"></div>
+                    <span data-i18n="legend.veryStrong">Very Strong (>3.0)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #3b82f6"></div>
+                    <span data-i18n="legend.strong">Strong (1-3)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f59e0b"></div>
+                    <span data-i18n="legend.moderate">Moderate (0.5-1)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ef4444"></div>
+                    <span data-i18n="legend.weak">Weak (<0.5)</span>
+                </div>
+                <div class="legend-title" style="margin-top: 0.75rem;" data-i18n="legend.stockSignal">Stock Signal (Buy%)</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #059669; border-radius: 50%;"></div>
+                    <span data-i18n="legend.strongBuy">Strong Buy (≥70%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #10b981; border-radius: 50%;"></div>
+                    <span data-i18n="legend.buy">Buy (50-70%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f59e0b; border-radius: 50%;"></div>
+                    <span data-i18n="legend.neutral">Neutral (30-50%)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ef4444; border-radius: 50%;"></div>
+                    <span data-i18n="legend.avoid">Avoid (<30%)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        const STOCK_CHART_URL = '/stock';
+        let network = null;
+        let nodes = new vis.DataSet();
+        let edges = new vis.DataSet();
+        let searchMode = 'stock';
+        let physicsEnabled = true;
+        let expandedThemes = new Set();
+        let currentLang = 'ko';
+
+        // Translations
+        const translations = {
+            ko: {
+                title: '테마 네트워크 그래프',
+                subtitle: '군집성(Co-movement) 기반 종목-테마 관계 탐색',
+                'nav.overview': '개요',
+                'nav.breakout': '모멘텀',
+                'nav.signals': '시그널',
+                'nav.comovement': '군집성',
+                'nav.network': '네트워크',
+                'search.label': '종목 또는 테마 검색 <span style="color: #64748b;">(부분 일치)</span>',
+                'search.stock': '종목',
+                'search.theme': '테마',
+                'search.placeholder': '예: 반도, 2차전, AI',
+                'search.button': '검색',
+                'search.hint': '2글자 이상 입력하면 자동완성 (250+ 테마)',
+                'examples.stocks': '주요 종목:',
+                'examples.themes': '주요 테마:',
+                'panel.selectedNode': '선택된 노드',
+                'panel.clickNode': '노드를 클릭하면 상세정보 표시',
+                'panel.connectedThemes': '연결된 테마',
+                'panel.connectedStocks': '연결된 종목',
+                'panel.searchToSee': '종목을 검색하면 테마 표시',
+                'panel.backToThemes': '← 테마 목록으로',
+                'loading': '그래프 로딩 중...',
+                'controls.physics': '물리: ON',
+                'controls.physicsOff': '물리: OFF',
+                'controls.fit': '맞춤',
+                'controls.reset': '초기화',
+                'stats.stocks': '종목',
+                'stats.themes': '테마',
+                'stats.connections': '연결',
+                'legend.comovement': '군집성 강도',
+                'legend.veryStrong': '매우 강함 (>3.0)',
+                'legend.strong': '강함 (1-3)',
+                'legend.moderate': '보통 (0.5-1)',
+                'legend.weak': '약함 (<0.5)',
+                'legend.stockSignal': '매수 시그널 (Buy%)',
+                'legend.strongBuy': '적극 매수 (≥70%)',
+                'legend.buy': '매수 (50-70%)',
+                'legend.neutral': '중립 (30-50%)',
+                'legend.avoid': '회피 (<30%)',
+                'badge.stock': '종목',
+                'badge.theme': '테마'
+            },
+            en: {
+                title: 'Theme Network Graph',
+                subtitle: 'Explore stock-theme relationships with Co-movement gravity',
+                'nav.overview': 'Overview',
+                'nav.breakout': 'Breakout',
+                'nav.signals': 'Signals',
+                'nav.comovement': 'Co-movement',
+                'nav.network': 'Network',
+                'search.label': 'Search Stock or Theme <span style="color: #64748b;">(partial match)</span>',
+                'search.stock': 'Stock',
+                'search.theme': 'Theme',
+                'search.placeholder': 'e.g., 반도, 2차전, AI',
+                'search.button': 'Search',
+                'search.hint': 'Type 2+ chars for suggestions (250+ themes)',
+                'examples.stocks': 'Popular Stocks:',
+                'examples.themes': 'Popular Themes:',
+                'panel.selectedNode': 'Selected Node',
+                'panel.clickNode': 'Click a node to see details',
+                'panel.connectedThemes': 'Connected Themes',
+                'panel.connectedStocks': 'Connected Stocks',
+                'panel.searchToSee': 'Search for a stock to see themes',
+                'panel.backToThemes': '← Back to Themes',
+                'loading': 'Loading graph...',
+                'controls.physics': 'Physics: ON',
+                'controls.physicsOff': 'Physics: OFF',
+                'controls.fit': 'Fit View',
+                'controls.reset': 'Reset',
+                'stats.stocks': 'Stocks',
+                'stats.themes': 'Themes',
+                'stats.connections': 'Connections',
+                'legend.comovement': 'Co-movement Gravity',
+                'legend.veryStrong': 'Very Strong (>3.0)',
+                'legend.strong': 'Strong (1-3)',
+                'legend.moderate': 'Moderate (0.5-1)',
+                'legend.weak': 'Weak (<0.5)',
+                'legend.stockSignal': 'Stock Signal (Buy%)',
+                'legend.strongBuy': 'Strong Buy (≥70%)',
+                'legend.buy': 'Buy (50-70%)',
+                'legend.neutral': 'Neutral (30-50%)',
+                'legend.avoid': 'Avoid (<30%)',
+                'badge.stock': 'Stock',
+                'badge.theme': 'Theme'
+            }
+        };
+
+        function t(key) {
+            return translations[currentLang][key] || translations['en'][key] || key;
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('theme-graph-lang', lang);
+
+            // Update toggle buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === (lang === 'ko' ? 'KOR' : 'ENG'));
+            });
+
+            // Update all i18n elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const text = t(key);
+                if (text) el.innerHTML = text;
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const text = t(key);
+                if (text) el.placeholder = text;
+            });
+
+            // Update physics button based on current state
+            const physicsBtn = document.getElementById('physicsBtn');
+            if (physicsBtn) {
+                physicsBtn.textContent = physicsEnabled ? t('controls.physics') : t('controls.physicsOff');
+            }
+        }
+
+        // Load saved language on startup
+        function initLanguage() {
+            const saved = localStorage.getItem('theme-graph-lang');
+            if (saved) {
+                currentLang = saved;
+            }
+            setLanguage(currentLang);
+        }
+        let currentStockThemes = null; // Cache for refreshing theme list
+
+        // Network options
+        const options = {
+            nodes: {
+                font: {
+                    color: '#ffffff',
+                    size: 12,
+                    face: 'system-ui'
+                },
+                borderWidth: 2,
+                shadow: true
+            },
+            edges: {
+                color: {
+                    color: '#8b5cf6',
+                    opacity: 0.6
+                },
+                width: 2,
+                smooth: {
+                    type: 'continuous'
+                }
+            },
+            physics: {
+                enabled: true,
+                solver: 'forceAtlas2Based',
+                forceAtlas2Based: {
+                    gravitationalConstant: -100,
+                    centralGravity: 0.01,
+                    springLength: 150,
+                    springConstant: 0.05,
+                    avoidOverlap: 0.5
+                },
+                stabilization: {
+                    iterations: 100,
+                    updateInterval: 25
+                }
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 200
+            }
+        };
+
+        // Initialize network
+        function initNetwork() {
+            const container = document.getElementById('network');
+            network = new vis.Network(container, { nodes, edges }, options);
+
+            // Event handlers
+            network.on('click', onNodeClick);
+            network.on('doubleClick', onNodeDoubleClick);
+            network.on('stabilized', () => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            });
+
+            // Load default view (top co-movement themes)
+            loadDefaultGraph();
+        }
+
+        async function loadDefaultGraph() {
+            showLoading();
+            try {
+                const response = await fetch(`${API_BASE}/api/network/graph-data`);
+                const data = await response.json();
+                renderGraph(data);
+            } catch (error) {
+                console.error('Error loading graph:', error);
+                hideLoading();
+            }
+        }
+
+        function getStockColor(signal, buyPct) {
+            // Color based on Buy% from signal probability
+            const pct = buyPct || 0;
+            if (signal === 'strong_buy' || pct >= 70) {
+                return { bg: '#059669', border: '#047857' }; // Dark Green - Strong Buy
+            } else if (signal === 'buy' || pct >= 50) {
+                return { bg: '#10b981', border: '#059669' }; // Green - Buy
+            } else if (signal === 'neutral' || pct >= 30) {
+                return { bg: '#f59e0b', border: '#d97706' }; // Yellow - Neutral
+            } else {
+                return { bg: '#ef4444', border: '#dc2626' }; // Red - Avoid
+            }
+        }
+
+        function getSignalLabel(signal, buyPct) {
+            const pct = buyPct || 0;
+            if (signal === 'strong_buy' || pct >= 70) return 'strong_buy';
+            if (signal === 'buy' || pct >= 50) return 'buy';
+            if (signal === 'neutral' || pct >= 30) return 'hold';
+            return 'avoid';
+        }
+
+        function getSignalText(signal, buyPct) {
+            const pct = buyPct || 0;
+            if (signal === 'strong_buy' || pct >= 70) return `BUY ${pct.toFixed(0)}%`;
+            if (signal === 'buy' || pct >= 50) return `BUY ${pct.toFixed(0)}%`;
+            if (signal === 'neutral' || pct >= 30) return `HOLD ${pct.toFixed(0)}%`;
+            return `AVOID ${pct.toFixed(0)}%`;
+        }
+
+        function renderGraph(data) {
+            nodes.clear();
+            edges.clear();
+            expandedThemes.clear();
+
+            // Add nodes
+            data.nodes.forEach(node => {
+                let visNode;
+
+                if (node.type === 'stock') {
+                    // Stocks: circle shape, color by buyability
+                    const colors = getStockColor(node.signal, node.score);
+                    visNode = {
+                        id: node.id,
+                        label: node.label,
+                        title: getNodeTooltip(node),
+                        shape: 'dot',
+                        color: {
+                            background: colors.bg,
+                            border: colors.border,
+                            highlight: {
+                                background: adjustColor(colors.bg, 20),
+                                border: colors.bg
+                            }
+                        },
+                        font: {
+                            size: node.isCenter ? 14 : 11,
+                            color: '#ffffff'
+                        },
+                        size: node.isCenter ? 35 : 22,
+                        nodeData: node
+                    };
+                } else {
+                    // Themes: box shape, color by cohesion
+                    visNode = {
+                        id: node.id,
+                        label: node.label,
+                        title: getNodeTooltip(node),
+                        shape: 'box',
+                        color: {
+                            background: node.color,
+                            border: adjustColor(node.color, -20),
+                            highlight: {
+                                background: adjustColor(node.color, 20),
+                                border: node.color
+                            }
+                        },
+                        font: {
+                            size: 12,
+                            color: '#ffffff',
+                            bold: true
+                        },
+                        size: node.size || 25,
+                        nodeData: node
+                    };
+                }
+                nodes.add(visNode);
+            });
+
+            // Add edges
+            data.edges.forEach(edge => {
+                edges.add({
+                    id: edge.id,
+                    from: edge.from,
+                    to: edge.to
+                });
+            });
+
+            updateStats(data.stats);
+            hideLoading();
+
+            // Fit after stabilization
+            setTimeout(() => network.fit(), 500);
+        }
+
+        function getNodeTooltip(node) {
+            if (node.type === 'stock') {
+                return `${node.label}\nTicker: ${node.ticker}\nSignal: ${node.signal}\nScore: ${node.score}`;
+            } else {
+                return `${node.label}\nCohesion: ${node.fiedler}`;
+            }
+        }
+
+        function adjustColor(hex, amount) {
+            const num = parseInt(hex.replace('#', ''), 16);
+            const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+            const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+            const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+            return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+        }
+
+        let searchTimeout = null;
+        let selectedSuggestionIndex = -1;
+        let currentSuggestions = [];
+
+        function setSearchMode(mode) {
+            searchMode = mode;
+            document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('searchInput').placeholder =
+                mode === 'stock' ? 'e.g., 삼성, LG' : 'e.g., 반도, 2차전, AI';
+            hideSuggestions();
+        }
+
+        function onSearchInput() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query.length < 2) {
+                hideSuggestions();
+                return;
+            }
+
+            // Debounce search
+            if (searchTimeout) clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => fetchSuggestions(query), 200);
+        }
+
+        async function fetchSuggestions(query) {
+            try {
+                const response = await fetch(`${API_BASE}/api/network/search?q=${encodeURIComponent(query)}&limit=15`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    hideSuggestions();
+                    return;
+                }
+
+                currentSuggestions = [];
+                const container = document.getElementById('searchSuggestions');
+
+                // Always show BOTH stocks and themes for better partial matching UX
+                let html = '';
+
+                // Show stocks first (prioritize current mode)
+                if (searchMode === 'stock') {
+                    data.stocks.forEach(stock => {
+                        currentSuggestions.push({ type: 'stock', name: stock.name, data: stock });
+                        const buyClass = stock.buy_pct >= 50 ? 'high' : stock.buy_pct >= 30 ? 'medium' : 'low';
+                        html += `
+                            <div class="suggestion-item" onclick="selectSuggestion('stock', '${stock.name.replace(/'/g, "\\'")}')">
+                                <span class="suggestion-name">${stock.name}</span>
+                                <span class="suggestion-type stock">${t('badge.stock')}</span>
+                                <span class="suggestion-buy-pct ${buyClass}">${stock.buy_pct.toFixed(0)}%</span>
+                            </div>
+                        `;
+                    });
+                    // Then themes
+                    data.themes.forEach(theme => {
+                        currentSuggestions.push({ type: 'theme', name: theme.theme, data: theme });
+                        html += `
+                            <div class="suggestion-item" onclick="selectSuggestion('theme', '${theme.theme.replace(/'/g, "\\'")}')">
+                                <span class="suggestion-name">${theme.theme}</span>
+                                <span class="suggestion-type theme">${t('badge.theme')}</span>
+                                <span class="suggestion-fiedler">${theme.fiedler.toFixed(2)}</span>
+                            </div>
+                        `;
+                    });
+                } else {
+                    // Theme mode: show themes first
+                    data.themes.forEach(theme => {
+                        currentSuggestions.push({ type: 'theme', name: theme.theme, data: theme });
+                        html += `
+                            <div class="suggestion-item" onclick="selectSuggestion('theme', '${theme.theme.replace(/'/g, "\\'")}')">
+                                <span class="suggestion-name">${theme.theme}</span>
+                                <span class="suggestion-type theme">${t('badge.theme')}</span>
+                                <span class="suggestion-fiedler">${theme.fiedler.toFixed(2)}</span>
+                            </div>
+                        `;
+                    });
+                    // Then stocks
+                    data.stocks.forEach(stock => {
+                        currentSuggestions.push({ type: 'stock', name: stock.name, data: stock });
+                        const buyClass = stock.buy_pct >= 50 ? 'high' : stock.buy_pct >= 30 ? 'medium' : 'low';
+                        html += `
+                            <div class="suggestion-item" onclick="selectSuggestion('stock', '${stock.name.replace(/'/g, "\\'")}')">
+                                <span class="suggestion-name">${stock.name}</span>
+                                <span class="suggestion-type stock">${t('badge.stock')}</span>
+                                <span class="suggestion-buy-pct ${buyClass}">${stock.buy_pct.toFixed(0)}%</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                if (html) {
+                    container.innerHTML = html;
+                    container.classList.remove('hidden');
+                    selectedSuggestionIndex = -1;
+                } else {
+                    hideSuggestions();
+                }
+            } catch (error) {
+                console.error('Error fetching suggestions:', error);
+                hideSuggestions();
+            }
+        }
+
+        function onSearchKeydown(event) {
+            const container = document.getElementById('searchSuggestions');
+            const items = container.querySelectorAll('.suggestion-item');
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                selectedSuggestionIndex = Math.min(selectedSuggestionIndex + 1, items.length - 1);
+                updateSelectedSuggestion(items);
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                selectedSuggestionIndex = Math.max(selectedSuggestionIndex - 1, -1);
+                updateSelectedSuggestion(items);
+            } else if (event.key === 'Enter') {
+                if (selectedSuggestionIndex >= 0 && currentSuggestions[selectedSuggestionIndex]) {
+                    const suggestion = currentSuggestions[selectedSuggestionIndex];
+                    selectSuggestion(suggestion.type, suggestion.name);
+                } else {
+                    doSearch();
+                }
+            } else if (event.key === 'Escape') {
+                hideSuggestions();
+            }
+        }
+
+        function updateSelectedSuggestion(items) {
+            items.forEach((item, i) => {
+                item.classList.toggle('selected', i === selectedSuggestionIndex);
+            });
+            if (selectedSuggestionIndex >= 0 && items[selectedSuggestionIndex]) {
+                items[selectedSuggestionIndex].scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        function selectSuggestion(type, name) {
+            document.getElementById('searchInput').value = name;
+            searchMode = type;
+            document.querySelectorAll('.tabs .tab').forEach((t, i) => {
+                t.classList.toggle('active', (type === 'stock' && i === 0) || (type === 'theme' && i === 1));
+            });
+            hideSuggestions();
+            doSearch();
+        }
+
+        function hideSuggestions() {
+            document.getElementById('searchSuggestions').classList.add('hidden');
+            selectedSuggestionIndex = -1;
+            currentSuggestions = [];
+        }
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-box')) {
+                hideSuggestions();
+            }
+        });
+
+        // Quick search from example buttons
+        function quickSearch(type, query) {
+            // Set search mode
+            searchMode = type;
+            document.querySelectorAll('.tabs .tab').forEach(tab => {
+                tab.classList.toggle('active',
+                    (type === 'stock' && tab.textContent.includes('종목')) ||
+                    (type === 'stock' && tab.textContent.includes('Stock')) ||
+                    (type === 'theme' && tab.textContent.includes('테마')) ||
+                    (type === 'theme' && tab.textContent.includes('Theme'))
+                );
+            });
+
+            // Set search input value and trigger search
+            document.getElementById('searchInput').value = query;
+            hideSuggestions();
+            doSearch();
+        }
+
+        async function doSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+
+            showLoading();
+            try {
+                const param = searchMode === 'stock' ? `stock=${encodeURIComponent(query)}` : `theme=${encodeURIComponent(query)}`;
+                const response = await fetch(`${API_BASE}/api/network/graph-data?${param}&depth=1`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    alert(data.detail || 'Not found');
+                    hideLoading();
+                    return;
+                }
+
+                renderGraph(data);
+                loadConnectionList(query, searchMode);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Search failed: ' + error.message);
+                hideLoading();
+            }
+        }
+
+        async function loadConnectionList(name, type) {
+            try {
+                let endpoint, titleText;
+                if (type === 'stock') {
+                    endpoint = `/api/network/stock-themes?name=${encodeURIComponent(name)}`;
+                    titleText = 'Connected Themes';
+                } else {
+                    endpoint = `/api/network/theme-stocks?theme=${encodeURIComponent(name)}&limit=20`;
+                    titleText = 'Stocks in Theme';
+                }
+
+                const response = await fetch(`${API_BASE}${endpoint}`);
+                const data = await response.json();
+
+                document.getElementById('connectionTitle').textContent = titleText;
+                const list = document.getElementById('connectionList');
+
+                if (type === 'stock' && data.themes) {
+                    currentStockThemes = data.themes; // Cache for refresh
+                    refreshThemeList();
+                } else if (type === 'theme' && data.stocks) {
+                    list.innerHTML = data.stocks.map(s => `
+                        <div class="theme-item" onclick="loadStock('${s.name}')">
+                            <span class="theme-name">${s.name}</span>
+                            <span class="theme-fiedler ${s.signal}">${s.total_score.toFixed(2)}</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading connections:', error);
+            }
+        }
+
+        async function expandTheme(themeName) {
+            if (expandedThemes.has(themeName)) {
+                collapseTheme(themeName);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/network/theme-stocks?theme=${encodeURIComponent(themeName)}&limit=15`);
+                const data = await response.json();
+
+                if (!data.success) return;
+
+                // Update sidebar with stock list
+                updateStockList(themeName, data);
+
+                // Add stock nodes to graph
+                data.stocks.forEach(stock => {
+                    const nodeId = `stock_${stock.name}`;
+                    if (!nodes.get(nodeId)) {
+                        const buyPct = stock.buy_pct || 0;
+                        const colors = getStockColor(stock.signal, buyPct);
+                        const signalLabel = getSignalLabel(stock.signal, buyPct);
+                        const signalText = getSignalText(stock.signal, buyPct);
+
+                        nodes.add({
+                            id: nodeId,
+                            label: stock.name,
+                            title: `${stock.name}\nTicker: ${stock.ticker}\nBuy: ${buyPct.toFixed(1)}%\nSignal: ${signalText}`,
+                            shape: 'dot',
+                            color: {
+                                background: colors.bg,
+                                border: colors.border,
+                                highlight: {
+                                    background: adjustColor(colors.bg, 20),
+                                    border: colors.bg
+                                }
+                            },
+                            size: 20,
+                            nodeData: { type: 'stock', ...stock, signalLabel, buyPct }
+                        });
+
+                        edges.add({
+                            id: `edge_${themeName}_${stock.name}`,
+                            from: `theme_${themeName}`,
+                            to: nodeId
+                        });
+                    }
+                });
+
+                expandedThemes.add(themeName);
+                updateStats();
+
+                // Note: Don't call refreshThemeList() here as it would overwrite the stock list
+                // The stock list is now displayed in the sidebar via updateStockList()
+            } catch (error) {
+                console.error('Error expanding theme:', error);
+            }
+        }
+
+        function refreshThemeList() {
+            if (!currentStockThemes) return;
+            const list = document.getElementById('connectionList');
+            list.innerHTML = currentStockThemes.map(t => {
+                const isExpanded = expandedThemes.has(t.theme);
+                return `
+                    <div class="theme-item ${isExpanded ? 'expanded' : ''}" onclick="expandTheme('${t.theme.replace(/'/g, "\\'")}')">
+                        <span class="theme-name">${isExpanded ? '▼' : '▶'} ${t.theme}</span>
+                        <span class="theme-fiedler ${t.cohesion_level}">${t.fiedler.toFixed(2)}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateStockList(themeName, data) {
+            document.getElementById('connectionTitle').textContent = `${themeName} 종목`;
+            const list = document.getElementById('connectionList');
+
+            const buyCount = data.stocks.filter(s => (s.buy_pct || 0) >= 50).length;
+            const avoidCount = data.stocks.filter(s => (s.buy_pct || 0) < 30).length;
+
+            let html = `
+                <div class="theme-header">
+                    <h4>Cohesion: ${data.fiedler.toFixed(2)}</h4>
+                    <div class="theme-stats">
+                        <span style="color: #10b981;">${buyCount} Buy</span> /
+                        <span style="color: #ef4444;">${avoidCount} Avoid</span>
+                    </div>
+                </div>
+                <div class="stock-list">
+            `;
+
+            data.stocks.forEach(stock => {
+                const buyPct = stock.buy_pct || 0;
+                const signalLabel = getSignalLabel(stock.signal, buyPct);
+                const signalText = getSignalText(stock.signal, buyPct);
+                html += `
+                    <div class="stock-item ${signalLabel}">
+                        <div class="stock-info" onclick="loadStock('${stock.name}')" style="cursor: pointer;">
+                            <div class="stock-name">${stock.name}</div>
+                            <div class="stock-ticker">${stock.ticker} · ${stock.market}</div>
+                        </div>
+                        <div class="stock-signal">
+                            <span class="signal-badge ${signalLabel}" onclick="window.open('${STOCK_CHART_URL}?name=${encodeURIComponent(stock.name)}', '_blank')" style="cursor: pointer;" title="Open Chart">${signalText}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>
+                <div class="expand-hint">Click stock to see its themes</div>
+                <button onclick="backToThemeList()" style="width: 100%; margin-top: 0.75rem; padding: 0.5rem; background: #475569; border: none; border-radius: 0.375rem; color: #e2e8f0; cursor: pointer; font-size: 0.8125rem;">
+                    ${t('panel.backToThemes')}
+                </button>
+            `;
+
+            list.innerHTML = html;
+        }
+
+        function backToThemeList() {
+            if (currentStockThemes) {
+                document.getElementById('connectionTitle').textContent = 'Connected Themes';
+                refreshThemeList();
+            }
+        }
+
+        function collapseTheme(themeName) {
+            // Remove edges and nodes added by this theme
+            const edgesToRemove = edges.get().filter(e =>
+                e.from === `theme_${themeName}` && e.to.startsWith('stock_')
+            );
+
+            edgesToRemove.forEach(edge => {
+                // Check if node has other connections
+                const nodeId = edge.to;
+                const otherEdges = edges.get().filter(e =>
+                    (e.to === nodeId || e.from === nodeId) && e.id !== edge.id
+                );
+
+                if (otherEdges.length === 0) {
+                    nodes.remove(nodeId);
+                }
+                edges.remove(edge.id);
+            });
+
+            expandedThemes.delete(themeName);
+            updateStats();
+
+            // Refresh theme list to show updated expand/collapse state
+            if (currentStockThemes) {
+                document.getElementById('connectionTitle').textContent = 'Connected Themes';
+                refreshThemeList();
+            }
+        }
+
+        function loadStock(stockName) {
+            document.getElementById('searchInput').value = stockName;
+            searchMode = 'stock';
+            document.querySelectorAll('.tabs .tab').forEach((t, i) => {
+                t.classList.toggle('active', i === 0);
+            });
+            doSearch();
+        }
+
+        function onNodeClick(params) {
+            if (params.nodes.length === 0) return;
+
+            const nodeId = params.nodes[0];
+            const node = nodes.get(nodeId);
+            if (!node || !node.nodeData) return;
+
+            const data = node.nodeData;
+            const details = document.getElementById('nodeDetails');
+
+            if (data.type === 'stock') {
+                const buyPct = data.buyPct || data.buy_pct || 0;
+                const signalLabel = data.signalLabel || getSignalLabel(data.signal, buyPct);
+                const signalText = getSignalText(data.signal, buyPct);
+                const stockName = data.label || data.name;
+                const buyClass = buyPct >= 50 ? 'color: #10b981' : buyPct >= 30 ? 'color: #f59e0b' : 'color: #ef4444';
+                details.innerHTML = `
+                    <div class="info-item">
+                        <span class="info-label">Name</span>
+                        <span class="info-value">${stockName}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Ticker</span>
+                        <span class="info-value">${data.ticker || '-'}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Buy Signal</span>
+                        <span class="info-value" style="${buyClass}; font-weight: bold;">${signalText}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Signal Prob</span>
+                        <span class="info-value" style="font-size: 0.75rem;">
+                            ▲${(data.signal_probability?.buy || buyPct).toFixed(1)}%
+                            ●${(data.signal_probability?.neutral || 0).toFixed(1)}%
+                            ▼${(data.signal_probability?.sell || 0).toFixed(1)}%
+                        </span>
+                    </div>
+                    <button onclick="window.open('${STOCK_CHART_URL}?name=${encodeURIComponent(stockName)}', '_blank')"
+                            style="width: 100%; margin-top: 0.75rem; padding: 0.5rem; background: #3b82f6; border: none; border-radius: 0.375rem; color: white; cursor: pointer; font-size: 0.875rem;">
+                        📈 Open Chart
+                    </button>
+                `;
+            } else {
+                const level = data.fiedler > 3 ? 'very-strong' :
+                              data.fiedler >= 1 ? 'strong' :
+                              data.fiedler >= 0.5 ? 'moderate' : 'weak';
+                const isExpanded = expandedThemes.has(data.label);
+                details.innerHTML = `
+                    <div class="info-item">
+                        <span class="info-label">Theme</span>
+                        <span class="info-value">${data.label}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Co-movement</span>
+                        <span class="info-value ${level}">${data.fiedler?.toFixed(3) || '-'}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Status</span>
+                        <span class="info-value">${isExpanded ? 'Expanded (click to collapse)' : 'Click to expand'}</span>
+                    </div>
+                `;
+
+                // Toggle: click to expand/collapse theme tickers
+                expandTheme(data.label);
+            }
+        }
+
+        function onNodeDoubleClick(params) {
+            if (params.nodes.length === 0) return;
+
+            const nodeId = params.nodes[0];
+            const node = nodes.get(nodeId);
+            if (!node || !node.nodeData) return;
+
+            const data = node.nodeData;
+
+            if (data.type === 'theme') {
+                expandTheme(data.label);
+            } else if (data.type === 'stock') {
+                loadStock(data.label || data.name);
+            }
+        }
+
+        function togglePhysics() {
+            physicsEnabled = !physicsEnabled;
+            network.setOptions({ physics: { enabled: physicsEnabled } });
+            const btn = document.getElementById('physicsBtn');
+            btn.textContent = physicsEnabled ? t('controls.physics') : t('controls.physicsOff');
+            btn.classList.toggle('active', physicsEnabled);
+        }
+
+        function fitGraph() {
+            network.fit({ animation: true });
+        }
+
+        function resetGraph() {
+            loadDefaultGraph();
+        }
+
+        function updateStats(stats) {
+            if (stats) {
+                document.getElementById('statStocks').textContent = stats.stock_count;
+                document.getElementById('statThemes').textContent = stats.theme_count;
+                document.getElementById('statEdges').textContent = stats.edge_count;
+            } else {
+                document.getElementById('statStocks').textContent = nodes.get().filter(n => n.nodeData?.type === 'stock').length;
+                document.getElementById('statThemes').textContent = nodes.get().filter(n => n.nodeData?.type === 'theme').length;
+                document.getElementById('statEdges').textContent = edges.length;
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
+
+        // Handle Enter key
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') doSearch();
+        });
+
+        // Initialize on load
+        initLanguage();
+        initNetwork();
+
+        // Check URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const stockParam = urlParams.get('stock');
+        const themeParam = urlParams.get('theme');
+
+        if (stockParam) {
+            document.getElementById('searchInput').value = stockParam;
+            searchMode = 'stock';
+            setTimeout(doSearch, 500);
+        } else if (themeParam) {
+            document.getElementById('searchInput').value = themeParam;
+            searchMode = 'theme';
+            setTimeout(doSearch, 500);
+        }
+    </script>
+
+</body>
+</html>
