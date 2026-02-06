@@ -45,6 +45,8 @@ class GeminiClient:
     def _call_native_gemini(self, prompt: str, max_tokens: int) -> str:
         """Call native Google Gemini API."""
         url = self.NATIVE_GEMINI_URL.format(model=self.native_model)
+        # Gemini 2.5 models use thinking tokens that consume maxOutputTokens budget.
+        # Set generous output limit so thinking doesn't starve the actual response.
         response = requests.post(
             url,
             params={"key": self.gemini_api_key},
@@ -52,7 +54,7 @@ class GeminiClient:
             json={
                 "contents": [{"parts": [{"text": prompt}]}],
                 "generationConfig": {
-                    "maxOutputTokens": max_tokens,
+                    "maxOutputTokens": max(max_tokens, 2048),
                     "temperature": 0.3,
                 }
             },
@@ -60,7 +62,13 @@ class GeminiClient:
         )
         response.raise_for_status()
         result = response.json()
-        return result["candidates"][0]["content"]["parts"][0]["text"]
+        # Gemini 2.5 may return multiple parts (thinking + response).
+        # The last text part is the actual response.
+        parts = result["candidates"][0]["content"]["parts"]
+        for part in reversed(parts):
+            if "text" in part:
+                return part["text"]
+        return parts[0]["text"]
 
     def _call_openrouter(self, prompt: str, max_tokens: int) -> str:
         """Call OpenRouter API (fallback)."""
