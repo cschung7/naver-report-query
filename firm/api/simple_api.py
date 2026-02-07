@@ -2153,6 +2153,25 @@ def industry_reports():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+@app.route('/industry/keyword-graph')
+def industry_keyword_graph():
+    """Serve the keyword network visualization page."""
+    return render_template('keyword_graph.html')
+
+
+@app.route('/industry/keyword-graph-data')
+def industry_keyword_graph_data():
+    """Serve keyword graph JSON data."""
+    try:
+        fpath = _data_path('keyword_graph_data.json',
+                           '/mnt/nas/WWAI/NaverReport/NaverReport-Industry/keyword_graph_data.json')
+        with open(fpath, 'r') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     print("=" * 60)
     print("SmartQuery API Server (Flask)")
