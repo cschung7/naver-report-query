@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>산업 분석 - SmartQuery</title>
+    <title>경제분석 - SmartQuery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -57,7 +57,7 @@
   --wwai-font-korean: 'Noto Sans KR', var(--wwai-font-sans);
   --wwai-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  --wwai-shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+  --wwai-shadow-glow: 0 0 20px rgba(6, 182, 212, 0.3);
   --wwai-transition-base: 0.2s ease;
 }
 
@@ -99,7 +99,7 @@ body {
 .header-left { display: flex; align-items: center; gap: 1rem; }
 .header-left h1 {
     font-size: 1.5rem; font-weight: 700;
-    background: linear-gradient(135deg, var(--wwai-neutral), var(--wwai-purple));
+    background: linear-gradient(135deg, var(--wwai-cyan), var(--wwai-accent));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .header-right { display: flex; gap: 0.6rem; align-items: center; }
@@ -150,8 +150,8 @@ body {
 
 .search-btn {
     padding: 0.5rem 1.25rem; font-size: 0.85rem; font-weight: 600;
-    background: linear-gradient(135deg, var(--wwai-neutral), var(--wwai-neutral-light));
-    color: #0f172a; border: none; border-radius: var(--wwai-radius-sm);
+    background: linear-gradient(135deg, var(--wwai-cyan), var(--wwai-accent));
+    color: #fff; border: none; border-radius: var(--wwai-radius-sm);
     cursor: pointer; transition: all var(--wwai-transition-base);
     font-family: var(--wwai-font-korean);
 }
@@ -163,7 +163,7 @@ body {
 .report-card {
     background: var(--wwai-bg-secondary); border-radius: var(--wwai-radius);
     border: 1px solid var(--wwai-border-secondary); padding: 1rem 1.25rem;
-    border-left: 3px solid var(--wwai-neutral);
+    border-left: 3px solid var(--wwai-cyan);
     transition: all var(--wwai-transition-base);
 }
 .report-card:hover {
@@ -183,7 +183,7 @@ body {
 }
 .issuer-badge {
     display: inline-flex; align-items: center; padding: 0.15rem 0.5rem;
-    background: var(--wwai-accent-bg); color: var(--wwai-accent-light);
+    background: rgba(6, 182, 212, 0.2); color: #22d3ee;
     border-radius: 4px; font-size: 0.7rem; font-weight: 600;
 }
 .report-date {
@@ -212,8 +212,8 @@ body {
 .page-btn:hover:not(:disabled) { background: var(--wwai-bg-tertiary); color: var(--wwai-text-primary); }
 .page-btn:disabled { opacity: 0.4; cursor: default; }
 .page-btn.active {
-    background: var(--wwai-accent); color: white;
-    border-color: var(--wwai-accent);
+    background: var(--wwai-cyan); color: white;
+    border-color: var(--wwai-cyan);
 }
 .page-info {
     font-size: 0.78rem; color: var(--wwai-text-subtle);
@@ -228,7 +228,7 @@ body {
 .loading-spinner {
     display: inline-block; width: 24px; height: 24px;
     border: 3px solid var(--wwai-bg-tertiary);
-    border-top-color: var(--wwai-neutral);
+    border-top-color: var(--wwai-cyan);
     border-radius: 50%; animation: spin 0.8s linear infinite;
     margin-bottom: 0.75rem;
 }
@@ -251,13 +251,13 @@ body {
 <div class="container">
     <div class="header">
         <div class="header-left">
-            <h1>산업 분석</h1>
+            <h1>경제분석</h1>
         </div>
         <div class="header-right">
             <a href="/" class="back-link">&larr; SmartQuery</a>
             <a href="/analysis" class="back-link">종목 분석</a>
-            <a href="/industry/keyword-graph" class="back-link">키워드 네트워크</a>
-            <a href="/economy" class="back-link">경제분석</a>
+            <a href="/industry" class="back-link">산업 분석</a>
+            <a href="/strategy" class="back-link">투자전략</a>
             <a href="https://stock-chart-tau.vercel.app/" target="_blank" class="back-link">KRX 차트</a>
         </div>
     </div>
@@ -269,7 +269,7 @@ body {
     </div>
 
     <div class="search-bar">
-        <input type="text" class="search-input" id="search-input" placeholder="키워드 검색 (예: 반도체, 자동차, 2차전지)" autocomplete="off">
+        <input type="text" class="search-input" id="search-input" placeholder="키워드 검색 (예: 금리, 환율, GDP, 물가, 고용)" autocomplete="off">
         <select class="filter-select" id="issuer-select">
             <option value="">전체 증권사</option>
         </select>
@@ -298,7 +298,7 @@ document.getElementById('search-input').addEventListener('keydown', function(e) 
 
 async function loadStats() {
     try {
-        const res = await fetch('/industry/stats');
+        const res = await fetch('/economy/stats');
         const data = await res.json();
         if (data.success) {
             document.getElementById('stat-total').textContent = data.total.toLocaleString();
@@ -326,7 +326,7 @@ async function loadReports(page) {
     if (currentIssuer) params.set('issuer', currentIssuer);
 
     try {
-        const res = await fetch('/industry/reports?' + params.toString());
+        const res = await fetch('/economy/reports?' + params.toString());
         const data = await res.json();
 
         if (!data.success) {

@@ -2298,6 +2298,137 @@ def strategy_reports():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+# ============================================================
+# Economy (경제분석) endpoints - uses naver_econ DB
+# ============================================================
+
+_pg_econ_uri = os.environ.get(
+    'ECON_POSTGRES_URI',
+    'postgresql://postgres:smartquery2025@centerbeam.proxy.rlwy.net:11334/naver_econ'
+)
+
+@app.route('/economy')
+def economy_page():
+    """Serve the 경제분석 page."""
+    return render_template('economy.html')
+
+
+@app.route('/economy/stats')
+def economy_stats():
+    """Get economy report statistics."""
+    try:
+        import psycopg2
+        from psycopg2.extras import RealDictCursor
+        conn = psycopg2.connect(_pg_econ_uri)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute("""
+            SELECT COUNT(*) as total,
+                   COUNT(DISTINCT issuer) as issuers,
+                   MIN(issue_date) as min_date,
+                   MAX(issue_date) as max_date
+            FROM econ_reports
+        """)
+        row = cur.fetchone()
+        cur.execute("SELECT DISTINCT issuer FROM econ_reports ORDER BY issuer")
+        issuers = [r['issuer'] for r in cur.fetchall()]
+        conn.close()
+        return jsonify({
+            "success": True,
+            "total": row['total'],
+            "issuers": issuers,
+            "min_date": str(row['min_date']),
+            "max_date": str(row['max_date'])
+        })
+    except Exception as e:
+        print(f"Economy stats error: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/economy/reports')
+def economy_reports():
+    """Search/filter/paginate economy reports."""
+    q = request.args.get('q', '').strip()
+    issuer = request.args.get('issuer', '').strip()
+    page = max(1, int(request.args.get('page', 1)))
+    per_page = min(50, max(5, int(request.args.get('per_page', 20))))
+
+    try:
+        import psycopg2
+        from psycopg2.extras import RealDictCursor
+        conn = psycopg2.connect(_pg_econ_uri)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+
+        conditions = []
+        params = []
+        words = []
+
+        if q:
+            words = q.split()
+            word_conds = []
+            for word in words:
+                word_conds.append("(title ILIKE %s OR summary ILIKE %s)")
+                params.extend([f'%{word}%', f'%{word}%'])
+            conditions.append("(" + " OR ".join(word_conds) + ")")
+        if issuer:
+            conditions.append("issuer = %s")
+            params.append(issuer)
+
+        where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+
+        if words:
+            relevance_parts = []
+            relevance_params = []
+            for word in words:
+                relevance_parts.append(
+                    "CASE WHEN title ILIKE %s THEN 2 ELSE 0 END + "
+                    "CASE WHEN summary ILIKE %s THEN 1 ELSE 0 END"
+                )
+                relevance_params.extend([f'%{word}%', f'%{word}%'])
+            relevance_expr = " + ".join(relevance_parts)
+            select_extra = f", ({relevance_expr}) AS relevance"
+            order_clause = "ORDER BY relevance DESC, issue_date DESC"
+        else:
+            select_extra = ""
+            order_clause = "ORDER BY issue_date DESC, title"
+            relevance_params = []
+
+        cur.execute(f"SELECT COUNT(*) as cnt FROM econ_reports {where}", params)
+        total = cur.fetchone()['cnt']
+
+        offset = (page - 1) * per_page
+        cur.execute(f"""
+            SELECT title, issuer, issue_date, summary {select_extra}
+            FROM econ_reports {where}
+            {order_clause}
+            LIMIT %s OFFSET %s
+        """, relevance_params + params + [per_page, offset])
+        rows = cur.fetchall()
+        conn.close()
+
+        reports = []
+        for r in rows:
+            reports.append({
+                "title": r['title'],
+                "issuer": r['issuer'],
+                "issue_date": str(r['issue_date']),
+                "summary": r['summary'] or ""
+            })
+
+        total_pages = max(1, -(-total // per_page))
+
+        return jsonify({
+            "success": True,
+            "reports": reports,
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": total_pages
+        })
+    except Exception as e:
+        print(f"Economy reports error: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 if __name__ == '__main__':
     print("=" * 60)
     print("SmartQuery API Server (Flask)")
