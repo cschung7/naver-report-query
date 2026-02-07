@@ -8,74 +8,133 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+/* =============================================================================
+   WWAI-UI DESIGN TOKENS
+   ============================================================================= */
+
 :root {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --bg-hover: #475569;
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
-    --text-subtle: #64748b;
-    --border: #475569;
-    --border-secondary: #334155;
-    --accent: #3b82f6;
-    --accent-light: #60a5fa;
-    --bullish: #10b981;
-    --bullish-light: #34d399;
-    --bullish-bg: rgba(16, 185, 129, 0.15);
-    --bearish: #ef4444;
-    --bearish-light: #f87171;
-    --bearish-bg: rgba(239, 68, 68, 0.15);
-    --neutral: #f59e0b;
-    --neutral-light: #fbbf24;
-    --neutral-bg: rgba(245, 158, 11, 0.15);
-    --purple: #8b5cf6;
-    --cyan: #06b6d4;
-    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-korean: 'Noto Sans KR', var(--font-sans);
-    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-    --radius: 0.625rem;
+  --wwai-radius: 0.625rem;
+  --wwai-radius-sm: calc(var(--wwai-radius) - 4px);
+  --wwai-radius-md: calc(var(--wwai-radius) - 2px);
+  --wwai-radius-lg: var(--wwai-radius);
+
+  --wwai-bg-primary: #0f172a;
+  --wwai-bg-secondary: #1e293b;
+  --wwai-bg-tertiary: #334155;
+  --wwai-bg-hover: #475569;
+
+  --wwai-text-primary: #f8fafc;
+  --wwai-text-secondary: #cbd5e1;
+  --wwai-text-muted: #94a3b8;
+  --wwai-text-subtle: #64748b;
+
+  --wwai-border-primary: #475569;
+  --wwai-border-secondary: #334155;
+  --wwai-border-focus: #3b82f6;
+
+  --wwai-bullish: #10b981;
+  --wwai-bullish-light: #34d399;
+  --wwai-bullish-bg: rgba(16, 185, 129, 0.2);
+
+  --wwai-bearish: #ef4444;
+  --wwai-bearish-light: #f87171;
+  --wwai-bearish-bg: rgba(239, 68, 68, 0.2);
+
+  --wwai-neutral: #f59e0b;
+  --wwai-neutral-light: #fbbf24;
+  --wwai-neutral-bg: rgba(245, 158, 11, 0.2);
+
+  --wwai-accent: #3b82f6;
+  --wwai-accent-light: #60a5fa;
+  --wwai-accent-dark: #2563eb;
+  --wwai-accent-bg: rgba(59, 130, 246, 0.2);
+
+  --wwai-purple: #8b5cf6;
+  --wwai-cyan: #06b6d4;
+  --wwai-pink: #ec4899;
+
+  --wwai-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wwai-font-korean: 'Noto Sans KR', var(--wwai-font-sans);
+  --wwai-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --wwai-shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+  --wwai-transition-base: 0.2s ease;
 }
+
+[data-colorblind="true"] {
+  --wwai-bullish: #2563eb;
+  --wwai-bullish-light: #3b82f6;
+  --wwai-bullish-bg: rgba(37, 99, 235, 0.2);
+  --wwai-bearish: #ea580c;
+  --wwai-bearish-light: #f97316;
+  --wwai-bearish-bg: rgba(234, 88, 12, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =============================================================================
+   LAYOUT & COMPONENTS
+   ============================================================================= */
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-korean); background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+body {
+    font-family: var(--wwai-font-korean);
+    background: var(--wwai-bg-primary);
+    color: var(--wwai-text-primary);
+    min-height: 100vh; line-height: 1.6;
+}
 .container { max-width: 1200px; margin: 0 auto; padding: 1.25rem; }
 
 .header {
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 1.5rem; padding: 1rem 1.25rem;
-    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-    border-radius: var(--radius); border: 1px solid var(--border-secondary);
+    background: linear-gradient(135deg, var(--wwai-bg-secondary) 0%, var(--wwai-bg-tertiary) 100%);
+    border-radius: var(--wwai-radius); border: 1px solid var(--wwai-border-secondary);
 }
 .header-left { display: flex; align-items: center; gap: 1rem; }
 .header-left h1 {
     font-size: 1.5rem; font-weight: 700;
-    background: linear-gradient(135deg, var(--bullish), var(--accent));
+    background: linear-gradient(135deg, var(--wwai-bullish), var(--wwai-accent));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .header-right { display: flex; gap: 0.5rem; align-items: center; }
 .back-link {
     display: inline-flex; align-items: center; gap: 0.4rem;
-    padding: 0.4rem 0.75rem; background: var(--bg-tertiary);
-    color: var(--text-muted); text-decoration: none; border-radius: 6px;
-    font-size: 0.8rem; transition: all 0.2s;
+    padding: 0.4rem 0.75rem; background: var(--wwai-bg-tertiary);
+    color: var(--wwai-text-muted); text-decoration: none; border-radius: 6px;
+    font-size: 0.8rem; transition: all var(--wwai-transition-base);
 }
-.back-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+.back-link:hover { background: var(--wwai-bg-hover); color: var(--wwai-text-primary); }
 
 .meta-bar {
     display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
     margin-bottom: 1.25rem; padding: 0.75rem 1rem;
-    background: var(--bg-secondary); border-radius: var(--radius);
-    border: 1px solid var(--border-secondary); font-size: 0.8rem;
+    background: var(--wwai-bg-secondary); border-radius: var(--wwai-radius);
+    border: 1px solid var(--wwai-border-secondary); font-size: 0.8rem;
 }
-.meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--text-muted); }
-.meta-value { color: var(--text-primary); font-weight: 600; font-family: var(--font-mono); }
+.meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--wwai-text-muted); }
+.meta-value { color: var(--wwai-text-primary); font-weight: 600; font-family: var(--wwai-font-mono); }
 .source-badge {
     display: inline-flex; align-items: center; gap: 0.25rem;
     padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 500;
 }
-.source-badge.available { background: var(--bullish-bg); color: var(--bullish-light); }
-.source-badge.unavailable { background: rgba(100,116,139,0.2); color: var(--text-subtle); }
+.source-badge.available { background: var(--wwai-bullish-bg); color: var(--wwai-bullish-light); }
+.source-badge.unavailable { background: rgba(100,116,139,0.2); color: var(--wwai-text-subtle); }
+
+.date-select {
+    padding: 0.3rem 0.5rem; font-size: 0.78rem;
+    background: var(--wwai-bg-tertiary); color: var(--wwai-text-primary);
+    border: 1px solid var(--wwai-border-secondary); border-radius: var(--wwai-radius-sm);
+    font-family: var(--wwai-font-mono); cursor: pointer;
+    transition: border-color var(--wwai-transition-base);
+}
+.date-select:hover { border-color: var(--wwai-border-primary); }
+.date-select:focus { border-color: var(--wwai-border-focus); outline: none; }
 
 .section-title {
     display: flex; align-items: center; gap: 0.5rem;
@@ -83,15 +142,14 @@ body { font-family: var(--font-korean); background: var(--bg-primary); color: va
 }
 .section-count {
     font-size: 0.75rem; font-weight: 500; padding: 0.15rem 0.5rem;
-    border-radius: 10px; font-family: var(--font-mono);
+    border-radius: 10px; font-family: var(--wwai-font-mono);
 }
 
 .picks-section { margin-bottom: 1.5rem; }
-.picks-section.buy { }
-.picks-section.buy .section-title { color: var(--bullish-light); }
-.picks-section.buy .section-count { background: var(--bullish-bg); color: var(--bullish-light); }
-.picks-section.hold .section-title { color: var(--neutral-light); }
-.picks-section.hold .section-count { background: var(--neutral-bg); color: var(--neutral-light); }
+.picks-section.buy .section-title { color: var(--wwai-bullish-light); }
+.picks-section.buy .section-count { background: var(--wwai-bullish-bg); color: var(--wwai-bullish-light); }
+.picks-section.hold .section-title { color: var(--wwai-neutral-light); }
+.picks-section.hold .section-count { background: var(--wwai-neutral-bg); color: var(--wwai-neutral-light); }
 
 .picks-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -99,20 +157,20 @@ body { font-family: var(--font-korean); background: var(--bg-primary); color: va
 }
 
 .pick-card {
-    background: var(--bg-secondary); border-radius: var(--radius);
-    border: 1px solid var(--border-secondary); padding: 1rem;
-    transition: all 0.2s; cursor: pointer;
+    background: var(--wwai-bg-secondary); border-radius: var(--wwai-radius);
+    border: 1px solid var(--wwai-border-secondary); padding: 1rem;
+    transition: all var(--wwai-transition-base); cursor: pointer;
 }
-.pick-card:hover { border-color: var(--border); transform: translateY(-1px); }
-.pick-card.buy { border-left: 3px solid var(--bullish); }
-.pick-card.hold { border-left: 3px solid var(--neutral); }
+.pick-card:hover { border-color: var(--wwai-border-primary); transform: translateY(-1px); box-shadow: var(--wwai-shadow-glow); }
+.pick-card.buy { border-left: 3px solid var(--wwai-bullish); }
+.pick-card.hold { border-left: 3px solid var(--wwai-neutral); }
 
 .pick-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
 .pick-company {
-    font-size: 1.05rem; font-weight: 700; color: var(--text-primary);
-    text-decoration: none; transition: color 0.2s;
+    font-size: 1.05rem; font-weight: 700; color: var(--wwai-text-primary);
+    text-decoration: none; transition: color var(--wwai-transition-base);
 }
-.pick-company:hover { color: var(--accent-light); }
+.pick-company:hover { color: var(--wwai-accent-light); }
 .pick-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; }
 .badge {
     padding: 0.1rem 0.45rem; border-radius: 4px;
@@ -120,21 +178,21 @@ body { font-family: var(--font-korean); background: var(--bg-primary); color: va
     letter-spacing: 0.03em;
 }
 .badge-sector { background: rgba(139,92,246,0.2); color: #a78bfa; }
-.badge-regime { font-family: var(--font-mono); }
-.badge-regime.deep_discount { background: var(--bullish-bg); color: var(--bullish-light); }
-.badge-regime.below_norm { background: rgba(59,130,246,0.2); color: var(--accent-light); }
-.badge-regime.fair_value { background: rgba(100,116,139,0.2); color: var(--text-muted); }
-.badge-regime.above_norm { background: var(--neutral-bg); color: var(--neutral-light); }
-.badge-regime.expensive { background: var(--bearish-bg); color: var(--bearish-light); }
-.badge-priority { font-family: var(--font-mono); }
-.badge-priority.critical { background: var(--bearish-bg); color: var(--bearish-light); }
+.badge-regime { font-family: var(--wwai-font-mono); }
+.badge-regime.deep_discount { background: var(--wwai-bullish-bg); color: var(--wwai-bullish-light); }
+.badge-regime.below_norm { background: var(--wwai-accent-bg); color: var(--wwai-accent-light); }
+.badge-regime.fair_value { background: rgba(100,116,139,0.2); color: var(--wwai-text-muted); }
+.badge-regime.above_norm { background: var(--wwai-neutral-bg); color: var(--wwai-neutral-light); }
+.badge-regime.expensive { background: var(--wwai-bearish-bg); color: var(--wwai-bearish-light); }
+.badge-priority { font-family: var(--wwai-font-mono); }
+.badge-priority.critical { background: var(--wwai-bearish-bg); color: var(--wwai-bearish-light); }
 .badge-priority.high { background: rgba(249,115,22,0.2); color: #fb923c; }
 
 .pick-scores { display: flex; flex-direction: column; gap: 0.5rem; }
 .score-row { display: flex; align-items: center; gap: 0.5rem; }
-.score-label { font-size: 0.7rem; color: var(--text-muted); width: 65px; flex-shrink: 0; }
+.score-label { font-size: 0.7rem; color: var(--wwai-text-muted); width: 65px; flex-shrink: 0; }
 .score-bar-bg {
-    flex: 1; height: 8px; background: var(--bg-primary);
+    flex: 1; height: 8px; background: var(--wwai-bg-primary);
     border-radius: 4px; overflow: hidden; position: relative;
 }
 .score-bar-fill {
@@ -142,31 +200,31 @@ body { font-family: var(--font-korean); background: var(--bg-primary); color: va
     transition: width 0.5s ease;
 }
 .score-value {
-    font-size: 0.7rem; font-weight: 600; font-family: var(--font-mono);
+    font-size: 0.7rem; font-weight: 600; font-family: var(--wwai-font-mono);
     width: 38px; text-align: right; flex-shrink: 0;
 }
 
 .pick-footer {
     display: flex; justify-content: space-between; align-items: center;
-    margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid var(--border-secondary);
+    margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid var(--wwai-border-secondary);
 }
-.conviction-stars { color: var(--neutral); font-size: 0.85rem; letter-spacing: 2px; }
-.conviction-label { font-size: 0.65rem; color: var(--text-subtle); }
+.conviction-stars { color: var(--wwai-neutral); font-size: 0.85rem; letter-spacing: 2px; }
+.conviction-label { font-size: 0.65rem; color: var(--wwai-text-subtle); }
 
 .macro-placeholder {
-    background: var(--bg-secondary); border-radius: var(--radius);
-    border: 1px solid var(--border-secondary); padding: 1.5rem;
-    text-align: center; color: var(--text-subtle); margin-bottom: 1.5rem;
+    background: var(--wwai-bg-secondary); border-radius: var(--wwai-radius);
+    border: 1px solid var(--wwai-border-secondary); padding: 1.5rem;
+    text-align: center; color: var(--wwai-text-subtle); margin-bottom: 1.5rem;
 }
 .macro-placeholder .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
 .macro-placeholder .text { font-size: 0.85rem; }
 
 .loading {
-    text-align: center; padding: 3rem; color: var(--text-muted);
+    text-align: center; padding: 3rem; color: var(--wwai-text-muted);
 }
 .loading .spinner {
     display: inline-block; width: 32px; height: 32px;
-    border: 3px solid var(--border-secondary); border-top-color: var(--accent);
+    border: 3px solid var(--wwai-border-secondary); border-top-color: var(--wwai-accent);
     border-radius: 50%; animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -191,7 +249,12 @@ body { font-family: var(--font-korean); background: var(--bg-primary); color: va
     </div>
 
     <div class="meta-bar" id="meta-bar">
-        <div class="meta-item">분석일: <span class="meta-value" id="meta-date">-</span></div>
+        <div class="meta-item">
+            분석일:
+            <select id="date-select" class="date-select" onchange="onDateChange()">
+                <option value="">최신</option>
+            </select>
+        </div>
         <div class="meta-item">종목 수: <span class="meta-value" id="meta-count">-</span></div>
         <div class="meta-item" id="meta-sources"></div>
     </div>
@@ -226,15 +289,48 @@ body { font-family: var(--font-korean); background: var(--bg-primary); color: va
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', loadAnalysis);
+document.addEventListener('DOMContentLoaded', init);
+
+async function init() {
+    await loadDates();
+    await loadAnalysis();
+}
+
+async function loadDates() {
+    try {
+        const resp = await fetch('/analysis/dates');
+        const result = await resp.json();
+        if (!result.success || !result.dates) return;
+
+        const sel = document.getElementById('date-select');
+        result.dates.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d;
+            opt.textContent = d;
+            sel.appendChild(opt);
+        });
+    } catch (e) {
+        console.warn('날짜 목록 로드 실패:', e);
+    }
+}
+
+function onDateChange() {
+    loadAnalysis();
+}
 
 async function loadAnalysis() {
+    const sel = document.getElementById('date-select');
+    const dateParam = sel.value ? `?date=${sel.value}` : '';
+
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+
     try {
-        const resp = await fetch('/analysis/daily');
+        const resp = await fetch('/analysis/daily' + dateParam);
         const result = await resp.json();
 
         if (!result.success || !result.data) {
-            document.getElementById('loading').innerHTML = '<p style="color: var(--bearish-light);">분석 데이터를 불러올 수 없습니다.</p>';
+            document.getElementById('loading').innerHTML = `<p style="color: var(--wwai-bearish-light);">분석 데이터를 불러올 수 없습니다.</p>`;
             return;
         }
 
@@ -245,13 +341,20 @@ async function loadAnalysis() {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('content').style.display = 'block';
     } catch (e) {
-        document.getElementById('loading').innerHTML = '<p style="color: var(--bearish-light);">오류: ' + e.message + '</p>';
+        document.getElementById('loading').innerHTML = `<p style="color: var(--wwai-bearish-light);">오류: ${e.message}</p>`;
     }
 }
 
 function renderMeta(meta) {
     if (!meta) return;
-    document.getElementById('meta-date').textContent = meta.date || '-';
+
+    const sel = document.getElementById('date-select');
+    if (!sel.value && meta.date) {
+        const opts = sel.options;
+        for (let i = 0; i < opts.length; i++) {
+            if (opts[i].value === meta.date) { sel.value = meta.date; break; }
+        }
+    }
 
     const sources = meta.sources || {};
     const srcEl = document.getElementById('meta-sources');
@@ -273,10 +376,10 @@ function renderPicks(picks) {
     document.getElementById('hold-grid').innerHTML = holdPicks.map(p => renderCard(p, 'hold')).join('');
 
     if (buyPicks.length === 0) {
-        document.getElementById('buy-grid').innerHTML = '<div style="color: var(--text-subtle); padding: 1rem;">해당 종목 없음</div>';
+        document.getElementById('buy-grid').innerHTML = `<div style="color: var(--wwai-text-subtle); padding: 1rem;">해당 종목 없음</div>`;
     }
     if (holdPicks.length === 0) {
-        document.getElementById('hold-grid').innerHTML = '<div style="color: var(--text-subtle); padding: 1rem;">해당 종목 없음</div>';
+        document.getElementById('hold-grid').innerHTML = `<div style="color: var(--wwai-text-subtle); padding: 1rem;">해당 종목 없음</div>`;
     }
 }
 
@@ -294,8 +397,8 @@ function renderCard(pick, type) {
     const stars = { VERY_HIGH: '★★★', HIGH: '★★', MEDIUM: '★', LOW: '' }[conviction] || '';
     const convLabel = { VERY_HIGH: '매우 높음', HIGH: '높음', MEDIUM: '보통', LOW: '낮음' }[conviction] || conviction;
 
-    const ucsColor = ucs >= 0.85 ? 'var(--bearish-light)' : ucs >= 0.75 ? '#fb923c' : 'var(--accent-light)';
-    const alignColor = align >= 0.75 ? 'var(--bullish-light)' : align >= 0.65 ? 'var(--neutral-light)' : 'var(--text-muted)';
+    const ucsColor = ucs >= 0.85 ? 'var(--wwai-bearish-light)' : ucs >= 0.75 ? '#fb923c' : 'var(--wwai-accent-light)';
+    const alignColor = align >= 0.75 ? 'var(--wwai-bullish-light)' : align >= 0.65 ? 'var(--wwai-neutral-light)' : 'var(--wwai-text-muted)';
 
     const searchUrl = `/?q=${encodeURIComponent(pick.company + ' 투자의견')}`;
 
@@ -330,7 +433,7 @@ function renderCard(pick, type) {
                 <span class="conviction-stars">${stars}</span>
                 <span class="conviction-label">${convLabel}</span>
             </div>
-            <span style="font-size: 0.65rem; color: var(--text-subtle);">클릭하여 검색</span>
+            <span style="font-size: 0.65rem; color: var(--wwai-text-subtle);">클릭하여 검색</span>
         </div>
     </div>`;
 }

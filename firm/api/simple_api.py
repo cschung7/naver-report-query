@@ -1984,6 +1984,23 @@ def _get_analysis_from_nas():
         return None
 
 
+@app.route('/analysis/dates')
+def analysis_dates():
+    """List available analysis dates (descending)."""
+    try:
+        import psycopg2
+        conn = psycopg2.connect(_pg_analysis_uri)
+        cur = conn.cursor()
+        cur.execute("SELECT date FROM daily_analysis ORDER BY date DESC")
+        rows = cur.fetchall()
+        conn.close()
+        dates = [str(r[0]) for r in rows]
+        return jsonify({"success": True, "dates": dates})
+    except Exception as e:
+        print(f"DB dates fetch error: {e}")
+        return jsonify({"success": True, "dates": []})
+
+
 @app.route('/analysis/daily')
 def analysis_daily():
     """Get latest daily analysis data (JSON API)."""
