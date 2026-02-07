@@ -2429,6 +2429,29 @@ def economy_reports():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+# ============================================================
+# Economy Keyword Graph endpoints
+# ============================================================
+
+@app.route('/economy/keyword-graph')
+def economy_keyword_graph():
+    """Serve the economy keyword network visualization page."""
+    return render_template('econ_keyword_graph.html')
+
+
+@app.route('/economy/keyword-graph-data')
+def economy_keyword_graph_data():
+    """Serve economy keyword graph JSON data."""
+    try:
+        fpath = _data_path('econ_keyword_graph_data.json',
+                           '/mnt/nas/WWAI/NaverReport/NaverReport-EconAnalysis/econ_keyword_graph_data.json')
+        with open(fpath, 'r') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     print("=" * 60)
     print("SmartQuery API Server (Flask)")

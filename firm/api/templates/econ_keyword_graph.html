@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경제 키워드 네트워크 - SmartQuery</title>
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; }
+
+.layout { display: flex; height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+    width: 340px; min-width: 340px;
+    background: #1e293b; border-right: 1px solid #334155;
+    display: flex; flex-direction: column; overflow: hidden;
+}
+.sidebar-header {
+    padding: 1.2rem; border-bottom: 1px solid #334155;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+.sidebar-header h1 { font-size: 1.1rem; color: #22d3ee; margin-bottom: 0.3rem; }
+.sidebar-header p { font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.5rem; }
+.sidebar-header .meta { font-size: 0.7rem; color: #64748b; }
+.top-nav {
+    position: absolute; top: 12px; right: 16px; z-index: 20;
+    display: flex; gap: 0.35rem; flex-wrap: wrap;
+}
+.top-nav a {
+    padding: 0.3rem 0.6rem; color: #fff; text-decoration: none;
+    border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+}
+
+.controls { padding: 1rem; border-bottom: 1px solid #334155; }
+.control-group { margin-bottom: 0.8rem; }
+.control-group label { font-size: 0.75rem; color: #94a3b8; display: block; margin-bottom: 0.3rem; }
+.control-group select, .control-group input {
+    width: 100%; padding: 0.4rem 0.6rem; background: #0f172a; border: 1px solid #475569;
+    border-radius: 6px; color: #e2e8f0; font-size: 0.8rem;
+}
+.slider-row { display: flex; align-items: center; gap: 0.5rem; }
+.slider-row input[type=range] { flex: 1; }
+.slider-row span { font-size: 0.75rem; color: #22d3ee; min-width: 24px; }
+
+.legend { padding: 0.8rem 1rem; border-bottom: 1px solid #334155; }
+.legend h3 { font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.5rem; }
+.legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; font-size: 0.75rem; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* Detail panel */
+.detail-panel {
+    flex: 1; overflow-y: auto; padding: 1rem;
+    scrollbar-width: thin; scrollbar-color: #475569 #1e293b;
+}
+.detail-title { font-size: 0.9rem; color: #22d3ee; margin-bottom: 0.5rem; }
+.detail-subtitle { font-size: 0.7rem; color: #94a3b8; margin-bottom: 0.8rem; }
+.connection-item {
+    padding: 0.5rem; margin-bottom: 0.4rem; background: #0f172a;
+    border-radius: 6px; border: 1px solid #334155; cursor: pointer;
+}
+.connection-item:hover { border-color: #22d3ee; }
+.conn-header { display: flex; justify-content: space-between; align-items: center; }
+.conn-name { font-size: 0.8rem; color: #f1f5f9; }
+.conn-count { font-size: 0.7rem; color: #22d3ee; font-weight: 600; }
+.conn-titles { font-size: 0.65rem; color: #64748b; margin-top: 0.3rem; }
+.issuer-tag {
+    display: inline-block; padding: 0.15rem 0.4rem; margin: 0.1rem;
+    border-radius: 4px; font-size: 0.65rem; background: rgba(6,182,212,0.15);
+    color: #67e8f9; border: 1px solid rgba(6,182,212,0.3);
+}
+.report-item {
+    padding: 0.4rem; margin-bottom: 0.3rem; background: #0f172a;
+    border-radius: 4px; border-left: 2px solid #06b6d4; font-size: 0.7rem;
+}
+.report-item .title { color: #e2e8f0; }
+.report-item .meta { color: #64748b; font-size: 0.6rem; margin-top: 0.15rem; }
+.trend-bar { display: flex; align-items: flex-end; gap: 2px; height: 40px; margin-top: 0.5rem; }
+.trend-col { background: #06b6d4; border-radius: 2px 2px 0 0; min-width: 8px; flex: 1; transition: height 0.3s; }
+.trend-label { font-size: 0.55rem; color: #64748b; text-align: center; margin-top: 2px; }
+
+/* Main graph area */
+.graph-area { flex: 1; position: relative; }
+#network { width: 100%; height: 100%; background: #0f172a; }
+
+/* Stats bar */
+.stats-bar {
+    position: absolute; top: 12px; left: 12px;
+    display: flex; gap: 0.5rem; z-index: 10; pointer-events: none;
+}
+.stat-chip {
+    padding: 0.3rem 0.7rem; background: rgba(30,41,59,0.9);
+    border: 1px solid #334155; border-radius: 6px;
+    font-size: 0.7rem; color: #94a3b8; backdrop-filter: blur(8px);
+}
+.stat-chip b { color: #22d3ee; }
+
+/* Preset buttons */
+.preset-group { display: flex; gap: 0.4rem; margin-bottom: 0.8rem; }
+.preset-btn {
+    flex: 1; padding: 0.5rem 0.4rem; border: 1px solid #475569;
+    border-radius: 6px; background: #0f172a; color: #94a3b8;
+    font-size: 0.75rem; cursor: pointer; text-align: center;
+    transition: all 0.2s; font-weight: 500;
+}
+.preset-btn:hover { border-color: #22d3ee; color: #e2e8f0; }
+.preset-btn.active { background: #06b6d4; border-color: #06b6d4; color: #fff; font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>경제 키워드 연결 네트워크</h1>
+            <p>Economic Topic Co-occurrence Graph</p>
+            <div class="meta" id="metaInfo">Loading...</div>
+        </div>
+        <div class="controls">
+            <div class="control-group">
+                <label>그래프 복잡도</label>
+                <div class="preset-group">
+                    <button class="preset-btn" onclick="setPreset('simple')" id="preset-simple">핵심만</button>
+                    <button class="preset-btn active" onclick="setPreset('standard')" id="preset-standard">보통</button>
+                    <button class="preset-btn" onclick="setPreset('detailed')" id="preset-detailed">상세</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label>Min Co-occurrence: <span id="threshLabel">100</span></label>
+                <div class="slider-row">
+                    <input type="range" id="threshold" min="10" max="800" value="100" oninput="updateThreshold()">
+                </div>
+            </div>
+            <div class="control-group">
+                <label>Focus Topic</label>
+                <select id="focusTopic" onchange="applyFilters()">
+                    <option value="">-- All Topics --</option>
+                </select>
+            </div>
+        </div>
+        <div class="legend">
+            <h3>Node Size = Report Count | Edge Width = Co-occurrence</h3>
+            <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> 1000+ reports</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> 500~999 reports</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div> 100~499 reports</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div> &lt;100 reports</div>
+        </div>
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-title">Click a node to see details</div>
+            <div class="detail-subtitle">노드를 클릭하면 토픽 상세 정보를 볼 수 있습니다</div>
+        </div>
+    </div>
+    <div class="graph-area">
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-chip">Topics: <b id="statNodes">0</b></div>
+            <div class="stat-chip">Edges: <b id="statEdges">0</b></div>
+            <div class="stat-chip">Threshold: <b id="statThresh">100</b></div>
+        </div>
+        <div class="top-nav">
+            <a href="/analysis" style="background: linear-gradient(135deg, #10b981, #3b82f6);">종목분석</a>
+            <a href="/industry" style="background: linear-gradient(135deg, #f59e0b, #8b5cf6);">산업분석</a>
+            <a href="/strategy" style="background: linear-gradient(135deg, #8b5cf6, #06b6d4);">투자전략</a>
+            <a href="/economy" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">경제분석</a>
+            <a href="https://stock-chart-tau.vercel.app/" target="_blank" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">KRX차트</a>
+        </div>
+        <div id="network"></div>
+    </div>
+</div>
+
+<script>
+let graphData = null;
+let network = null;
+
+const COLORS = {
+    hot: '#ef4444',
+    warm: '#f59e0b',
+    normal: '#06b6d4',
+    cool: '#64748b',
+};
+
+function getNodeColor(reportCount) {
+    if (reportCount >= 1000) return COLORS.hot;
+    if (reportCount >= 500) return COLORS.warm;
+    if (reportCount >= 100) return COLORS.normal;
+    return COLORS.cool;
+}
+
+async function loadData() {
+    const resp = await fetch('/economy/keyword-graph-data');
+    graphData = await resp.json();
+    if (graphData.meta) {
+        document.getElementById('metaInfo').textContent =
+            `${graphData.meta.total_reports} reports | ${graphData.meta.date_range}`;
+    }
+    populateFilters();
+    renderNetwork();
+}
+
+function populateFilters() {
+    const sel = document.getElementById('focusTopic');
+    const sorted = [...graphData.topics].sort((a, b) => b.report_count - a.report_count);
+    sorted.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.name;
+        opt.textContent = `${t.name} (${t.report_count})`;
+        sel.appendChild(opt);
+    });
+}
+
+function renderNetwork() {
+    const threshold = parseInt(document.getElementById('threshold').value);
+    const focus = document.getElementById('focusTopic').value;
+
+    let edges = graphData.edges.filter(e => e.shared >= threshold);
+    if (focus) {
+        edges = edges.filter(e => e.topic1 === focus || e.topic2 === focus);
+    }
+
+    const visibleTopics = new Set();
+    edges.forEach(e => { visibleTopics.add(e.topic1); visibleTopics.add(e.topic2); });
+
+    const topicMap = {};
+    graphData.topics.forEach(t => { topicMap[t.name] = t; });
+
+    const nodes = [];
+    visibleTopics.forEach(name => {
+        const t = topicMap[name] || { name, report_count: 0, connections: 0 };
+        const size = Math.max(20, Math.min(70, 15 + t.report_count * 0.03));
+        const col = getNodeColor(t.report_count);
+        nodes.push({
+            id: name,
+            label: name,
+            size: size,
+            color: { background: col, border: col, highlight: { background: '#f1f5f9', border: '#22d3ee' } },
+            font: { color: '#e2e8f0', size: Math.max(11, Math.min(18, 9 + t.report_count * 0.006)), face: 'Noto Sans KR' },
+            title: `${name}\nReports: ${t.report_count}\nConnections: ${t.connections}`,
+        });
+    });
+
+    const maxShared = edges.length > 0 ? Math.max(...edges.map(e => e.shared)) : 1;
+    const visEdges = edges.map((e, i) => ({
+        id: `e${i}`,
+        from: e.topic1,
+        to: e.topic2,
+        value: e.shared,
+        title: `${e.topic1} ↔ ${e.topic2}\n공출현: ${e.shared} reports`,
+        color: { color: `rgba(34, 211, 238, ${0.15 + 0.6 * (e.shared / maxShared)})`, highlight: '#22d3ee' },
+        width: Math.max(1, Math.min(12, e.shared / (maxShared * 0.1))),
+        _data: e,
+    }));
+
+    drawNetwork(nodes, visEdges);
+    document.getElementById('statNodes').textContent = nodes.length;
+    document.getElementById('statEdges').textContent = visEdges.length;
+    document.getElementById('statThresh').textContent = threshold;
+}
+
+function drawNetwork(nodes, edges) {
+    const container = document.getElementById('network');
+    const data = {
+        nodes: new vis.DataSet(nodes),
+        edges: new vis.DataSet(edges),
+    };
+
+    const options = {
+        physics: {
+            solver: 'forceAtlas2Based',
+            forceAtlas2Based: {
+                gravitationalConstant: -120,
+                centralGravity: 0.015,
+                springLength: 180,
+                springConstant: 0.03,
+                damping: 0.5,
+            },
+            stabilization: { iterations: 200, fit: true },
+        },
+        interaction: { hover: true, tooltipDelay: 100, zoomView: true, dragView: true },
+        nodes: { borderWidth: 2, shadow: { enabled: true, color: 'rgba(0,0,0,0.3)', size: 5 } },
+        edges: { smooth: { type: 'continuous' } },
+    };
+
+    network = new vis.Network(container, data, options);
+
+    network.on('click', function(params) {
+        if (params.nodes.length > 0) showDetail(params.nodes[0]);
+    });
+    network.on('hoverNode', () => { container.style.cursor = 'pointer'; });
+    network.on('blurNode', () => { container.style.cursor = 'default'; });
+}
+
+function showDetail(topicName) {
+    const panel = document.getElementById('detailPanel');
+    const details = graphData.topic_details[topicName];
+    const topicInfo = graphData.topics.find(t => t.name === topicName);
+    if (!details) return;
+
+    const connections = graphData.edges
+        .filter(e => e.topic1 === topicName || e.topic2 === topicName)
+        .sort((a, b) => b.shared - a.shared);
+
+    // Monthly trend chart
+    const maxCount = Math.max(...details.monthly_trend.map(m => m.count));
+    const trendBars = details.monthly_trend.map(m => {
+        const h = Math.max(2, (m.count / maxCount) * 38);
+        const label = m.month.slice(5);
+        return `<div style="flex:1;text-align:center">
+            <div class="trend-col" style="height:${h}px" title="${m.month}: ${m.count}"></div>
+            <div class="trend-label">${label}</div>
+        </div>`;
+    }).join('');
+
+    panel.innerHTML = `
+        <div class="detail-title">${topicName}</div>
+        <div class="detail-subtitle">리포트 ${details.report_count}건 | 연결 ${connections.length}개 토픽</div>
+
+        <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">월별 트렌드 (최근 12개월)</h4>
+        <div class="trend-bar">${trendBars}</div>
+
+        <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">주요 증권사:</h4>
+        <div>${details.top_issuers.slice(0, 8).map(i =>
+            `<span class="issuer-tag">${i.name} (${i.count})</span>`
+        ).join('')}</div>
+
+        <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">연결 토픽 (${connections.length}):</h4>
+        ${connections.slice(0, 12).map(e => {
+            const other = e.topic1 === topicName ? e.topic2 : e.topic1;
+            return `
+                <div class="connection-item" onclick="focusNode('${other}')">
+                    <div class="conn-header">
+                        <span class="conn-name">${other}</span>
+                        <span class="conn-count">${e.shared} reports</span>
+                    </div>
+                    <div class="conn-titles">${e.sample_titles.slice(0, 3).join(' / ')}</div>
+                </div>
+            `;
+        }).join('')}
+
+        <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">최신 리포트:</h4>
+        ${details.recent_reports.slice(0, 6).map(r => `
+            <div class="report-item">
+                <div class="title">${r.title}</div>
+                <div class="meta">${r.issuer} · ${r.date}</div>
+            </div>
+        `).join('')}
+    `;
+}
+
+function focusNode(nodeId) {
+    if (network) {
+        network.focus(nodeId, { scale: 1.5, animation: true });
+        network.selectNodes([nodeId]);
+        showDetail(nodeId);
+    }
+}
+
+const PRESETS = { simple: 400, standard: 100, detailed: 20 };
+
+function setPreset(level) {
+    const val = PRESETS[level];
+    document.getElementById('threshold').value = val;
+    document.getElementById('threshLabel').textContent = val;
+    ['simple', 'standard', 'detailed'].forEach(p => {
+        document.getElementById('preset-' + p).classList.toggle('active', p === level);
+    });
+    renderNetwork();
+}
+
+function updateThreshold() {
+    const val = parseInt(document.getElementById('threshold').value);
+    document.getElementById('threshLabel').textContent = val;
+    ['simple', 'standard', 'detailed'].forEach(p => {
+        document.getElementById('preset-' + p).classList.toggle('active', val === PRESETS[p]);
+    });
+    renderNetwork();
+}
+
+function applyFilters() { renderNetwork(); }
+
+loadData();
+</script>
+</body>
+</html>
