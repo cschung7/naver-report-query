@@ -73,6 +73,20 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
 .conn-name { font-size: 0.8rem; color: #f1f5f9; }
 .conn-count { font-size: 0.7rem; color: #f59e0b; font-weight: 600; }
 .conn-keywords { font-size: 0.65rem; color: #64748b; margin-top: 0.3rem; }
+.issuer-tag {
+    display: inline-block; padding: 0.15rem 0.4rem; margin: 0.1rem;
+    border-radius: 4px; font-size: 0.65rem; background: rgba(245,158,11,0.15);
+    color: #fbbf24; border: 1px solid rgba(245,158,11,0.3);
+}
+.report-item {
+    padding: 0.4rem; margin-bottom: 0.3rem; background: #0f172a;
+    border-radius: 4px; border-left: 2px solid #f59e0b; font-size: 0.7rem;
+}
+.report-item .title { color: #e2e8f0; }
+.report-item .meta { color: #64748b; font-size: 0.6rem; margin-top: 0.15rem; }
+.trend-bar { display: flex; align-items: flex-end; gap: 2px; height: 40px; margin-top: 0.5rem; }
+.trend-col { background: #f59e0b; border-radius: 2px 2px 0 0; min-width: 8px; flex: 1; transition: height 0.3s; }
+.trend-label { font-size: 0.55rem; color: #64748b; text-align: center; margin-top: 2px; }
 
 /* Main graph area */
 .graph-area { flex: 1; position: relative; }
@@ -445,7 +459,7 @@ function showDetail(nodeId) {
         `;
     } else {
         const ind = indMap[nodeId] || {};
-        const details = graphData.industry_details[nodeId] || [];
+        const details = graphData.industry_details[nodeId];
         const connections = graphData.edges
             .filter(e => e.ind1 === nodeId || e.ind2 === nodeId)
             .sort((a, b) => b.shared - a.shared);
@@ -453,15 +467,56 @@ function showDetail(nodeId) {
         const catColor = ind.color || '#64748b';
         const catName = ind.category || 'Other';
 
+        // Determine if details is enriched (object) or legacy (array)
+        const isEnriched = details && !Array.isArray(details) && details.monthly_trend;
+        const kwList = isEnriched ? (details.keywords || []) : (details || []);
+        const reportCount = isEnriched ? details.report_count : null;
+
+        // Monthly trend bars
+        let trendHtml = '';
+        if (isEnriched && details.monthly_trend && details.monthly_trend.length > 0) {
+            const maxCount = Math.max(...details.monthly_trend.map(m => m.count));
+            trendHtml = `
+                <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">월별 트렌드 (최근 12개월)</h4>
+                <div class="trend-bar">${details.monthly_trend.map(m => {
+                    const h = Math.max(2, (m.count / maxCount) * 38);
+                    const label = m.month.slice(5);
+                    return '<div style="flex:1;text-align:center"><div class="trend-col" style="height:' + h + 'px" title="' + m.month + ': ' + m.count + '"></div><div class="trend-label">' + label + '</div></div>';
+                }).join('')}</div>`;
+        }
+
+        // Issuer tags
+        let issuerHtml = '';
+        if (isEnriched && details.top_issuers && details.top_issuers.length > 0) {
+            issuerHtml = `
+                <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">주요 증권사:</h4>
+                <div>${details.top_issuers.slice(0, 8).map(i =>
+                    '<span class="issuer-tag">' + i.name + ' (' + i.count + ')</span>'
+                ).join('')}</div>`;
+        }
+
+        // Recent reports
+        let reportsHtml = '';
+        if (isEnriched && details.recent_reports && details.recent_reports.length > 0) {
+            reportsHtml = `
+                <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">최신 리포트:</h4>
+                ${details.recent_reports.slice(0, 6).map(r =>
+                    '<div class="report-item"><div class="title">' + r.title + '</div><div class="meta">' + r.issuer + ' · ' + r.date + '</div></div>'
+                ).join('')}`;
+        }
+
         panel.innerHTML = `
             <div class="detail-title">${nodeId}</div>
             <div class="detail-subtitle">
                 <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${catColor};margin-right:4px;"></span>
-                ${catName} | Keywords: ${ind.kw_count || '?'} | Rel types: ${(ind.rel_types || []).join(', ')}
+                ${catName}${reportCount ? ' | 리포트 ' + reportCount + '건' : ''} | Keywords: ${ind.kw_count || '?'} | Rel: ${(ind.rel_types || []).join(', ')}
             </div>
 
+            ${trendHtml}
+            ${issuerHtml}
+
             <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">Top Keywords:</h4>
-            <div>${details.map(d => {
+            <div>${kwList.map(d => {
                 const cls = d.rel === 'DRIVEN_BY' ? 'driver' : d.rel === 'SUPPLIED_BY' ? 'supply' : d.rel === 'ENABLED_BY' ? 'tech' : d.rel === 'SHAPED_BY' ? 'policy' : '';
                 return `<span class="kw-tag ${cls}">${d.kw} (${d.bridges})</span>`;
             }).join('')}</div>
@@ -481,6 +536,8 @@ function showDetail(nodeId) {
                     </div>
                 `;
             }).join('')}
+
+            ${reportsHtml}
         `;
     }
 }
