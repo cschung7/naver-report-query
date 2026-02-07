@@ -136,6 +136,12 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
                 </div>
             </div>
             <div class="control-group">
+                <label>Category Filter</label>
+                <select id="catFilter" onchange="applyFilters()">
+                    <option value="">-- All Categories --</option>
+                </select>
+            </div>
+            <div class="control-group">
                 <label>Focus Topic</label>
                 <select id="focusTopic" onchange="applyFilters()">
                     <option value="">-- All Topics --</option>
@@ -143,11 +149,16 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
             </div>
         </div>
         <div class="legend">
-            <h3>Node Size = Report Count | Edge Width = Co-occurrence</h3>
-            <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> 1000+ reports</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> 500~999 reports</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div> 100~499 reports</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div> &lt;100 reports</div>
+            <h3>AlphaVantage-style Categories</h3>
+            <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> Economy - Monetary</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div> Economy - Fiscal</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div> Economy - Macro</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div> Financial Markets</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div> Energy &amp; Transportation</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div> Technology</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div> Real Estate</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> Blockchain</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div> Geopolitics</div>
         </div>
         <div class="detail-panel" id="detailPanel">
             <div class="detail-title">Click a node to see details</div>
@@ -175,18 +186,23 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
 let graphData = null;
 let network = null;
 
-const COLORS = {
-    hot: '#ef4444',
-    warm: '#f59e0b',
-    normal: '#06b6d4',
-    cool: '#64748b',
+// Category colors from AlphaVantage-style taxonomy
+const CAT_COLORS = {
+    'Economy - Monetary': '#ef4444',
+    'Economy - Fiscal': '#f59e0b',
+    'Economy - Macro': '#3b82f6',
+    'Financial Markets': '#8b5cf6',
+    'Energy & Transportation': '#10b981',
+    'Technology': '#06b6d4',
+    'Real Estate': '#ec4899',
+    'Blockchain': '#f97316',
+    'Geopolitics': '#dc2626',
 };
 
-function getNodeColor(reportCount) {
-    if (reportCount >= 1000) return COLORS.hot;
-    if (reportCount >= 500) return COLORS.warm;
-    if (reportCount >= 100) return COLORS.normal;
-    return COLORS.cool;
+function getNodeColor(topicName) {
+    const t = graphData && graphData.topics.find(x => x.name === topicName);
+    if (t && t.color) return t.color;
+    return '#64748b';
 }
 
 async function loadData() {
@@ -201,6 +217,17 @@ async function loadData() {
 }
 
 function populateFilters() {
+    // Category filter
+    const catSel = document.getElementById('catFilter');
+    if (graphData.categories) {
+        Object.keys(graphData.categories).forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            catSel.appendChild(opt);
+        });
+    }
+    // Topic filter
     const sel = document.getElementById('focusTopic');
     const sorted = [...graphData.topics].sort((a, b) => b.report_count - a.report_count);
     sorted.forEach(t => {
@@ -215,7 +242,12 @@ function renderNetwork() {
     const threshold = parseInt(document.getElementById('threshold').value);
     const focus = document.getElementById('focusTopic').value;
 
+    const catFilter = document.getElementById('catFilter').value;
     let edges = graphData.edges.filter(e => e.shared >= threshold);
+    if (catFilter) {
+        const catTopics = new Set((graphData.categories[catFilter] || {}).subtopics || []);
+        edges = edges.filter(e => catTopics.has(e.topic1) || catTopics.has(e.topic2));
+    }
     if (focus) {
         edges = edges.filter(e => e.topic1 === focus || e.topic2 === focus);
     }
@@ -230,14 +262,15 @@ function renderNetwork() {
     visibleTopics.forEach(name => {
         const t = topicMap[name] || { name, report_count: 0, connections: 0 };
         const size = Math.max(20, Math.min(70, 15 + t.report_count * 0.03));
-        const col = getNodeColor(t.report_count);
+        const col = t.color || getNodeColor(name);
+        const cat = t.category || '';
         nodes.push({
             id: name,
-            label: name,
+            label: `${name}`,
             size: size,
             color: { background: col, border: col, highlight: { background: '#f1f5f9', border: '#22d3ee' } },
             font: { color: '#e2e8f0', size: Math.max(11, Math.min(18, 9 + t.report_count * 0.006)), face: 'Noto Sans KR' },
-            title: `${name}\nReports: ${t.report_count}\nConnections: ${t.connections}`,
+            title: `${name}\n[${cat}]\nReports: ${t.report_count}\nConnections: ${t.connections}`,
         });
     });
 
@@ -313,9 +346,13 @@ function showDetail(topicName) {
         </div>`;
     }).join('');
 
+    const catColor = details.color || '#64748b';
     panel.innerHTML = `
         <div class="detail-title">${topicName}</div>
-        <div class="detail-subtitle">리포트 ${details.report_count}건 | 연결 ${connections.length}개 토픽</div>
+        <div class="detail-subtitle">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${catColor};margin-right:4px;"></span>
+            ${details.category} | 리포트 ${details.report_count}건 | 연결 ${connections.length}개 토픽
+        </div>
 
         <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">월별 트렌드 (최근 12개월)</h4>
         <div class="trend-bar">${trendBars}</div>

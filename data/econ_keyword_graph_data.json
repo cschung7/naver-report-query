@@ -1,9 +1,11 @@
 {
   "topics": [
     {
-      "name": "금리/통화정책",
-      "report_count": 1653,
-      "connections": 17,
+      "name": "금리정책",
+      "report_count": 1585,
+      "connections": 18,
+      "category": "Economy - Monetary",
+      "color": "#ef4444",
       "keywords": [
         "기준금리",
         "금리인상",
@@ -13,45 +15,11 @@
       ]
     },
     {
-      "name": "무역/수출",
-      "report_count": 1378,
-      "connections": 17,
-      "keywords": [
-        "수출",
-        "수입",
-        "무역수지",
-        "경상수지",
-        "관세"
-      ]
-    },
-    {
-      "name": "미국",
-      "report_count": 1033,
-      "connections": 17,
-      "keywords": [
-        "미국경제",
-        "미국 경제",
-        "트럼프",
-        "바이든",
-        "셧다운"
-      ]
-    },
-    {
-      "name": "주식시장",
-      "report_count": 999,
-      "connections": 17,
-      "keywords": [
-        "코스피",
-        "KOSPI",
-        "S&P",
-        "나스닥",
-        "NASDAQ"
-      ]
-    },
-    {
-      "name": "물가/인플레이션",
-      "report_count": 932,
-      "connections": 17,
+      "name": "인플레이션",
+      "report_count": 1341,
+      "connections": 18,
+      "category": "Economy - Monetary",
+      "color": "#ef4444",
       "keywords": [
         "인플레이션",
         "CPI",
@@ -61,9 +29,81 @@
       ]
     },
     {
+      "name": "주식시장",
+      "report_count": 999,
+      "connections": 18,
+      "category": "Financial Markets",
+      "color": "#8b5cf6",
+      "keywords": [
+        "코스피",
+        "KOSPI",
+        "S&P",
+        "나스닥",
+        "NASDAQ"
+      ]
+    },
+    {
+      "name": "고용",
+      "report_count": 987,
+      "connections": 17,
+      "category": "Economy - Macro",
+      "color": "#3b82f6",
+      "keywords": [
+        "실업률",
+        "비농업",
+        "고용지표",
+        "임금상승",
+        "노동시장"
+      ]
+    },
+    {
+      "name": "무역정책",
+      "report_count": 921,
+      "connections": 18,
+      "category": "Economy - Fiscal",
+      "color": "#f59e0b",
+      "keywords": [
+        "관세",
+        "보호무역",
+        "무역전쟁",
+        "트럼프 관세",
+        "무역분쟁"
+      ]
+    },
+    {
+      "name": "미국정치",
+      "report_count": 799,
+      "connections": 18,
+      "category": "Geopolitics",
+      "color": "#dc2626",
+      "keywords": [
+        "트럼프",
+        "바이든",
+        "워싱턴",
+        "미국 정치",
+        "백악관"
+      ]
+    },
+    {
+      "name": "수출입",
+      "report_count": 797,
+      "connections": 17,
+      "category": "Economy - Macro",
+      "color": "#3b82f6",
+      "keywords": [
+        "수출",
+        "수입",
+        "무역수지",
+        "경상수지",
+        "수출입"
+      ]
+    },
+    {
       "name": "GDP/성장",
       "report_count": 745,
-      "connections": 16,
+      "connections": 17,
+      "category": "Economy - Macro",
+      "color": "#3b82f6",
       "keywords": [
         "GDP",
         "경제성장",
@@ -75,7 +115,9 @@
     {
       "name": "환율",
       "report_count": 742,
-      "connections": 17,
+      "connections": 18,
+      "category": "Financial Markets",
+      "color": "#8b5cf6",
       "keywords": [
         "환율",
         "원달러",
@@ -85,9 +127,11 @@
       ]
     },
     {
-      "name": "AI/기술",
+      "name": "AI/반도체",
       "report_count": 718,
-      "connections": 17,
+      "connections": 18,
+      "category": "Technology",
+      "color": "#06b6d4",
       "keywords": [
         "AI ",
         "인공지능",
@@ -97,21 +141,11 @@
       ]
     },
     {
-      "name": "고용/노동",
-      "report_count": 637,
-      "connections": 16,
-      "keywords": [
-        "실업률",
-        "비농업",
-        "고용지표",
-        "임금상승",
-        "노동시장"
-      ]
-    },
-    {
-      "name": "원자재/에너지",
+      "name": "원유/에너지",
       "report_count": 561,
-      "connections": 17,
+      "connections": 18,
+      "category": "Energy & Transportation",
+      "color": "#10b981",
       "keywords": [
         "원유",
         "WTI",
@@ -121,21 +155,25 @@
       ]
     },
     {
-      "name": "채권",
-      "report_count": 539,
-      "connections": 17,
+      "name": "채권시장",
+      "report_count": 533,
+      "connections": 18,
+      "category": "Financial Markets",
+      "color": "#8b5cf6",
       "keywords": [
         "국채",
         "금리스프레드",
         "회사채",
         "크레딧스프레드",
-        "신용스프레드"
+        "채권시장"
       ]
     },
     {
       "name": "지정학",
       "report_count": 382,
-      "connections": 16,
+      "connections": 17,
+      "category": "Geopolitics",
+      "color": "#dc2626",
       "keywords": [
         "지정학",
         "전쟁",
@@ -147,7 +185,9 @@
     {
       "name": "부동산",
       "report_count": 355,
-      "connections": 16,
+      "connections": 17,
+      "category": "Real Estate",
+      "color": "#ec4899",
       "keywords": [
         "부동산",
         "주택",
@@ -157,9 +197,25 @@
       ]
     },
     {
+      "name": "재정정책",
+      "report_count": 264,
+      "connections": 16,
+      "category": "Economy - Fiscal",
+      "color": "#f59e0b",
+      "keywords": [
+        "재정정책",
+        "재정적자",
+        "국가부채",
+        "정부부채",
+        "재정 확대"
+      ]
+    },
+    {
       "name": "유동성",
-      "report_count": 235,
-      "connections": 17,
+      "report_count": 263,
+      "connections": 18,
+      "category": "Economy - Monetary",
+      "color": "#ef4444",
       "keywords": [
         "유동성",
         "통화량",
@@ -170,32 +226,24 @@
     },
     {
       "name": "중국",
-      "report_count": 152,
-      "connections": 16,
+      "report_count": 138,
+      "connections": 17,
+      "category": "Geopolitics",
+      "color": "#dc2626",
       "keywords": [
         "중국경제",
         "중국 경제",
         "인민은행",
         "PBOC",
-        "중국 성장"
-      ]
-    },
-    {
-      "name": "재정정책",
-      "report_count": 150,
-      "connections": 15,
-      "keywords": [
-        "재정정책",
-        "재정적자",
-        "국가부채",
-        "정부부채",
-        "재정 확대"
+        "중국 부양"
       ]
     },
     {
       "name": "금/안전자산",
       "report_count": 110,
-      "connections": 16,
+      "connections": 17,
+      "category": "Financial Markets",
+      "color": "#8b5cf6",
       "keywords": [
         "Gold",
         "금값",
@@ -208,6 +256,8 @@
       "name": "크립토",
       "report_count": 46,
       "connections": 11,
+      "category": "Blockchain",
+      "color": "#f97316",
       "keywords": [
         "비트코인",
         "암호화폐",
@@ -219,69 +269,81 @@
   ],
   "edges": [
     {
-      "topic1": "금리/통화정책",
-      "topic2": "물가/인플레이션",
-      "shared": 709,
+      "topic1": "금리정책",
+      "topic2": "인플레이션",
+      "shared": 981,
+      "cat1": "Economy - Monetary",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
-        "달러-원 하단 돌파는 아직은 쉽지 않아",
+        "연준이 본 크랙(crack)",
+        "금리 정상화 과정엔 침체는 없다",
         "완만한 회복이 기대되는 2024년 중국경제",
+        "1월에 넘어야 할 단기 이슈",
+        "1/5 Weekly Macro"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "금리정책",
+      "shared": 674,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "연준이 본 크랙(crack)",
+        "1월에 넘어야 할 단기 이슈",
+        "1/5 Weekly Macro",
+        "12월 FOMC 의사록: 11월과 다른 점 찾기",
+        "경기가 어디까지 둔화되어야 적정한가"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "인플레이션",
+      "shared": 597,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "2024년도 여전히 유효한 ‘Bumpy’",
+        "연준이 본 크랙(crack)",
         "1월에 넘어야 할 단기 이슈",
         "1/5 Weekly Macro",
         "12월 FOMC 의사록: 11월과 다른 점 찾기"
       ]
     },
     {
-      "topic1": "금리/통화정책",
-      "topic2": "무역/수출",
-      "shared": 651,
+      "topic1": "무역정책",
+      "topic2": "미국정치",
+      "shared": 522,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "Market Weekly Check ME up!",
-        "신한 FX Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 FX Check-Up"
+        "한-중 주가 차별화 시작되나?",
+        "미리보는 바이든과 트럼프 2.0",
+        "미리보는 바이든과 트럼프 2.0",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "[Global Stock Talk] 미-중 무역분쟁 재점화"
       ]
     },
     {
-      "topic1": "무역/수출",
-      "topic2": "미국",
-      "shared": 639,
-      "sample_titles": [
-        "한국 4Q GDP - 소기의 목표는 달성",
-        "1/26 Weekly Macro",
-        "요즘 미국, 80년대 향기가 난다",
-        "신한 Econ Check-Up",
-        "극단적 차별화(Divergence)와 코리아 디스카운트"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
-      "topic2": "미국",
-      "shared": 591,
-      "sample_titles": [
-        "금리 정상화 과정엔 침체는 없다",
-        "연착륙에 걸림돌이 되지 않는 고용",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "2024년 투자가 생각보다 어려울 것으로 보는 이유"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
+      "topic1": "금리정책",
       "topic2": "환율",
-      "shared": 502,
+      "shared": 474,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
-        "달러-원 하단 돌파는 아직은 쉽지 않아",
         "신한 FX Check-Up",
-        "원화, 대내외 이벤트에 노출",
         "새해 다시 시작되는 달러 강세",
-        "신한 FX Check-Up"
+        "신한 FX Check-Up",
+        "비트코인 현물 ETF가 승인된다면 그 의미는?",
+        "통화정책과 자금 흐름으로 보는 달러-원 환율"
       ]
     },
     {
       "topic1": "GDP/성장",
-      "topic2": "금리/통화정책",
-      "shared": 476,
+      "topic2": "금리정책",
+      "shared": 458,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
         "금리 정상화 과정엔 침체는 없다",
         "완만한 회복이 기대되는 2024년 중국경제",
@@ -291,21 +353,39 @@
       ]
     },
     {
-      "topic1": "고용/노동",
-      "topic2": "금리/통화정책",
-      "shared": 446,
+      "topic1": "무역정책",
+      "topic2": "인플레이션",
+      "shared": 447,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
-        "1월에 넘어야 할 단기 이슈",
-        "1/5 Weekly Macro",
-        "12월 FOMC 의사록: 11월과 다른 점 찾기",
-        "경기가 어디까지 둔화되어야 적정한가",
-        "새해 다시 시작되는 달러 강세"
+        "요즘 미국, 80년대 향기가 난다",
+        "일시적인 속도 조절, 안정적인 성장 경로",
+        "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?",
+        "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?",
+        "05/16 Kiwoom Morning Letter"
       ]
     },
     {
-      "topic1": "AI/기술",
+      "topic1": "금리정책",
+      "topic2": "무역정책",
+      "shared": 443,
+      "cat1": "Economy - Monetary",
+      "cat2": "Economy - Fiscal",
+      "sample_titles": [
+        "04/19 Kiwoom Morning Letter",
+        "일시적인 속도 조절, 안정적인 성장 경로",
+        "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?",
+        "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?",
+        "방향성 탐색 구간"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
       "topic2": "주식시장",
       "shared": 414,
+      "cat1": "Technology",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "올해도 금리가 자산가격의 게임 체인저",
         "한국 수출 증가, 좋지만 의심스러운…",
@@ -315,225 +395,123 @@
       ]
     },
     {
-      "topic1": "GDP/성장",
-      "topic2": "무역/수출",
-      "shared": 413,
+      "topic1": "금리정책",
+      "topic2": "미국정치",
+      "shared": 395,
+      "cat1": "Economy - Monetary",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "[IBKS Economy Monitor] 글로벌 경기 조정과 우리나라 수출",
-        "아쉬운 리오프닝 성적표",
-        "Market Weekly Check ME up!",
-        "1월 BOJ: 시그널 보내"
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "미국 대선과 외환시장",
+        "미국 대선과 외환시장",
+        "정치의 계절"
       ]
     },
     {
-      "topic1": "금리/통화정책",
-      "topic2": "채권",
-      "shared": 408,
-      "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "1월에 넘어야 할 단기 이슈",
-        "1/5 Weekly Macro",
-        "원화, 대내외 이벤트에 노출",
-        "연착륙에 걸림돌이 되지 않는 고용"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
+      "topic1": "금리정책",
       "topic2": "주식시장",
-      "shared": 406,
+      "shared": 391,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
-        "원화, 대내외 이벤트에 노출",
         "연착륙에 걸림돌이 되지 않는 고용",
         "비트코인 현물 ETF가 승인된다면 그 의미는?",
         "12월 CPI: 예상되었던 반등, 놀라지 말자",
-        "Market Weekly Check ME up!"
+        "Market Weekly Check ME up!",
+        "산타랠리의 피로가 길어진다"
       ]
     },
     {
-      "topic1": "무역/수출",
-      "topic2": "물가/인플레이션",
-      "shared": 406,
+      "topic1": "금리정책",
+      "topic2": "채권시장",
+      "shared": 387,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "완만한 회복이 기대되는 2024년 중국경제",
-        "Market Weekly Check ME up!",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "Market Weekly Check ME up!"
-      ]
-    },
-    {
-      "topic1": "AI/기술",
-      "topic2": "무역/수출",
-      "shared": 373,
-      "sample_titles": [
-        "국내 반도체 수출, 업사이클(Up-Cycle) 진입",
-        "한국 수출 - 따뜻했던 연말",
-        "12월 한국 수출: 유종의 미",
-        "[IBKS Economy Monitor] 글로벌 경기 조정과 우리나라 수출",
-        "한국 수출 증가, 좋지만 의심스러운…"
-      ]
-    },
-    {
-      "topic1": "무역/수출",
-      "topic2": "주식시장",
-      "shared": 365,
-      "sample_titles": [
-        "한국 수출 증가, 좋지만 의심스러운…",
-        "아쉬운 리오프닝 성적표",
-        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주",
-        "Market Weekly Check ME up!",
-        "증시 반등은 경기 반등으로부터"
-      ]
-    },
-    {
-      "topic1": "무역/수출",
-      "topic2": "환율",
-      "shared": 355,
-      "sample_titles": [
-        "신한 FX Check-Up",
-        "신한 FX Check-Up",
-        "안영진의 경제 테마",
-        "신한 FX Check-Up",
-        "신한 FX Check-Up"
-      ]
-    },
-    {
-      "topic1": "물가/인플레이션",
-      "topic2": "미국",
-      "shared": 326,
-      "sample_titles": [
-        "연착륙에 걸림돌이 되지 않는 고용",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "달러, 엔 그리고 원을 바라보는 시각",
-        "1/26 Weekly Macro"
-      ]
-    },
-    {
-      "topic1": "미국",
-      "topic2": "주식시장",
-      "shared": 325,
-      "sample_titles": [
-        "연착륙에 걸림돌이 되지 않는 고용",
-        "시가총액 변화로 바라본 글로벌 판도 변화",
-        "요즘 미국, 80년대 향기가 난다",
-        "극단적 차별화(Divergence)와 코리아 디스카운트",
-        "한-중 주가 차별화 시작되나?"
-      ]
-    },
-    {
-      "topic1": "미국",
-      "topic2": "환율",
-      "shared": 314,
-      "sample_titles": [
-        "1,300원 이하에 안착하기가 쉽지 않음을 보여주는 최근 환율",
-        "달러, 엔 그리고 원을 바라보는 시각",
-        "[자주포] 자산전략 주간 포인트: 그래도 살 이유가 남아있다_24년 1월 넷째주",
-        "흔들리기보다 더욱 강해진 달러화",
-        "극단적 차별화(Divergence)와 코리아 디스카운트"
-      ]
-    },
-    {
-      "topic1": "GDP/성장",
-      "topic2": "미국",
-      "shared": 303,
-      "sample_titles": [
-        "금리 정상화 과정엔 침체는 없다",
-        "2024년 투자가 생각보다 어려울 것으로 보는 이유",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "한국 4Q GDP - 소기의 목표는 달성"
-      ]
-    },
-    {
-      "topic1": "고용/노동",
-      "topic2": "물가/인플레이션",
-      "shared": 282,
-      "sample_titles": [
-        "2024년도 여전히 유효한 ‘Bumpy’",
         "1월에 넘어야 할 단기 이슈",
         "1/5 Weekly Macro",
-        "12월 FOMC 의사록: 11월과 다른 점 찾기",
-        "경기가 어디까지 둔화되어야 적정한가"
-      ]
-    },
-    {
-      "topic1": "무역/수출",
-      "topic2": "원자재/에너지",
-      "shared": 272,
-      "sample_titles": [
-        "한국 수출 - 따뜻했던 연말",
-        "Market Weekly Check ME up!",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up"
-      ]
-    },
-    {
-      "topic1": "주식시장",
-      "topic2": "환율",
-      "shared": 246,
-      "sample_titles": [
-        "원화, 대내외 이벤트에 노출",
-        "비트코인 현물 ETF가 승인된다면 그 의미는?",
-        "연초 원화 약세가 두드러져",
-        "환율 불안 재연, 왜?",
-        "환율과 주가의 지지선을 찾아서"
-      ]
-    },
-    {
-      "topic1": "미국",
-      "topic2": "채권",
-      "shared": 241,
-      "sample_titles": [
         "연착륙에 걸림돌이 되지 않는 고용",
-        "2024년 투자가 생각보다 어려울 것으로 보는 이유",
-        "유가 리스크 VS 중국 증시 반등 모멘텀",
-        "시장이 주목하는 내러티브는 금리보다 AI와 중국",
-        "모처럼 변동성 확대 장세가 전망"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
-      "topic2": "원자재/에너지",
-      "shared": 240,
-      "sample_titles": [
-        "1/5 Weekly Macro",
-        "Market Weekly Check ME up!",
-        "경기가 어디까지 둔화되어야 적정한가",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up"
+        "디스인플레이션 컷은 흔들리지 않고 있다"
       ]
     },
     {
       "topic1": "GDP/성장",
-      "topic2": "물가/인플레이션",
-      "shared": 239,
+      "topic2": "인플레이션",
+      "shared": 370,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
+        "금리 정상화 과정엔 침체는 없다",
         "완만한 회복이 기대되는 2024년 중국경제",
+        "미국 고용지표 평가 중립적인 수준 유지",
         "쌍 긴축 중단과 중국 포비아",
-        "Market Weekly Check ME up!",
-        "1월 BOJ: 시그널 보내",
-        "1/26 Weekly Macro"
+        "Market Weekly Check ME up!"
       ]
     },
     {
-      "topic1": "물가/인플레이션",
+      "topic1": "미국정치",
+      "topic2": "인플레이션",
+      "shared": 358,
+      "cat1": "Geopolitics",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "유가 리스크 VS 중국 증시 반등 모멘텀",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "미국 대선과 외환시장",
+        "미국 대선과 외환시장"
+      ]
+    },
+    {
+      "topic1": "인플레이션",
       "topic2": "환율",
-      "shared": 237,
+      "shared": 346,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "달러-원 하단 돌파는 아직은 쉽지 않아",
         "원화, 대내외 이벤트에 노출",
         "새해 다시 시작되는 달러 강세",
         "비트코인 현물 ETF가 승인된다면 그 의미는?",
+        "통화정책과 자금 흐름으로 보는 달러-원 환율"
+      ]
+    },
+    {
+      "topic1": "무역정책",
+      "topic2": "수출입",
+      "shared": 331,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Economy - Macro",
+      "sample_titles": [
+        "일시적인 속도 조절, 안정적인 성장 경로",
+        "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?",
+        "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "[Global Stock Talk] 미-중 무역분쟁 재점화"
+      ]
+    },
+    {
+      "topic1": "금리정책",
+      "topic2": "수출입",
+      "shared": 311,
+      "cat1": "Economy - Monetary",
+      "cat2": "Economy - Macro",
+      "sample_titles": [
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "Market Weekly Check ME up!",
+        "신한 FX Check-Up",
+        "신한 Commodity Check-Up",
         "신한 FX Check-Up"
       ]
     },
     {
-      "topic1": "물가/인플레이션",
-      "topic2": "채권",
-      "shared": 228,
+      "topic1": "인플레이션",
+      "topic2": "채권시장",
+      "shared": 309,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "올해도 금리가 자산가격의 게임 체인저",
         "완만한 회복이 기대되는 2024년 중국경제",
@@ -543,153 +521,123 @@
       ]
     },
     {
-      "topic1": "고용/노동",
-      "topic2": "무역/수출",
-      "shared": 227,
+      "topic1": "고용",
+      "topic2": "무역정책",
+      "shared": 289,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "아쉬운 리오프닝 성적표",
-        "1/26 Weekly Macro",
-        "신한 Commodity Check-Up",
-        "신한 FX Check-Up",
-        "신한 Commodity Check-Up"
+        "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?",
+        "정치의 계절",
+        "대선 토론은 못 참지",
+        "빅 컷 논란 지속 중",
+        "강달러가 된 이유"
       ]
     },
     {
-      "topic1": "AI/기술",
-      "topic2": "금리/통화정책",
-      "shared": 226,
-      "sample_titles": [
-        "한국 4분기 GDP: 뜨뜻미지근",
-        "신한 Econ Check-Up",
-        "02/01 Kiwoom Morning Letter",
-        "[자주포] 자산전략 주간 포인트: 좋은 매크로에 과도한 쏠림_24년 2월 첫째주",
-        "신한 FX Check-Up"
-      ]
-    },
-    {
-      "topic1": "고용/노동",
-      "topic2": "미국",
-      "shared": 223,
-      "sample_titles": [
-        "연착륙에 걸림돌이 되지 않는 고용",
-        "1/26 Weekly Macro",
-        "흔들리기보다 더욱 강해진 달러화",
-        "미 경제, 요즘이 골디락스",
-        "미국경제 성장률이 올해도 2%를 넘는다면?"
-      ]
-    },
-    {
-      "topic1": "무역/수출",
-      "topic2": "채권",
-      "shared": 214,
+      "topic1": "수출입",
+      "topic2": "인플레이션",
+      "shared": 285,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
         "완만한 회복이 기대되는 2024년 중국경제",
-        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주",
-        "1월 BOJ: 시그널 보내",
-        "[자주포] 자산전략 주간 포인트: 좋은 매크로에 과도한 쏠림_24년 2월 첫째주",
-        "물가 쇼크와 유가 불안"
-      ]
-    },
-    {
-      "topic1": "AI/기술",
-      "topic2": "미국",
-      "shared": 213,
-      "sample_titles": [
-        "시가총액 변화로 바라본 글로벌 판도 변화",
-        "요즘 미국, 80년대 향기가 난다",
+        "Market Weekly Check ME up!",
         "신한 Econ Check-Up",
-        "극단적 차별화(Divergence)와 코리아 디스카운트",
-        "신한 Econ Check-Up"
+        "신한 Econ Check-Up",
+        "Market Weekly Check ME up!"
       ]
     },
     {
-      "topic1": "채권",
-      "topic2": "환율",
-      "shared": 211,
+      "topic1": "AI/반도체",
+      "topic2": "수출입",
+      "shared": 282,
+      "cat1": "Technology",
+      "cat2": "Economy - Macro",
       "sample_titles": [
-        "원화, 대내외 이벤트에 노출",
-        "비트코인 현물 ETF가 승인된다면 그 의미는?",
-        "1/19 Weekly Macro",
-        "물가 쇼크와 유가 불안",
-        "모처럼 변동성 확대 장세가 전망"
+        "국내 반도체 수출, 업사이클(Up-Cycle) 진입",
+        "한국 수출 - 따뜻했던 연말",
+        "12월 한국 수출: 유종의 미",
+        "[IBKS Economy Monitor] 글로벌 경기 조정과 우리나라 수출",
+        "한국 수출 증가, 좋지만 의심스러운…"
+      ]
+    },
+    {
+      "topic1": "무역정책",
+      "topic2": "주식시장",
+      "shared": 276,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "요즘 미국, 80년대 향기가 난다",
+        "한-중 주가 차별화 시작되나?",
+        "04/19 Kiwoom Morning Letter",
+        "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?",
+        "05/16 Kiwoom Morning Letter"
       ]
     },
     {
       "topic1": "GDP/성장",
-      "topic2": "환율",
-      "shared": 205,
+      "topic2": "수출입",
+      "shared": 275,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Macro",
       "sample_titles": [
-        "24년 주요국 통화정책 스타트(Start)",
-        "또 다시 맞이한 FOMC",
-        "신한 FX Check-Up",
-        "흔들리기보다 더욱 강해진 달러화",
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "[IBKS Economy Monitor] 글로벌 경기 조정과 우리나라 수출",
+        "아쉬운 리오프닝 성적표",
+        "Market Weekly Check ME up!",
+        "1월 BOJ: 시그널 보내"
+      ]
+    },
+    {
+      "topic1": "미국정치",
+      "topic2": "주식시장",
+      "shared": 271,
+      "cat1": "Geopolitics",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "극단적 차별화(Divergence)와 코리아 디스카운트",
+        "한-중 주가 차별화 시작되나?",
+        "유가 리스크 VS 중국 증시 반등 모멘텀",
+        "정치의 계절",
+        "07/02 Kiwoom Morning Letter"
+      ]
+    },
+    {
+      "topic1": "미국정치",
+      "topic2": "환율",
+      "shared": 265,
+      "cat1": "Geopolitics",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "극단적 차별화(Divergence)와 코리아 디스카운트",
+        "정치의 계절",
+        "강세와 트럼프 2.0 리스크",
+        "07/18, Kiwoom Morning Letter",
         "신한 FX Check-Up"
       ]
     },
     {
-      "topic1": "무역/수출",
-      "topic2": "지정학",
-      "shared": 204,
+      "topic1": "GDP/성장",
+      "topic2": "무역정책",
+      "shared": 253,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주",
-        "한국 수출 - 이 정도면 산뜻한 출발",
-        "[IBKS Economy Monitor] 예측 불확실성과 체감경기 악화에 대한 우려는 더 커지는 경기회복 국"
+        "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "속도 내는 중국 부양, 어디까지 기대해야 할까?",
+        "방향성 탐색 구간",
+        "정치의 계절"
       ]
     },
     {
-      "topic1": "원자재/에너지",
+      "topic1": "인플레이션",
       "topic2": "주식시장",
-      "shared": 202,
-      "sample_titles": [
-        "올해도 금리가 자산가격의 게임 체인저",
-        "환율 불안 재연, 왜?",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "ETF Trader - KOSPI를 활용한 구리선물 ETF 롱숏 전략"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
-      "topic2": "부동산",
-      "shared": 198,
-      "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "Market Weekly Check ME up!",
-        "원화, 대내외 이벤트에 노출",
-        "인민은행, PSL 통한 부동산 경기 본격 지원",
-        "12월 CPI: 예상되었던 반등, 놀라지 말자"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
-      "topic2": "지정학",
-      "shared": 198,
-      "sample_titles": [
-        "1/5 Weekly Macro",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "1월 금통위 Review: 사견이지만 6개월은 동결해야 한다?",
-        "1/12 Weekly Macro"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
-      "topic2": "유동성",
-      "shared": 188,
-      "sample_titles": [
-        "금리 정상화 과정엔 침체는 없다",
-        "인민은행, PSL 통한 부동산 경기 본격 지원",
-        "[자주포] 자산전략 주간 포인트: 인하 어렵다_24년 1월 둘째주",
-        "신한 Econ Check-Up",
-        "쌍 긴축 중단과 중국 포비아"
-      ]
-    },
-    {
-      "topic1": "물가/인플레이션",
-      "topic2": "주식시장",
-      "shared": 180,
+      "shared": 251,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "올해도 금리가 자산가격의 게임 체인저",
         "원화, 대내외 이벤트에 노출",
@@ -699,69 +647,39 @@
       ]
     },
     {
-      "topic1": "물가/인플레이션",
-      "topic2": "원자재/에너지",
-      "shared": 177,
+      "topic1": "무역정책",
+      "topic2": "환율",
+      "shared": 249,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Financial Markets",
       "sample_titles": [
-        "올해도 금리가 자산가격의 게임 체인저",
-        "1/5 Weekly Macro",
-        "Market Weekly Check ME up!",
-        "경기가 어디까지 둔화되어야 적정한가",
-        "1월 금통위 Review: 사견이지만 6개월은 동결해야 한다?"
-      ]
-    },
-    {
-      "topic1": "미국",
-      "topic2": "지정학",
-      "shared": 173,
-      "sample_titles": [
-        "2024년 투자가 생각보다 어려울 것으로 보는 이유",
-        "Who's NEXT?",
-        "1,300원 이하에 안착하기가 쉽지 않음을 보여주는 최근 환율",
-        "신한 Commodity Check-Up",
-        "달러, 엔 그리고 원을 바라보는 시각"
+        "04/19 Kiwoom Morning Letter",
+        "일시적인 속도 조절, 안정적인 성장 경로",
+        "방향성 탐색 구간",
+        "05/22 Kiwoom Morning Letter",
+        "정치의 계절"
       ]
     },
     {
       "topic1": "주식시장",
-      "topic2": "채권",
-      "shared": 170,
+      "topic2": "환율",
+      "shared": 246,
+      "cat1": "Financial Markets",
+      "cat2": "Financial Markets",
       "sample_titles": [
-        "올해도 금리가 자산가격의 게임 체인저",
         "원화, 대내외 이벤트에 노출",
-        "연착륙에 걸림돌이 되지 않는 고용",
         "비트코인 현물 ETF가 승인된다면 그 의미는?",
-        "12월 CPI: 예상되었던 반등, 놀라지 말자"
-      ]
-    },
-    {
-      "topic1": "미국",
-      "topic2": "원자재/에너지",
-      "shared": 169,
-      "sample_titles": [
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "[자주포] 자산전략 주간 포인트: 그래도 살 이유가 남아있다_24년 1월 넷째주",
-        "유가 리스크 VS 중국 증시 반등 모멘텀",
-        "미국 대선 이후 에너지 시장"
-      ]
-    },
-    {
-      "topic1": "AI/기술",
-      "topic2": "원자재/에너지",
-      "shared": 167,
-      "sample_titles": [
-        "한국 수출 - 따뜻했던 연말",
-        "올해도 금리가 자산가격의 게임 체인저",
-        "1월 한국 산업활동동향: 회복 추세 유효",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up"
+        "연초 원화 약세가 두드러져",
+        "환율 불안 재연, 왜?",
+        "환율과 주가의 지지선을 찾아서"
       ]
     },
     {
       "topic1": "GDP/성장",
-      "topic2": "고용/노동",
-      "shared": 160,
+      "topic2": "고용",
+      "shared": 240,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Macro",
       "sample_titles": [
         "미국 고용 - 인하는 3월 말고 2분기",
         "미국 고용지표 평가 중립적인 수준 유지",
@@ -771,57 +689,235 @@
       ]
     },
     {
-      "topic1": "GDP/성장",
-      "topic2": "채권",
-      "shared": 155,
+      "topic1": "금리정책",
+      "topic2": "원유/에너지",
+      "shared": 235,
+      "cat1": "Economy - Monetary",
+      "cat2": "Energy & Transportation",
       "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "2024년 투자가 생각보다 어려울 것으로 보는 이유",
-        "연준 B/S 축소: 속도조절과 중단의 조건",
-        "1월 BOJ: 시그널 보내",
-        "매크로 불안에도 이어지는 증시호조"
-      ]
-    },
-    {
-      "topic1": "GDP/성장",
-      "topic2": "주식시장",
-      "shared": 150,
-      "sample_titles": [
-        "아쉬운 리오프닝 성적표",
-        "Market Weekly Check ME up!",
-        "24년 주요국 통화정책 스타트(Start)",
-        "매크로 불안에도 이어지는 증시호조",
-        "신한 Commodity Check-Up"
-      ]
-    },
-    {
-      "topic1": "무역/수출",
-      "topic2": "부동산",
-      "shared": 142,
-      "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "Market Weekly Check ME up!",
-        "인민은행, PSL 통한 부동산 경기 본격 지원",
-        "아쉬운 리오프닝 성적표",
-        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주"
-      ]
-    },
-    {
-      "topic1": "원자재/에너지",
-      "topic2": "지정학",
-      "shared": 138,
-      "sample_titles": [
-        "유가 추세는 수요, 변동성은 공급",
-        "유가 추세는 수요, 변동성은 공급",
         "1/5 Weekly Macro",
+        "Market Weekly Check ME up!",
+        "경기가 어디까지 둔화되어야 적정한가",
         "신한 Commodity Check-Up",
         "신한 Commodity Check-Up"
       ]
     },
     {
-      "topic1": "고용/노동",
-      "topic2": "채권",
-      "shared": 136,
+      "topic1": "미국정치",
+      "topic2": "수출입",
+      "shared": 230,
+      "cat1": "Geopolitics",
+      "cat2": "Economy - Macro",
+      "sample_titles": [
+        "극단적 차별화(Divergence)와 코리아 디스카운트",
+        "유가 리스크 VS 중국 증시 반등 모멘텀",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "미국 대선과 외환시장"
+      ]
+    },
+    {
+      "topic1": "원유/에너지",
+      "topic2": "인플레이션",
+      "shared": 225,
+      "cat1": "Energy & Transportation",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "올해도 금리가 자산가격의 게임 체인저",
+        "1/5 Weekly Macro",
+        "Market Weekly Check ME up!",
+        "경기가 어디까지 둔화되어야 적정한가",
+        "1월 금통위 Review: 사견이지만 6개월은 동결해야 한다?"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "미국정치",
+      "shared": 222,
+      "cat1": "Economy - Macro",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "미국, 여전히 강한 경기 이면에 조금씩 깊어지는 균열 조짐도 주목",
+        "정치의 계절",
+        "07/05 Weekly Macro",
+        "신한 Econ Check-Up",
+        "07/08, Kiwoom Weekly_여름의 승부처를 앞둔 구간"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "수출입",
+      "shared": 219,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Macro",
+      "sample_titles": [
+        "China Focus-부진한 제조업, 양호한 소비",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "아쉬운 리오프닝 성적표",
+        "1/26 Weekly Macro"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
+      "topic2": "금리정책",
+      "shared": 217,
+      "cat1": "Technology",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "한국 4분기 GDP: 뜨뜻미지근",
+        "02/01 Kiwoom Morning Letter",
+        "[자주포] 자산전략 주간 포인트: 좋은 매크로에 과도한 쏠림_24년 2월 첫째주",
+        "신한 FX Check-Up",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
+      "topic1": "GDP/성장",
+      "topic2": "미국정치",
+      "shared": 210,
+      "cat1": "Economy - Macro",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "정부의 재분배와 명목 성장률",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "미국, 여전히 강한 경기 이면에 조금씩 깊어지는 균열 조짐도 주목"
+      ]
+    },
+    {
+      "topic1": "채권시장",
+      "topic2": "환율",
+      "shared": 209,
+      "cat1": "Financial Markets",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "원화, 대내외 이벤트에 노출",
+        "비트코인 현물 ETF가 승인된다면 그 의미는?",
+        "1/19 Weekly Macro",
+        "물가 쇼크와 유가 불안",
+        "모처럼 변동성 확대 장세가 전망"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
+      "topic2": "무역정책",
+      "shared": 206,
+      "cat1": "Technology",
+      "cat2": "Economy - Fiscal",
+      "sample_titles": [
+        "요즘 미국, 80년대 향기가 난다",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "05/22 Kiwoom Morning Letter",
+        "[Global Stock Talk] 미-중 무역분쟁 재점화",
+        "트럼프가 온다"
+      ]
+    },
+    {
+      "topic1": "금리정책",
+      "topic2": "유동성",
+      "shared": 206,
+      "cat1": "Economy - Monetary",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "금리 정상화 과정엔 침체는 없다",
+        "[자주포] 자산전략 주간 포인트: 인하 어렵다_24년 1월 둘째주",
+        "신한 Econ Check-Up",
+        "쌍 긴축 중단과 중국 포비아",
+        "시장과 중앙은행의 괴리는 언제쯤 좁혀질까?"
+      ]
+    },
+    {
+      "topic1": "GDP/성장",
+      "topic2": "환율",
+      "shared": 205,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "24년 주요국 통화정책 스타트(Start)",
+        "또 다시 맞이한 FOMC",
+        "신한 FX Check-Up",
+        "흔들리기보다 더욱 강해진 달러화",
+        "신한 FX Check-Up"
+      ]
+    },
+    {
+      "topic1": "원유/에너지",
+      "topic2": "주식시장",
+      "shared": 202,
+      "cat1": "Energy & Transportation",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "올해도 금리가 자산가격의 게임 체인저",
+        "환율 불안 재연, 왜?",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "ETF Trader - KOSPI를 활용한 구리선물 ETF 롱숏 전략"
+      ]
+    },
+    {
+      "topic1": "미국정치",
+      "topic2": "채권시장",
+      "shared": 195,
+      "cat1": "Geopolitics",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "유가 리스크 VS 중국 증시 반등 모멘텀",
+        "정치의 계절",
+        "07/05 Weekly Macro",
+        "07/19 Weekly Macro",
+        "해리스 효과로 주춤해진 트럼프 트레이드"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "환율",
+      "shared": 192,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "새해 다시 시작되는 달러 강세",
+        "신한 FX Check-Up",
+        "신한 FX Check-Up",
+        "1,300원 이하에 안착하기가 쉽지 않음을 보여주는 최근 환율",
+        "1/19 Weekly Macro"
+      ]
+    },
+    {
+      "topic1": "금리정책",
+      "topic2": "지정학",
+      "shared": 191,
+      "cat1": "Economy - Monetary",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "1/5 Weekly Macro",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "1월 금통위 Review: 사견이지만 6개월은 동결해야 한다?",
+        "1/12 Weekly Macro"
+      ]
+    },
+    {
+      "topic1": "금리정책",
+      "topic2": "부동산",
+      "shared": 187,
+      "cat1": "Economy - Monetary",
+      "cat2": "Real Estate",
+      "sample_titles": [
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "Market Weekly Check ME up!",
+        "12월 CPI: 예상되었던 반등, 놀라지 말자",
+        "[자주포] 자산전략 주간 포인트: 인하 어렵다_24년 1월 둘째주",
+        "미국 고용지표 평가 중립적인 수준 유지"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "채권시장",
+      "shared": 186,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "1월에 넘어야 할 단기 이슈",
         "1/5 Weekly Macro",
@@ -831,9 +927,277 @@
       ]
     },
     {
+      "topic1": "수출입",
+      "topic2": "환율",
+      "shared": 183,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "신한 FX Check-Up",
+        "신한 FX Check-Up",
+        "안영진의 경제 테마",
+        "신한 FX Check-Up",
+        "신한 FX Check-Up"
+      ]
+    },
+    {
+      "topic1": "수출입",
+      "topic2": "원유/에너지",
+      "shared": 175,
+      "cat1": "Economy - Macro",
+      "cat2": "Energy & Transportation",
+      "sample_titles": [
+        "한국 수출 - 따뜻했던 연말",
+        "Market Weekly Check ME up!",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up"
+      ]
+    },
+    {
+      "topic1": "무역정책",
+      "topic2": "채권시장",
+      "shared": 170,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "04/19 Kiwoom Morning Letter",
+        "속도 내는 중국 부양, 어디까지 기대해야 할까?",
+        "방향성 탐색 구간",
+        "주식과 채권시장 변동성 지수 동반 하락 의미",
+        "정치의 계절"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
+      "topic2": "미국정치",
+      "shared": 169,
+      "cat1": "Technology",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "극단적 차별화(Divergence)와 코리아 디스카운트",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "[Global Stock Talk] 미-중 무역분쟁 재점화"
+      ]
+    },
+    {
+      "topic1": "주식시장",
+      "topic2": "채권시장",
+      "shared": 168,
+      "cat1": "Financial Markets",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "올해도 금리가 자산가격의 게임 체인저",
+        "원화, 대내외 이벤트에 노출",
+        "연착륙에 걸림돌이 되지 않는 고용",
+        "비트코인 현물 ETF가 승인된다면 그 의미는?",
+        "12월 CPI: 예상되었던 반등, 놀라지 말자"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
+      "topic2": "원유/에너지",
+      "shared": 167,
+      "cat1": "Technology",
+      "cat2": "Energy & Transportation",
+      "sample_titles": [
+        "한국 수출 - 따뜻했던 연말",
+        "올해도 금리가 자산가격의 게임 체인저",
+        "1월 한국 산업활동동향: 회복 추세 유효",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
+      "topic1": "무역정책",
+      "topic2": "원유/에너지",
+      "shared": 167,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Energy & Transportation",
+      "sample_titles": [
+        "일시적인 속도 조절, 안정적인 성장 경로",
+        "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?",
+        "방향성 탐색 구간",
+        "주식과 채권시장 변동성 지수 동반 하락 의미",
+        "아직 약한 내수 회복"
+      ]
+    },
+    {
+      "topic1": "수출입",
+      "topic2": "주식시장",
+      "shared": 163,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "한국 수출 증가, 좋지만 의심스러운…",
+        "아쉬운 리오프닝 성적표",
+        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주",
+        "Market Weekly Check ME up!",
+        "증시 반등은 경기 반등으로부터"
+      ]
+    },
+    {
+      "topic1": "미국정치",
+      "topic2": "지정학",
+      "shared": 156,
+      "cat1": "Geopolitics",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "Who's NEXT?",
+        "극단적 차별화(Divergence)와 코리아 디스카운트",
+        "유가 리스크 VS 중국 증시 반등 모멘텀",
+        "미국 대선과 외환시장",
+        "미국 대선과 외환시장"
+      ]
+    },
+    {
+      "topic1": "부동산",
+      "topic2": "인플레이션",
+      "shared": 156,
+      "cat1": "Real Estate",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "2024년도 여전히 유효한 ‘Bumpy’",
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "Market Weekly Check ME up!",
+        "원화, 대내외 이벤트에 노출",
+        "중국 경기 반등 시점에 대한 소고"
+      ]
+    },
+    {
+      "topic1": "금리정책",
+      "topic2": "재정정책",
+      "shared": 154,
+      "cat1": "Economy - Monetary",
+      "cat2": "Economy - Fiscal",
+      "sample_titles": [
+        "연준 B/S 축소: 속도조절과 중단의 조건",
+        "두 마리 토끼를 잡고 싶은 미국",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "일본 엔화 반등에 대비"
+      ]
+    },
+    {
+      "topic1": "GDP/성장",
+      "topic2": "채권시장",
+      "shared": 153,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "2024년 투자가 생각보다 어려울 것으로 보는 이유",
+        "연준 B/S 축소: 속도조절과 중단의 조건",
+        "1월 BOJ: 시그널 보내",
+        "매크로 불안에도 이어지는 증시호조"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "주식시장",
+      "shared": 153,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "연착륙에 걸림돌이 되지 않는 고용",
+        "12월 CPI: 예상되었던 반등, 놀라지 말자",
+        "아쉬운 리오프닝 성적표",
+        "신한 Econ Check-Up",
+        "미국경제 성장률이 올해도 2%를 넘는다면?"
+      ]
+    },
+    {
+      "topic1": "무역정책",
+      "topic2": "지정학",
+      "shared": 151,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "경기는 디커플링, 외환시장은 커플링",
+        "04/19 Kiwoom Morning Letter",
+        "일시적인 속도 조절, 안정적인 성장 경로",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "속도 내는 중국 부양, 어디까지 기대해야 할까?"
+      ]
+    },
+    {
+      "topic1": "GDP/성장",
+      "topic2": "주식시장",
+      "shared": 150,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "아쉬운 리오프닝 성적표",
+        "Market Weekly Check ME up!",
+        "24년 주요국 통화정책 스타트(Start)",
+        "매크로 불안에도 이어지는 증시호조",
+        "신한 Commodity Check-Up"
+      ]
+    },
+    {
+      "topic1": "인플레이션",
+      "topic2": "지정학",
+      "shared": 146,
+      "cat1": "Economy - Monetary",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "1/5 Weekly Macro",
+        "1월 금통위 Review: 사견이지만 6개월은 동결해야 한다?",
+        "1/12 Weekly Macro",
+        "연초 원화 약세가 두드러져",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
+      "topic1": "미국정치",
+      "topic2": "원유/에너지",
+      "shared": 140,
+      "cat1": "Geopolitics",
+      "cat2": "Energy & Transportation",
+      "sample_titles": [
+        "유가 리스크 VS 중국 증시 반등 모멘텀",
+        "미국 대선 이후 에너지 시장",
+        "미국 대선 이후 에너지 시장",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
+      "topic1": "원유/에너지",
+      "topic2": "지정학",
+      "shared": 138,
+      "cat1": "Energy & Transportation",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "유가 추세는 수요, 변동성은 공급",
+        "유가 추세는 수요, 변동성은 공급",
+        "1/5 Weekly Macro",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
+      "topic2": "인플레이션",
+      "shared": 137,
+      "cat1": "Technology",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "올해도 금리가 자산가격의 게임 체인저",
+        "요즘 미국, 80년대 향기가 난다",
+        "신한 Econ Check-Up",
+        "신한 FX Check-Up",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
       "topic1": "주식시장",
       "topic2": "지정학",
       "shared": 136,
+      "cat1": "Financial Markets",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "연초 원화 약세가 두드러져",
         "안영진의 경제 테마",
@@ -843,9 +1207,25 @@
       ]
     },
     {
+      "topic1": "유동성",
+      "topic2": "인플레이션",
+      "shared": 133,
+      "cat1": "Economy - Monetary",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "금리 정상화 과정엔 침체는 없다",
+        "신한 Econ Check-Up",
+        "쌍 긴축 중단과 중국 포비아",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
       "topic1": "GDP/성장",
       "topic2": "부동산",
       "shared": 132,
+      "cat1": "Economy - Macro",
+      "cat2": "Real Estate",
       "sample_titles": [
         "완만한 회복이 기대되는 2024년 중국경제",
         "미국 고용지표 평가 중립적인 수준 유지",
@@ -855,9 +1235,25 @@
       ]
     },
     {
-      "topic1": "원자재/에너지",
+      "topic1": "인플레이션",
+      "topic2": "재정정책",
+      "shared": 129,
+      "cat1": "Economy - Monetary",
+      "cat2": "Economy - Fiscal",
+      "sample_titles": [
+        "두 마리 토끼를 잡고 싶은 미국",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
+      "topic1": "원유/에너지",
       "topic2": "환율",
       "shared": 127,
+      "cat1": "Energy & Transportation",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "환율 불안 재연, 왜?",
         "[자주포] 자산전략 주간 포인트: 그래도 살 이유가 남아있다_24년 1월 넷째주",
@@ -867,9 +1263,11 @@
       ]
     },
     {
-      "topic1": "AI/기술",
+      "topic1": "AI/반도체",
       "topic2": "GDP/성장",
       "shared": 123,
+      "cat1": "Technology",
+      "cat2": "Economy - Macro",
       "sample_titles": [
         "[IBKS Economy Monitor] 글로벌 경기 조정과 우리나라 수출",
         "한국 4분기 GDP: 뜨뜻미지근",
@@ -882,6 +1280,8 @@
       "topic1": "지정학",
       "topic2": "환율",
       "shared": 122,
+      "cat1": "Geopolitics",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "연초 원화 약세가 두드러져",
         "원화 방향성 점검",
@@ -891,21 +1291,53 @@
       ]
     },
     {
-      "topic1": "고용/노동",
-      "topic2": "환율",
-      "shared": 117,
+      "topic1": "고용",
+      "topic2": "부동산",
+      "shared": 116,
+      "cat1": "Economy - Macro",
+      "cat2": "Real Estate",
       "sample_titles": [
-        "새해 다시 시작되는 달러 강세",
-        "신한 FX Check-Up",
-        "신한 FX Check-Up",
-        "1/19 Weekly Macro",
-        "흔들리기보다 더욱 강해진 달러화"
+        "2024년도 여전히 유효한 ‘Bumpy’",
+        "12월 CPI: 예상되었던 반등, 놀라지 말자",
+        "미국 고용지표 평가 중립적인 수준 유지",
+        "서비스 물가의 반격",
+        "아쉬운 리오프닝 성적표"
       ]
     },
     {
-      "topic1": "AI/기술",
+      "topic1": "수출입",
+      "topic2": "지정학",
+      "shared": 116,
+      "cat1": "Economy - Macro",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주",
+        "한국 수출 - 이 정도면 산뜻한 출발",
+        "[IBKS Economy Monitor] 예측 불확실성과 체감경기 악화에 대한 우려는 더 커지는 경기회복 국"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "원유/에너지",
+      "shared": 115,
+      "cat1": "Economy - Macro",
+      "cat2": "Energy & Transportation",
+      "sample_titles": [
+        "1/5 Weekly Macro",
+        "경기가 어디까지 둔화되어야 적정한가",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
       "topic2": "환율",
       "shared": 112,
+      "cat1": "Technology",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "신한 FX Check-Up",
         "극단적 차별화(Divergence)와 코리아 디스카운트",
@@ -915,57 +1347,95 @@
       ]
     },
     {
-      "topic1": "미국",
-      "topic2": "부동산",
-      "shared": 106,
+      "topic1": "미국정치",
+      "topic2": "재정정책",
+      "shared": 108,
+      "cat1": "Geopolitics",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "Who's NEXT?",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "한국 4Q GDP - 소기의 목표는 달성",
-        "흔들리기보다 더욱 강해진 달러화"
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "정부의 재분배와 명목 성장률",
+        "신한 Econ Check-Up",
+        "Yuanta ESG - 그동안 가려졌던 S에 대한 기대"
       ]
     },
     {
-      "topic1": "물가/인플레이션",
-      "topic2": "지정학",
-      "shared": 100,
+      "topic1": "무역정책",
+      "topic2": "재정정책",
+      "shared": 107,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "1/5 Weekly Macro",
-        "1월 금통위 Review: 사견이지만 6개월은 동결해야 한다?",
-        "1/12 Weekly Macro",
-        "연초 원화 약세가 두드러져",
-        "달러, 엔 그리고 원을 바라보는 시각"
+        "10/25 Weekly Macro",
+        "신한 FX Check-Up",
+        "트럼포비아(Trumphobia)",
+        "관세와 3-3-3 정책, 트럼프 2.0 정책 틀이 될 듯",
+        "베센트 효과로 미 국채 금리 급락"
       ]
     },
     {
-      "topic1": "고용/노동",
-      "topic2": "주식시장",
-      "shared": 97,
+      "topic1": "유동성",
+      "topic2": "채권시장",
+      "shared": 102,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
-        "연착륙에 걸림돌이 되지 않는 고용",
-        "12월 CPI: 예상되었던 반등, 놀라지 말자",
-        "아쉬운 리오프닝 성적표",
-        "미국경제 성장률이 올해도 2%를 넘는다면?",
+        "안영진의 경제 테마",
+        "1월 FOMC 관전 포인트: QT에 대한 시그널",
+        "안영진의 경제 테마",
+        "02/16 Weekly Macro : G2 유동성 여건 변화",
+        "3월 BOJ: 초완화에서 완화로 변경"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
+      "topic2": "고용",
+      "shared": 101,
+      "cat1": "Technology",
+      "cat2": "Economy - Macro",
+      "sample_titles": [
+        "신한 Econ Check-Up",
+        "신한 FX Check-Up",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
         "신한 FX Check-Up"
       ]
     },
     {
-      "topic1": "물가/인플레이션",
-      "topic2": "부동산",
-      "shared": 96,
+      "topic1": "GDP/성장",
+      "topic2": "재정정책",
+      "shared": 101,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "2024년도 여전히 유효한 ‘Bumpy’",
+        "연준 B/S 축소: 속도조절과 중단의 조건",
+        "두 마리 토끼를 잡고 싶은 미국",
+        "시코노믹스 불확실성 지속",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
+      "topic1": "부동산",
+      "topic2": "수출입",
+      "shared": 100,
+      "cat1": "Real Estate",
+      "cat2": "Economy - Macro",
+      "sample_titles": [
         "완만한 회복이 기대되는 2024년 중국경제",
         "Market Weekly Check ME up!",
-        "원화, 대내외 이벤트에 노출",
-        "12월 CPI: 예상되었던 반등, 놀라지 말자"
+        "인민은행, PSL 통한 부동산 경기 본격 지원",
+        "아쉬운 리오프닝 성적표",
+        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주"
       ]
     },
     {
       "topic1": "부동산",
       "topic2": "주식시장",
       "shared": 96,
+      "cat1": "Real Estate",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "원화, 대내외 이벤트에 노출",
         "추락중인 중국 증시, 반등 모멘텀도 안 보인다",
@@ -976,8 +1446,10 @@
     },
     {
       "topic1": "GDP/성장",
-      "topic2": "원자재/에너지",
+      "topic2": "원유/에너지",
       "shared": 91,
+      "cat1": "Economy - Macro",
+      "cat2": "Energy & Transportation",
       "sample_titles": [
         "신한 Commodity Check-Up",
         "개선되는 미국 소비와 소비 패턴의 변화",
@@ -987,57 +1459,67 @@
       ]
     },
     {
-      "topic1": "금리/통화정책",
-      "topic2": "재정정책",
-      "shared": 91,
-      "sample_titles": [
-        "두 마리 토끼를 잡고 싶은 미국",
-        "일본 엔화 반등에 대비",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "일본 정부, 155엔을 용인할까"
-      ]
-    },
-    {
-      "topic1": "미국",
+      "topic1": "고용",
       "topic2": "유동성",
-      "shared": 90,
+      "shared": 91,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
-        "금리 정상화 과정엔 침체는 없다",
-        "달러, 엔 그리고 원을 바라보는 시각",
-        "요즘 미국, 80년대 향기가 난다",
-        "미국 유동성 점검: 예금 구성의 변화",
-        "07/18, Kiwoom Morning Letter"
+        "신한 Econ Check-Up",
+        "쌍 긴축 중단과 중국 포비아",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up"
       ]
     },
     {
-      "topic1": "미국",
+      "topic1": "고용",
       "topic2": "재정정책",
       "shared": 89,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "정부의 재분배와 명목 성장률",
-        "Yuanta ESG - 그동안 가려졌던 S에 대한 기대",
-        "해리스 당선 가능성은?"
+        "미국 GDP - 아직 성장보다 물가를 걱정할 때",
+        "통화정책과 재정정책의 조합",
+        "비미국 국가의 내수 회복 가능성 점검",
+        "금리인하 속도 눈높이 조절",
+        "10/25 Weekly Macro"
       ]
     },
     {
-      "topic1": "무역/수출",
-      "topic2": "유동성",
-      "shared": 88,
+      "topic1": "재정정책",
+      "topic2": "환율",
+      "shared": 89,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Financial Markets",
       "sample_titles": [
-        "인민은행, PSL 통한 부동산 경기 본격 지원",
+        "일본 엔화 반등에 대비",
+        "일본 정부, 155엔을 용인할까",
         "신한 Econ Check-Up",
         "신한 Econ Check-Up",
-        "요즘 미국, 80년대 향기가 난다",
-        "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?"
+        "드디어 시장개입 칼을 꺼낸 일본"
+      ]
+    },
+    {
+      "topic1": "재정정책",
+      "topic2": "채권시장",
+      "shared": 88,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "연준 B/S 축소: 속도조절과 중단의 조건",
+        "금리 상승, 그때와 지금의 같은 점과 다른 점",
+        "06/21 Weekly Macro",
+        "7월 BOJ: 왜 지금이죠?",
+        "해리스 당선 가능성은?"
       ]
     },
     {
       "topic1": "GDP/성장",
       "topic2": "지정학",
       "shared": 87,
+      "cat1": "Economy - Macro",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "2024년 투자가 생각보다 어려울 것으로 보는 이유",
         "신한 Commodity Check-Up",
@@ -1048,80 +1530,10 @@
     },
     {
       "topic1": "유동성",
-      "topic2": "채권",
-      "shared": 87,
-      "sample_titles": [
-        "안영진의 경제 테마",
-        "안영진의 경제 테마",
-        "02/16 Weekly Macro : G2 유동성 여건 변화",
-        "다시 불거진 위안화 약세 용인론",
-        "2분기, 짚고 넘어갈 리스크 요인은?"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
-      "topic2": "중국",
-      "shared": 86,
-      "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "인민은행, PSL 통한 부동산 경기 본격 지원",
-        "Market Weekly Check ME up!",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up"
-      ]
-    },
-    {
-      "topic1": "AI/기술",
-      "topic2": "물가/인플레이션",
-      "shared": 85,
-      "sample_titles": [
-        "올해도 금리가 자산가격의 게임 체인저",
-        "요즘 미국, 80년대 향기가 난다",
-        "신한 Econ Check-Up",
-        "신한 FX Check-Up",
-        "신한 FX Check-Up"
-      ]
-    },
-    {
-      "topic1": "AI/기술",
-      "topic2": "지정학",
-      "shared": 83,
-      "sample_titles": [
-        "한국 수출 - 이 정도면 산뜻한 출발",
-        "[IBKS Economy Monitor] 예측 불확실성과 체감경기 악화에 대한 우려는 더 커지는 경기회복 국",
-        "극단적 차별화(Divergence)와 코리아 디스카운트",
-        "가치주 강세와 저PBR 옥석가리기",
-        "반도체 수출의 봄은 성큼 다기와"
-      ]
-    },
-    {
-      "topic1": "무역/수출",
-      "topic2": "재정정책",
-      "shared": 83,
-      "sample_titles": [
-        "시코노믹스 불확실성 지속",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "[Global Stocks Talk] 인도 정부, FY24~25년 확정예산안 발표",
-        "금리인하 속도 눈높이 조절"
-      ]
-    },
-    {
-      "topic1": "원자재/에너지",
-      "topic2": "채권",
-      "shared": 82,
-      "sample_titles": [
-        "올해도 금리가 자산가격의 게임 체인저",
-        "1/5 Weekly Macro",
-        "신한 Commodity Check-Up",
-        "물가 쇼크와 유가 불안",
-        "유가 리스크 VS 중국 증시 반등 모멘텀"
-      ]
-    },
-    {
-      "topic1": "유동성",
       "topic2": "주식시장",
-      "shared": 80,
+      "shared": 85,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "China Focus-중즈그룹 리스크 점검",
         "안영진의 경제 테마",
@@ -1131,9 +1543,81 @@
       ]
     },
     {
-      "topic1": "AI/기술",
-      "topic2": "채권",
+      "topic1": "AI/반도체",
+      "topic2": "지정학",
+      "shared": 83,
+      "cat1": "Technology",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "한국 수출 - 이 정도면 산뜻한 출발",
+        "[IBKS Economy Monitor] 예측 불확실성과 체감경기 악화에 대한 우려는 더 커지는 경기회복 국",
+        "극단적 차별화(Divergence)와 코리아 디스카운트",
+        "가치주 강세와 저PBR 옥석가리기",
+        "반도체 수출의 봄은 성큼 다기와"
+      ]
+    },
+    {
+      "topic1": "무역정책",
+      "topic2": "부동산",
+      "shared": 81,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Real Estate",
+      "sample_titles": [
+        "한-중 주가 차별화 시작되나?",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "속도 내는 중국 부양, 어디까지 기대해야 할까?",
+        "방향성 탐색 구간",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
+      "topic1": "미국정치",
+      "topic2": "부동산",
+      "shared": 81,
+      "cat1": "Geopolitics",
+      "cat2": "Real Estate",
+      "sample_titles": [
+        "Who's NEXT?",
+        "한-중 주가 차별화 시작되나?",
+        "통상마찰 격화로 나타난 2차 미-중 갈등",
+        "미국, 여전히 강한 경기 이면에 조금씩 깊어지는 균열 조짐도 주목",
+        "8월 Econ Signal; 변곡점에 들어선 세계경제"
+      ]
+    },
+    {
+      "topic1": "원유/에너지",
+      "topic2": "채권시장",
+      "shared": 81,
+      "cat1": "Energy & Transportation",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "올해도 금리가 자산가격의 게임 체인저",
+        "1/5 Weekly Macro",
+        "신한 Commodity Check-Up",
+        "물가 쇼크와 유가 불안",
+        "유가 리스크 VS 중국 증시 반등 모멘텀"
+      ]
+    },
+    {
+      "topic1": "수출입",
+      "topic2": "채권시장",
+      "shared": 79,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주",
+        "1월 BOJ: 시그널 보내",
+        "[자주포] 자산전략 주간 포인트: 좋은 매크로에 과도한 쏠림_24년 2월 첫째주",
+        "물가 쇼크와 유가 불안"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
+      "topic2": "채권시장",
       "shared": 78,
+      "cat1": "Technology",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "올해도 금리가 자산가격의 게임 체인저",
         "[자주포] 자산전략 주간 포인트: 좋은 매크로에 과도한 쏠림_24년 2월 첫째주",
@@ -1143,57 +1627,53 @@
       ]
     },
     {
-      "topic1": "물가/인플레이션",
-      "topic2": "유동성",
-      "shared": 75,
-      "sample_titles": [
-        "신한 Econ Check-Up",
-        "쌍 긴축 중단과 중국 포비아",
-        "신한 Econ Check-Up",
-        "달러, 엔 그리고 원을 바라보는 시각",
-        "요즘 미국, 80년대 향기가 난다"
-      ]
-    },
-    {
-      "topic1": "지정학",
-      "topic2": "채권",
-      "shared": 71,
+      "topic1": "고용",
+      "topic2": "지정학",
+      "shared": 77,
+      "cat1": "Economy - Macro",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "1/5 Weekly Macro",
-        "1/12 Weekly Macro",
-        "2024년 투자가 생각보다 어려울 것으로 보는 이유",
-        "안영진의 경제 테마",
-        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주"
+        "1,300원 이하에 안착하기가 쉽지 않음을 보여주는 최근 환율",
+        "신한 Econ Check-Up",
+        "2월 Econ Signal",
+        "신한 Econ Check-Up"
       ]
     },
     {
-      "topic1": "GDP/성장",
+      "topic1": "금리정책",
       "topic2": "중국",
-      "shared": 70,
+      "shared": 77,
+      "cat1": "Economy - Monetary",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "완만한 회복이 기대되는 2024년 중국경제",
-        "중국 리스크의 국내 전이 위험 커져",
-        "신한 Commodity Check-Up",
-        "또 다시 맞이한 FOMC",
-        "신한 Commodity Check-Up"
+        "Market Weekly Check ME up!",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "#3. 중국 유동성"
       ]
     },
     {
-      "topic1": "무역/수출",
-      "topic2": "중국",
-      "shared": 70,
+      "topic1": "무역정책",
+      "topic2": "유동성",
+      "shared": 76,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "인민은행, PSL 통한 부동산 경기 본격 지원",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "신한 FX Check-Up"
+        "요즘 미국, 80년대 향기가 난다",
+        "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?",
+        "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?",
+        "트럼프 포비아 VS 유동성",
+        "12월 FOMC Review: 인하 경로의 빨간 불"
       ]
     },
     {
       "topic1": "유동성",
       "topic2": "환율",
-      "shared": 70,
+      "shared": 76,
+      "cat1": "Economy - Monetary",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "달러, 엔 그리고 원을 바라보는 시각",
         "요동치는 가격변수, 동상이몽 중인가?",
@@ -1203,33 +1683,81 @@
       ]
     },
     {
+      "topic1": "재정정책",
+      "topic2": "주식시장",
+      "shared": 76,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "인도 증시, 하반기 외국인 수급에 주목",
+        "신한 Econ Check-Up",
+        "해리스 당선 가능성은?"
+      ]
+    },
+    {
       "topic1": "GDP/성장",
       "topic2": "유동성",
-      "shared": 66,
+      "shared": 74,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
         "금리 정상화 과정엔 침체는 없다",
         "쌍 긴축 중단과 중국 포비아",
         "신한 Econ Check-Up",
         "신한 Econ Check-Up",
-        "미국 유동성 점검: 예금 구성의 변화"
+        "3월 FOMC: 연착륙 의지는 확인"
       ]
     },
     {
-      "topic1": "금/안전자산",
-      "topic2": "금리/통화정책",
-      "shared": 66,
+      "topic1": "지정학",
+      "topic2": "채권시장",
+      "shared": 71,
+      "cat1": "Geopolitics",
+      "cat2": "Financial Markets",
       "sample_titles": [
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "안전자산 선호와 실질금리 하락이라면…",
-        "경기선행지수로 본 미국 경기와 FOMC",
-        "신한 Commodity Check-Up"
+        "1/5 Weekly Macro",
+        "1/12 Weekly Macro",
+        "2024년 투자가 생각보다 어려울 것으로 보는 이유",
+        "안영진의 경제 테마",
+        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주"
+      ]
+    },
+    {
+      "topic1": "수출입",
+      "topic2": "재정정책",
+      "shared": 66,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Fiscal",
+      "sample_titles": [
+        "시코노믹스 불확실성 지속",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up"
+      ]
+    },
+    {
+      "topic1": "미국정치",
+      "topic2": "유동성",
+      "shared": 65,
+      "cat1": "Geopolitics",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "07/18, Kiwoom Morning Letter",
+        "주요국 통화정책 변곡점 임박",
+        "폴리코노미 참사와 변동성",
+        "09/25, Kiwoom Morning Letter",
+        "이중 리스크: 트럼프 및 중국 디플레이션 리스크"
       ]
     },
     {
       "topic1": "부동산",
       "topic2": "환율",
       "shared": 65,
+      "cat1": "Real Estate",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "원화, 대내외 이벤트에 노출",
         "안영진의 경제 테마",
@@ -1239,81 +1767,39 @@
       ]
     },
     {
-      "topic1": "GDP/성장",
-      "topic2": "재정정책",
+      "topic1": "금/안전자산",
+      "topic2": "금리정책",
       "shared": 64,
+      "cat1": "Financial Markets",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
-        "두 마리 토끼를 잡고 싶은 미국",
-        "시코노믹스 불확실성 지속",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "정부의 재분배와 명목 성장률"
-      ]
-    },
-    {
-      "topic1": "고용/노동",
-      "topic2": "원자재/에너지",
-      "shared": 64,
-      "sample_titles": [
-        "1/5 Weekly Macro",
-        "경기가 어디까지 둔화되어야 적정한가",
         "신한 Commodity Check-Up",
         "신한 Commodity Check-Up",
-        "물가 쇼크와 유가 불안"
-      ]
-    },
-    {
-      "topic1": "재정정책",
-      "topic2": "채권",
-      "shared": 64,
-      "sample_titles": [
-        "금리 상승, 그때와 지금의 같은 점과 다른 점",
-        "06/21 Weekly Macro",
-        "7월 BOJ: 왜 지금이죠?",
-        "해리스 당선 가능성은?",
-        "통화정책과 재정정책의 조합"
-      ]
-    },
-    {
-      "topic1": "부동산",
-      "topic2": "채권",
-      "shared": 61,
-      "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "원화, 대내외 이벤트에 노출",
-        "12월 CPI: 예상되었던 반등, 놀라지 말자",
-        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주",
-        "02/16 Weekly Macro : G2 유동성 여건 변화"
-      ]
-    },
-    {
-      "topic1": "고용/노동",
-      "topic2": "부동산",
-      "shared": 60,
-      "sample_titles": [
-        "2024년도 여전히 유효한 ‘Bumpy’",
-        "12월 CPI: 예상되었던 반등, 놀라지 말자",
-        "미국 고용지표 평가 중립적인 수준 유지",
-        "아쉬운 리오프닝 성적표",
-        "신한 Econ Check-Up"
-      ]
-    },
-    {
-      "topic1": "부동산",
-      "topic2": "원자재/에너지",
-      "shared": 60,
-      "sample_titles": [
-        "Market Weekly Check ME up!",
-        "12월 미국 CPI: 금리 동결의 근거",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
+        "안전자산 선호와 실질금리 하락이라면…",
+        "경기선행지수로 본 미국 경기와 FOMC",
         "신한 Commodity Check-Up"
       ]
     },
     {
-      "topic1": "AI/기술",
+      "topic1": "GDP/성장",
+      "topic2": "중국",
+      "shared": 61,
+      "cat1": "Economy - Macro",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "중국 리스크의 국내 전이 위험 커져",
+        "신한 Commodity Check-Up",
+        "또 다시 맞이한 FOMC",
+        "신한 Commodity Check-Up"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
       "topic2": "유동성",
-      "shared": 59,
+      "shared": 60,
+      "cat1": "Technology",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
         "요즘 미국, 80년대 향기가 난다",
         "06/21 Kiwoom Morning Letter",
@@ -1324,20 +1810,52 @@
     },
     {
       "topic1": "부동산",
-      "topic2": "중국",
-      "shared": 58,
+      "topic2": "원유/에너지",
+      "shared": 60,
+      "cat1": "Real Estate",
+      "cat2": "Energy & Transportation",
       "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
-        "인민은행, PSL 통한 부동산 경기 본격 지원",
+        "Market Weekly Check ME up!",
+        "12월 미국 CPI: 금리 동결의 근거",
         "신한 Commodity Check-Up",
-        "중국 리스크의 국내 전이 위험 커져",
-        "방향성 탐색 중인 구리 가격"
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up"
       ]
     },
     {
-      "topic1": "AI/기술",
+      "topic1": "인플레이션",
+      "topic2": "중국",
+      "shared": 60,
+      "cat1": "Economy - Monetary",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "신한 FX Check-Up",
+        "신한 FX Check-Up"
+      ]
+    },
+    {
+      "topic1": "부동산",
+      "topic2": "채권시장",
+      "shared": 59,
+      "cat1": "Real Estate",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "원화, 대내외 이벤트에 노출",
+        "12월 CPI: 예상되었던 반등, 놀라지 말자",
+        "[자주포] 자산전략 주간 포인트: 사볼 만하다_24년 1월 셋째주",
+        "02/16 Weekly Macro : G2 유동성 여건 변화"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
       "topic2": "부동산",
       "shared": 57,
+      "cat1": "Technology",
+      "cat2": "Real Estate",
       "sample_titles": [
         "추락중인 중국 증시, 반등 모멘텀도 안 보인다",
         "산타 랠리 이후 찾아온 숙취",
@@ -1348,8 +1866,10 @@
     },
     {
       "topic1": "금/안전자산",
-      "topic2": "원자재/에너지",
+      "topic2": "원유/에너지",
       "shared": 57,
+      "cat1": "Financial Markets",
+      "cat2": "Energy & Transportation",
       "sample_titles": [
         "신한 Commodity Check-Up",
         "신한 Commodity Check-Up",
@@ -1362,6 +1882,8 @@
       "topic1": "주식시장",
       "topic2": "중국",
       "shared": 57,
+      "cat1": "Financial Markets",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "Market Weekly Check ME up!",
         "투매 양상을 보이는 증화권 증시",
@@ -1371,21 +1893,25 @@
       ]
     },
     {
-      "topic1": "재정정책",
-      "topic2": "환율",
-      "shared": 55,
+      "topic1": "AI/반도체",
+      "topic2": "재정정책",
+      "shared": 56,
+      "cat1": "Technology",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "일본 엔화 반등에 대비",
-        "일본 정부, 155엔을 용인할까",
-        "드디어 시장개입 칼을 꺼낸 일본",
-        "06/21 Weekly Macro",
-        "트럼프와 함께 돌아온  인플레이션 유령"
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "3색 증시와 3색 경제",
+        "10/23, Kiwoom Morning Letter",
+        "11/18, Kiwoom Morning Letter"
       ]
     },
     {
       "topic1": "부동산",
       "topic2": "지정학",
       "shared": 53,
+      "cat1": "Real Estate",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "신한 Commodity Check-Up",
         "Who's NEXT?",
@@ -1397,7 +1923,9 @@
     {
       "topic1": "부동산",
       "topic2": "유동성",
-      "shared": 51,
+      "shared": 52,
+      "cat1": "Real Estate",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
         "인민은행, PSL 통한 부동산 경기 본격 지원",
         "China Focus-중즈그룹 리스크 점검",
@@ -1407,45 +1935,67 @@
       ]
     },
     {
-      "topic1": "AI/기술",
-      "topic2": "고용/노동",
-      "shared": 45,
+      "topic1": "부동산",
+      "topic2": "중국",
+      "shared": 50,
+      "cat1": "Real Estate",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "Market Weekly Check ME up!",
-        "05/07 Kiwoom Morning Letter",
-        "05/08 Kiwoom Morning Letter",
-        "05/27 Kiwoom Morning Letter",
-        "06/10 Kiwoom Morning Letter"
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "인민은행, PSL 통한 부동산 경기 본격 지원",
+        "중국 리스크의 국내 전이 위험 커져",
+        "방향성 탐색 중인 구리 가격",
+        "방향성 탐색 중인 구리 가격"
       ]
     },
     {
-      "topic1": "고용/노동",
+      "topic1": "유동성",
+      "topic2": "재정정책",
+      "shared": 49,
+      "cat1": "Economy - Monetary",
+      "cat2": "Economy - Fiscal",
+      "sample_titles": [
+        "성장률 사수를 위한 부양 패키지",
+        "반복되는 중국의 경기부양과 실망, 이번은 다를까? 무엇이 문제일까?",
+        "3색 증시와 3색 경제",
+        "중요 메일메일 제목국내 정치리스크 확대에 따른 금융시장 영향력 분석",
+        "(매크로 따라잡기) 3월 FOMC, 소음과 신호"
+      ]
+    },
+    {
+      "topic1": "수출입",
       "topic2": "유동성",
-      "shared": 45,
+      "shared": 48,
+      "cat1": "Economy - Macro",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
-        "쌍 긴축 중단과 중국 포비아",
+        "인민은행, PSL 통한 부동산 경기 본격 지원",
         "신한 Econ Check-Up",
         "신한 Econ Check-Up",
-        "02/02 Weekly Macro",
-        "02/16 Weekly Macro : G2 유동성 여건 변화"
+        "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?",
+        "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?"
       ]
     },
     {
-      "topic1": "금/안전자산",
-      "topic2": "무역/수출",
-      "shared": 45,
+      "topic1": "수출입",
+      "topic2": "중국",
+      "shared": 48,
+      "cat1": "Economy - Macro",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up"
+        "완만한 회복이 기대되는 2024년 중국경제",
+        "인민은행, PSL 통한 부동산 경기 본격 지원",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "신한 FX Check-Up"
       ]
     },
     {
       "topic1": "중국",
       "topic2": "환율",
       "shared": 45,
+      "cat1": "Geopolitics",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "신한 FX Check-Up",
         "또 다시 맞이한 FOMC",
@@ -1458,6 +2008,8 @@
       "topic1": "금/안전자산",
       "topic2": "지정학",
       "shared": 44,
+      "cat1": "Financial Markets",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "신한 Commodity Check-Up",
         "신한 Commodity Check-Up",
@@ -1467,45 +2019,11 @@
       ]
     },
     {
-      "topic1": "미국",
-      "topic2": "중국",
-      "shared": 44,
-      "sample_titles": [
-        "극단적 차별화(Divergence)와 코리아 디스카운트",
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "눈높이 하향 필요한 비미국 경제",
-        "생각이 많아진 원자재 시장"
-      ]
-    },
-    {
-      "topic1": "금/안전자산",
-      "topic2": "미국",
-      "shared": 43,
-      "sample_titles": [
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "[원자재 레시피] 금 VS 유가, 둘 중 하나는 틀렸다"
-      ]
-    },
-    {
-      "topic1": "물가/인플레이션",
-      "topic2": "재정정책",
-      "shared": 43,
-      "sample_titles": [
-        "정부의 재분배와 명목 성장률",
-        "금리 상승, 그때와 지금의 같은 점과 다른 점",
-        "미국 GDP - 아직 성장보다 물가를 걱정할 때",
-        "7월 BOJ: 왜 지금이죠?",
-        "통화정책과 재정정책의 조합"
-      ]
-    },
-    {
       "topic1": "금/안전자산",
       "topic2": "환율",
       "shared": 42,
+      "cat1": "Financial Markets",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "요동치는 가격변수, 동상이몽 중인가?",
         "자산전략 주간 포인트: 환율 빼고 이상무_24년 3월 다섯째주",
@@ -1515,11 +2033,13 @@
       ]
     },
     {
-      "topic1": "물가/인플레이션",
+      "topic1": "고용",
       "topic2": "중국",
-      "shared": 40,
+      "shared": 38,
+      "cat1": "Economy - Macro",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "완만한 회복이 기대되는 2024년 중국경제",
+        "신한 Econ Check-Up",
         "신한 Econ Check-Up",
         "신한 Econ Check-Up",
         "신한 Econ Check-Up",
@@ -1527,33 +2047,39 @@
       ]
     },
     {
-      "topic1": "고용/노동",
-      "topic2": "지정학",
-      "shared": 39,
+      "topic1": "부동산",
+      "topic2": "재정정책",
+      "shared": 38,
+      "cat1": "Real Estate",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "1/5 Weekly Macro",
+        "미국 GDP - 아직 성장보다 물가를 걱정할 때",
         "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up"
-      ]
-    },
-    {
-      "topic1": "재정정책",
-      "topic2": "주식시장",
-      "shared": 39,
-      "sample_titles": [
-        "해리스 당선 가능성은?",
         "성장률 사수를 위한 부양 패키지",
-        "3색 증시와 3색 경제",
-        "10/23, Kiwoom Morning Letter",
-        "신한 FX Check-Up"
+        "반복되는 중국의 경기부양과 실망, 이번은 다를까? 무엇이 문제일까?",
+        "트럼포비아(Trumphobia)"
       ]
     },
     {
       "topic1": "금/안전자산",
-      "topic2": "채권",
+      "topic2": "미국정치",
+      "shared": 37,
+      "cat1": "Financial Markets",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "따로 노는 원화와 엔화",
+        "생각이 많아진 원자재 시장",
+        "07/23, Kiwoom Morning Letter",
+        "금 가격 급등이 시사하는 것은",
+        "10/04 Weekly Macro"
+      ]
+    },
+    {
+      "topic1": "금/안전자산",
+      "topic2": "채권시장",
       "shared": 36,
+      "cat1": "Financial Markets",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "안전자산 선호와 실질금리 하락이라면…",
         "신한 Commodity Check-Up",
@@ -1563,21 +2089,39 @@
       ]
     },
     {
-      "topic1": "금/안전자산",
-      "topic2": "주식시장",
-      "shared": 34,
+      "topic1": "미국정치",
+      "topic2": "중국",
+      "shared": 36,
+      "cat1": "Geopolitics",
+      "cat2": "Geopolitics",
       "sample_titles": [
+        "극단적 차별화(Divergence)와 코리아 디스카운트",
+        "생각이 많아진 원자재 시장",
+        "신한 Econ Check-Up",
+        "주요국 통화정책 변곡점 임박",
+        "폴리코노미 참사와 변동성"
+      ]
+    },
+    {
+      "topic1": "금/안전자산",
+      "topic2": "인플레이션",
+      "shared": 35,
+      "cat1": "Financial Markets",
+      "cat2": "Economy - Monetary",
+      "sample_titles": [
+        "경기선행지수로 본 미국 경기와 FOMC",
         "신한 Commodity Check-Up",
         "신한 Commodity Check-Up",
-        "금(Gold): 이제 시작일까? 혹은 지금이 고점일까?",
         "요동치는 가격변수, 동상이몽 중인가?",
-        "환율 전망 업데이트: 달러는 인플레이션, 원자재는 리플레이션"
+        "신한 Commodity Check-Up"
       ]
     },
     {
       "topic1": "유동성",
       "topic2": "지정학",
-      "shared": 33,
+      "shared": 35,
+      "cat1": "Economy - Monetary",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "안영진의 경제 테마",
         "신한 Econ Check-Up",
@@ -1587,9 +2131,53 @@
       ]
     },
     {
-      "topic1": "중국",
-      "topic2": "채권",
+      "topic1": "금/안전자산",
+      "topic2": "주식시장",
+      "shared": 34,
+      "cat1": "Financial Markets",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "금(Gold): 이제 시작일까? 혹은 지금이 고점일까?",
+        "요동치는 가격변수, 동상이몽 중인가?",
+        "환율 전망 업데이트: 달러는 인플레이션, 원자재는 리플레이션"
+      ]
+    },
+    {
+      "topic1": "무역정책",
+      "topic2": "중국",
+      "shared": 34,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "2차 차이나 쇼크(2): 대륙의 실력",
+        "속도 내는 중국 부양, 어디까지 기대해야 할까?",
+        "한국 수출, 기대보다 앞서는 위험",
+        "강달러가 된 이유",
+        "[2025년 원자재 전망] 금속의 시대"
+      ]
+    },
+    {
+      "topic1": "재정정책",
+      "topic2": "지정학",
       "shared": 33,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Geopolitics",
+      "sample_titles": [
+        "금리 상승, 그때와 지금의 같은 점과 다른 점",
+        "미국 GDP - 아직 성장보다 물가를 걱정할 때",
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "인도 증시, 하반기 외국인 수급에 주목"
+      ]
+    },
+    {
+      "topic1": "중국",
+      "topic2": "채권시장",
+      "shared": 33,
+      "cat1": "Geopolitics",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "완만한 회복이 기대되는 2024년 중국경제",
         "다시 불거진 위안화 약세 용인론",
@@ -1599,45 +2187,39 @@
       ]
     },
     {
-      "topic1": "원자재/에너지",
+      "topic1": "원유/에너지",
       "topic2": "유동성",
-      "shared": 30,
+      "shared": 31,
+      "cat1": "Energy & Transportation",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
+        "3월 FOMC: 파월의 자신감과 아직 찝찝한 유가",
         "2분기, 짚고 넘어갈 리스크 요인은?",
         "다소 안이했던 물가 전망",
         "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?",
-        "긴축에서 완화로 금융시장 환경",
-        "주요국 통화정책 변곡점 임박"
+        "긴축에서 완화로 금융시장 환경"
       ]
     },
     {
-      "topic1": "AI/기술",
-      "topic2": "재정정책",
+      "topic1": "금/안전자산",
+      "topic2": "무역정책",
       "shared": 29,
+      "cat1": "Financial Markets",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "3색 증시와 3색 경제",
-        "10/23, Kiwoom Morning Letter",
-        "트럼포비아(Trumphobia)"
-      ]
-    },
-    {
-      "topic1": "금리/통화정책",
-      "topic2": "크립토",
-      "shared": 29,
-      "sample_titles": [
-        "비트코인 현물 ETF가 승인된다면 그 의미는?",
-        "스몰(Small) 에브리씽 랠리",
-        "요동치는 가격변수, 동상이몽 중인가?",
-        "에브리씽 랠리와 미 대선",
-        "달러 시나리오: 구조적 관점과 트럼프 2.0"
+        "[IBKS Economy Monitor] 트럼프 당선이 금리와 환율에 주는 영향",
+        "[2025년 원자재 전망] 금속의 시대",
+        "[원자재 레시피] 국제유가와 금 가격 점검하기",
+        "관세 리스크, 위험자산 선호를 크게 흔들지 않아",
+        "관세 장세 지속"
       ]
     },
     {
       "topic1": "유동성",
       "topic2": "중국",
       "shared": 28,
+      "cat1": "Economy - Monetary",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "인민은행, PSL 통한 부동산 경기 본격 지원",
         "신한 Econ Check-Up",
@@ -1647,33 +2229,39 @@
       ]
     },
     {
-      "topic1": "금/안전자산",
-      "topic2": "물가/인플레이션",
+      "topic1": "금리정책",
+      "topic2": "크립토",
       "shared": 27,
+      "cat1": "Economy - Monetary",
+      "cat2": "Blockchain",
       "sample_titles": [
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
+        "비트코인 현물 ETF가 승인된다면 그 의미는?",
+        "스몰(Small) 에브리씽 랠리",
         "요동치는 가격변수, 동상이몽 중인가?",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up"
+        "에브리씽 랠리와 미 대선",
+        "달러 시나리오: 구조적 관점과 트럼프 2.0"
       ]
     },
     {
-      "topic1": "유동성",
+      "topic1": "원유/에너지",
       "topic2": "재정정책",
       "shared": 26,
+      "cat1": "Energy & Transportation",
+      "cat2": "Economy - Fiscal",
       "sample_titles": [
-        "성장률 사수를 위한 부양 패키지",
-        "반복되는 중국의 경기부양과 실망, 이번은 다를까? 무엇이 문제일까?",
-        "3색 증시와 3색 경제",
-        "중요 메일메일 제목국내 정치리스크 확대에 따른 금융시장 영향력 분석",
-        "(매크로 따라잡기) 3월 FOMC, 소음과 신호"
+        "신한 Econ Check-Up",
+        "신한 Econ Check-Up",
+        "금리 상승, 그때와 지금의 같은 점과 다른 점",
+        "전인대를 기다리며",
+        "관세와 3-3-3 정책, 트럼프 2.0 정책 틀이 될 듯"
       ]
     },
     {
       "topic1": "주식시장",
       "topic2": "크립토",
       "shared": 26,
+      "cat1": "Financial Markets",
+      "cat2": "Blockchain",
       "sample_titles": [
         "비트코인 현물 ETF가 승인된다면 그 의미는?",
         "스몰(Small) 에브리씽 랠리",
@@ -1683,21 +2271,39 @@
       ]
     },
     {
-      "topic1": "채권",
-      "topic2": "크립토",
-      "shared": 26,
+      "topic1": "금/안전자산",
+      "topic2": "수출입",
+      "shared": 25,
+      "cat1": "Financial Markets",
+      "cat2": "Economy - Macro",
       "sample_titles": [
-        "비트코인 현물 ETF가 승인된다면 그 의미는?",
-        "스몰(Small) 에브리씽 랠리",
-        "빅 컷 논란 지속 중",
-        "미국 경제 예외주의 현상 지속 중",
-        "트럼프 트레이드와 비트코인 랠리"
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up"
+      ]
+    },
+    {
+      "topic1": "고용",
+      "topic2": "금/안전자산",
+      "shared": 24,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
+      "sample_titles": [
+        "경기선행지수로 본 미국 경기와 FOMC",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up"
       ]
     },
     {
       "topic1": "유동성",
       "topic2": "크립토",
       "shared": 24,
+      "cat1": "Economy - Monetary",
+      "cat2": "Blockchain",
       "sample_titles": [
         "요동치는 가격변수, 동상이몽 중인가?",
         "빅 컷 이후 유동성 랠리",
@@ -1707,9 +2313,25 @@
       ]
     },
     {
+      "topic1": "채권시장",
+      "topic2": "크립토",
+      "shared": 24,
+      "cat1": "Financial Markets",
+      "cat2": "Blockchain",
+      "sample_titles": [
+        "비트코인 현물 ETF가 승인된다면 그 의미는?",
+        "스몰(Small) 에브리씽 랠리",
+        "빅 컷 논란 지속 중",
+        "미국 경제 예외주의 현상 지속 중",
+        "트럼프 트레이드와 비트코인 랠리"
+      ]
+    },
+    {
       "topic1": "GDP/성장",
       "topic2": "금/안전자산",
       "shared": 23,
+      "cat1": "Economy - Macro",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "중국 12월 실물경제: 여전히 부진한 수요",
         "신한 Commodity Check-Up",
@@ -1719,45 +2341,25 @@
       ]
     },
     {
-      "topic1": "미국",
-      "topic2": "크립토",
-      "shared": 23,
-      "sample_titles": [
-        "달러 시나리오: 구조적 관점과 트럼프 2.0",
-        "빅 컷 논란 지속 중",
-        "미국 경제 예외주의 현상 지속 중",
-        "11/12, Kiwoom Morning Letter",
-        "11/13, Kiwoom Morning Letter"
-      ]
-    },
-    {
-      "topic1": "원자재/에너지",
+      "topic1": "원유/에너지",
       "topic2": "중국",
-      "shared": 23,
+      "shared": 22,
+      "cat1": "Energy & Transportation",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "신한 Commodity Check-Up",
         "신한 Commodity Check-Up",
         "신한 Commodity Check-Up",
         "방향성 탐색 중인 구리 가격",
-        "방향성 탐색 중인 구리 가격"
-      ]
-    },
-    {
-      "topic1": "부동산",
-      "topic2": "재정정책",
-      "shared": 22,
-      "sample_titles": [
-        "미국 GDP - 아직 성장보다 물가를 걱정할 때",
-        "성장률 사수를 위한 부양 패키지",
-        "반복되는 중국의 경기부양과 실망, 이번은 다를까? 무엇이 문제일까?",
-        "트럼포비아(Trumphobia)",
-        "연초 중국 증시의 특징"
+        "방향성 탐색 중인 구리 가격",
+        "신한 Commodity Check-Up"
       ]
     },
     {
       "topic1": "크립토",
       "topic2": "환율",
       "shared": 22,
+      "cat1": "Blockchain",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "비트코인 현물 ETF가 승인된다면 그 의미는?",
         "스몰(Small) 에브리씽 랠리",
@@ -1767,21 +2369,11 @@
       ]
     },
     {
-      "topic1": "AI/기술",
-      "topic2": "중국",
-      "shared": 21,
-      "sample_titles": [
-        "[IBKS Economy Monitor] 예측 불확실성과 체감경기 악화에 대한 우려는 더 커지는 경기회복 국",
-        "극단적 차별화(Divergence)와 코리아 디스카운트",
-        "06/21 Kiwoom Morning Letter",
-        "6월 수출, 차별화 지속",
-        "09/25, Kiwoom Morning Letter"
-      ]
-    },
-    {
-      "topic1": "AI/기술",
+      "topic1": "AI/반도체",
       "topic2": "크립토",
       "shared": 21,
+      "cat1": "Technology",
+      "cat2": "Blockchain",
       "sample_titles": [
         "달러 시나리오: 구조적 관점과 트럼프 2.0",
         "빅 컷 이후 유동성 랠리",
@@ -1794,6 +2386,8 @@
       "topic1": "금/안전자산",
       "topic2": "유동성",
       "shared": 21,
+      "cat1": "Financial Markets",
+      "cat2": "Economy - Monetary",
       "sample_titles": [
         "요동치는 가격변수, 동상이몽 중인가?",
         "거침없는 금 가격에 대한 경계감",
@@ -1803,69 +2397,67 @@
       ]
     },
     {
-      "topic1": "재정정책",
-      "topic2": "지정학",
-      "shared": 20,
+      "topic1": "미국정치",
+      "topic2": "크립토",
+      "shared": 21,
+      "cat1": "Geopolitics",
+      "cat2": "Blockchain",
       "sample_titles": [
-        "금리 상승, 그때와 지금의 같은 점과 다른 점",
-        "미국 GDP - 아직 성장보다 물가를 걱정할 때",
-        "3색 증시와 3색 경제",
-        "[2025년 전망포럼] 경제: 속도의 전쟁",
-        "중국 경제정책 기조 전환과 BOJ 추가 금리인상"
+        "달러 시나리오: 구조적 관점과 트럼프 2.0",
+        "빅 컷 논란 지속 중",
+        "미국 경제 예외주의 현상 지속 중",
+        "11/12, Kiwoom Morning Letter",
+        "11/13, Kiwoom Morning Letter"
       ]
     },
     {
-      "topic1": "고용/노동",
+      "topic1": "인플레이션",
+      "topic2": "크립토",
+      "shared": 20,
+      "cat1": "Economy - Monetary",
+      "cat2": "Blockchain",
+      "sample_titles": [
+        "비트코인 현물 ETF가 승인된다면 그 의미는?",
+        "스몰(Small) 에브리씽 랠리",
+        "요동치는 가격변수, 동상이몽 중인가?",
+        "에브리씽 랠리와 미 대선",
+        "빅 컷 이후 유동성 랠리"
+      ]
+    },
+    {
+      "topic1": "AI/반도체",
       "topic2": "중국",
       "shared": 19,
+      "cat1": "Technology",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "연초 중 경제, 불확실성 해소에 미흡",
-        "자산전략 주간 포인트: 시선은 중국으로_24년 6월 둘째주",
-        "중 경제, 우려보다 더 나쁘다",
-        "Focus on Week: 경제성장률 컨센서스 추이, 경기 둔화는 이미 반영 중 하지만 침체는 아직……",
-        "9월 Econ Signal; 정책 대응 속도에 달린 경기 향방"
-      ]
-    },
-    {
-      "topic1": "원자재/에너지",
-      "topic2": "재정정책",
-      "shared": 19,
-      "sample_titles": [
-        "신한 Econ Check-Up",
-        "신한 Econ Check-Up",
-        "금리 상승, 그때와 지금의 같은 점과 다른 점",
-        "전인대를 기다리며",
-        "Econ Check-Up"
+        "[IBKS Economy Monitor] 예측 불확실성과 체감경기 악화에 대한 우려는 더 커지는 경기회복 국",
+        "극단적 차별화(Divergence)와 코리아 디스카운트",
+        "06/21 Kiwoom Morning Letter",
+        "09/25, Kiwoom Morning Letter",
+        "3색 증시와 3색 경제"
       ]
     },
     {
       "topic1": "중국",
       "topic2": "지정학",
-      "shared": 19,
+      "shared": 18,
+      "cat1": "Geopolitics",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "신한 Commodity Check-Up",
         "[IBKS Economy Monitor] 예측 불확실성과 체감경기 악화에 대한 우려는 더 커지는 경기회복 국",
         "극단적 차별화(Divergence)와 코리아 디스카운트",
         "속도 내는 중국 부양, 어디까지 기대해야 할까?",
-        "글로벌 먹구름: 우려가 현실이 된 독일 역성장"
-      ]
-    },
-    {
-      "topic1": "무역/수출",
-      "topic2": "크립토",
-      "shared": 18,
-      "sample_titles": [
-        "빅 컷 논란 지속 중",
-        "11/13, Kiwoom Morning Letter",
-        "트럼프 허니문 기대 강화",
-        "좌충우돌 중인 트럼프 관세정책",
-        "관세 장벽을 타고 오를 수 있을까?"
+        "글로벌 먹구름: 우려가 현실이 된 독일 역성장",
+        "신한 FX Check-Up"
       ]
     },
     {
       "topic1": "금/안전자산",
       "topic2": "부동산",
       "shared": 17,
+      "cat1": "Financial Markets",
+      "cat2": "Real Estate",
       "sample_titles": [
         "신한 Commodity Check-Up",
         "중국 12월 실물경제: 여전히 부진한 수요",
@@ -1875,9 +2467,25 @@
       ]
     },
     {
-      "topic1": "원자재/에너지",
+      "topic1": "무역정책",
       "topic2": "크립토",
       "shared": 17,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Blockchain",
+      "sample_titles": [
+        "빅 컷 논란 지속 중",
+        "11/13, Kiwoom Morning Letter",
+        "트럼프 허니문 기대 강화",
+        "좌충우돌 중인 트럼프 관세정책",
+        "관세 장벽을 타고 오를 수 있을까?"
+      ]
+    },
+    {
+      "topic1": "원유/에너지",
+      "topic2": "크립토",
+      "shared": 17,
+      "cat1": "Energy & Transportation",
+      "cat2": "Blockchain",
       "sample_titles": [
         "스몰(Small) 에브리씽 랠리",
         "에브리씽 랠리와 미 대선",
@@ -1887,9 +2495,11 @@
       ]
     },
     {
-      "topic1": "AI/기술",
+      "topic1": "AI/반도체",
       "topic2": "금/안전자산",
       "shared": 16,
+      "cat1": "Technology",
+      "cat2": "Financial Markets",
       "sample_titles": [
         "07/23, Kiwoom Morning Letter",
         "8월 FX Market Watch; 하반기 외환시장 수정 전망",
@@ -1899,57 +2509,25 @@
       ]
     },
     {
-      "topic1": "고용/노동",
-      "topic2": "재정정책",
-      "shared": 15,
-      "sample_titles": [
-        "통화정책과 재정정책의 조합",
-        "비미국 국가의 내수 회복 가능성 점검",
-        "금리인하 속도 눈높이 조절",
-        "10/25 Weekly Macro",
-        "신한 FX Check-Up"
-      ]
-    },
-    {
       "topic1": "재정정책",
       "topic2": "중국",
-      "shared": 15,
+      "shared": 16,
+      "cat1": "Economy - Fiscal",
+      "cat2": "Geopolitics",
       "sample_titles": [
         "시코노믹스 불확실성 지속",
+        "신한 Econ Check-Up",
         "성장률 사수를 위한 부양 패키지",
         "반복되는 중국의 경기부양과 실망, 이번은 다를까? 무엇이 문제일까?",
-        "3색 증시와 3색 경제",
-        "중국 경제정책 기조 전환과 BOJ 추가 금리인상"
-      ]
-    },
-    {
-      "topic1": "고용/노동",
-      "topic2": "금/안전자산",
-      "shared": 13,
-      "sample_titles": [
-        "경기선행지수로 본 미국 경기와 FOMC",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "자산전략 주간 포인트: 환율 빼고 이상무_24년 3월 다섯째주",
-        "07/12 Weekly Macro : 시선의 이동, 물가에서 경기로"
-      ]
-    },
-    {
-      "topic1": "금/안전자산",
-      "topic2": "중국",
-      "shared": 13,
-      "sample_titles": [
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up",
-        "신한 Commodity Check-Up"
+        "3색 증시와 3색 경제"
       ]
     },
     {
       "topic1": "금/안전자산",
       "topic2": "크립토",
       "shared": 13,
+      "cat1": "Financial Markets",
+      "cat2": "Blockchain",
       "sample_titles": [
         "요동치는 가격변수, 동상이몽 중인가?",
         "에브리씽 랠리와 미 대선",
@@ -1959,21 +2537,25 @@
       ]
     },
     {
-      "topic1": "물가/인플레이션",
-      "topic2": "크립토",
-      "shared": 13,
+      "topic1": "금/안전자산",
+      "topic2": "중국",
+      "shared": 12,
+      "cat1": "Financial Markets",
+      "cat2": "Geopolitics",
       "sample_titles": [
-        "비트코인 현물 ETF가 승인된다면 그 의미는?",
-        "스몰(Small) 에브리씽 랠리",
-        "요동치는 가격변수, 동상이몽 중인가?",
-        "에브리씽 랠리와 미 대선",
-        "11/13, Kiwoom Morning Letter"
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up",
+        "신한 Commodity Check-Up"
       ]
     }
   ],
   "topic_details": {
-    "AI/기술": {
+    "AI/반도체": {
       "report_count": 718,
+      "category": "Technology",
+      "color": "#06b6d4",
       "top_issuers": [
         {
           "name": "키움증권",
@@ -2121,6 +2703,8 @@
     },
     "GDP/성장": {
       "report_count": 745,
+      "category": "Economy - Macro",
+      "color": "#3b82f6",
       "top_issuers": [
         {
           "name": "신한투자증권",
@@ -2266,48 +2850,50 @@
         }
       ]
     },
-    "고용/노동": {
-      "report_count": 637,
+    "고용": {
+      "report_count": 987,
+      "category": "Economy - Macro",
+      "color": "#3b82f6",
       "top_issuers": [
         {
-          "name": "키움증권",
-          "count": 105
-        },
-        {
           "name": "신한투자증권",
-          "count": 99
+          "count": 234
         },
         {
-          "name": "iM증권",
-          "count": 72
+          "name": "키움증권",
+          "count": 122
         },
         {
           "name": "유진투자증권",
-          "count": 64
+          "count": 105
+        },
+        {
+          "name": "iM증권",
+          "count": 99
         },
         {
           "name": "대신증권",
-          "count": 45
+          "count": 87
         },
         {
           "name": "DS투자증권",
-          "count": 43
+          "count": 62
         },
         {
           "name": "하나증권",
-          "count": 38
-        },
-        {
-          "name": "다올투자증권",
-          "count": 33
+          "count": 52
         },
         {
           "name": "하이투자증권",
-          "count": 33
+          "count": 46
         },
         {
-          "name": "SK증권",
-          "count": 30
+          "name": "한화투자증권",
+          "count": 45
+        },
+        {
+          "name": "다올투자증권",
+          "count": 38
         }
       ],
       "recent_reports": [
@@ -2317,8 +2903,28 @@
           "date": "2024-01-02"
         },
         {
+          "title": "연준이 본 크랙(crack)",
+          "issuer": "대신증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "China Focus-부진한 제조업, 양호한 소비",
+          "issuer": "유진투자증권",
+          "date": "2024-01-03"
+        },
+        {
           "title": "1월에 넘어야 할 단기 이슈",
           "issuer": "하이투자증권",
+          "date": "2024-01-04"
+        },
+        {
+          "title": "미국 12월 ISM; 점진적 업황 개선 기대",
+          "issuer": "신한투자증권",
+          "date": "2024-01-04"
+        },
+        {
+          "title": "미국 12월 ISM; 점진적 업황 개선 기대",
+          "issuer": "신한투자증권",
           "date": "2024-01-04"
         },
         {
@@ -2340,81 +2946,63 @@
           "title": "미국 고용 - 인하는 3월 말고 2분기",
           "issuer": "유진투자증권",
           "date": "2024-01-08"
-        },
-        {
-          "title": "미국 12월 고용; 견조한 고용 이면의 둔화 추세",
-          "issuer": "신한투자증권",
-          "date": "2024-01-08"
-        },
-        {
-          "title": "새해 다시 시작되는 달러 강세",
-          "issuer": "대신증권",
-          "date": "2024-01-08"
-        },
-        {
-          "title": "미국 12월 고용: 견조한 모습으로 한 해 마무리",
-          "issuer": "대신증권",
-          "date": "2024-01-08"
-        },
-        {
-          "title": "12월 미국 고용: 연준은 급하지 않다",
-          "issuer": "한화투자증권",
-          "date": "2024-01-08"
         }
       ],
       "monthly_trend": [
         {
           "month": "2025-03",
-          "count": 22
+          "count": 36
         },
         {
           "month": "2025-04",
-          "count": 11
+          "count": 21
         },
         {
           "month": "2025-05",
-          "count": 16
+          "count": 24
         },
         {
           "month": "2025-06",
-          "count": 25
-        },
-        {
-          "month": "2025-07",
-          "count": 26
-        },
-        {
-          "month": "2025-08",
           "count": 41
         },
         {
+          "month": "2025-07",
+          "count": 39
+        },
+        {
+          "month": "2025-08",
+          "count": 56
+        },
+        {
           "month": "2025-09",
-          "count": 42
+          "count": 64
         },
         {
           "month": "2025-10",
-          "count": 14
+          "count": 28
         },
         {
           "month": "2025-11",
-          "count": 16
+          "count": 27
         },
         {
           "month": "2025-12",
-          "count": 26
+          "count": 37
         },
         {
           "month": "2026-01",
-          "count": 23
+          "count": 32
         },
         {
           "month": "2026-02",
-          "count": 4
+          "count": 5
         }
       ]
     },
     "금/안전자산": {
       "report_count": 110,
+      "category": "Financial Markets",
+      "color": "#8b5cf6",
       "top_issuers": [
         {
           "name": "iM증권",
@@ -2560,56 +3148,53 @@
         }
       ]
     },
-    "금리/통화정책": {
-      "report_count": 1653,
+    "금리정책": {
+      "report_count": 1585,
+      "category": "Economy - Monetary",
+      "color": "#ef4444",
       "top_issuers": [
         {
           "name": "신한투자증권",
-          "count": 309
+          "count": 297
         },
         {
           "name": "키움증권",
-          "count": 238
+          "count": 232
         },
         {
           "name": "iM증권",
-          "count": 229
+          "count": 227
         },
         {
           "name": "유진투자증권",
-          "count": 209
+          "count": 199
         },
         {
           "name": "대신증권",
-          "count": 156
+          "count": 150
         },
         {
           "name": "하이투자증권",
-          "count": 106
+          "count": 100
         },
         {
           "name": "IBK투자증권",
-          "count": 79
+          "count": 71
         },
         {
           "name": "DS투자증권",
           "count": 71
         },
         {
-          "name": "하나증권",
-          "count": 65
+          "name": "SK증권",
+          "count": 59
         },
         {
-          "name": "SK증권",
-          "count": 62
+          "name": "하나증권",
+          "count": 58
         }
       ],
       "recent_reports": [
-        {
-          "title": "달러-원 하단 돌파는 아직은 쉽지 않아",
-          "issuer": "하이투자증권",
-          "date": "2024-01-02"
-        },
         {
           "title": "연준이 본 크랙(crack)",
           "issuer": "대신증권",
@@ -2654,28 +3239,33 @@
           "title": "신한 FX Check-Up",
           "issuer": "신한투자증권",
           "date": "2024-01-08"
+        },
+        {
+          "title": "신한 Commodity Check-Up",
+          "issuer": "신한투자증권",
+          "date": "2024-01-08"
         }
       ],
       "monthly_trend": [
         {
           "month": "2025-03",
-          "count": 55
+          "count": 48
         },
         {
           "month": "2025-04",
-          "count": 40
+          "count": 39
         },
         {
           "month": "2025-05",
-          "count": 52
+          "count": 45
         },
         {
           "month": "2025-06",
-          "count": 59
+          "count": 58
         },
         {
           "month": "2025-07",
-          "count": 71
+          "count": 69
         },
         {
           "month": "2025-08",
@@ -2683,19 +3273,19 @@
         },
         {
           "month": "2025-09",
-          "count": 87
+          "count": 85
         },
         {
           "month": "2025-10",
-          "count": 53
+          "count": 51
         },
         {
           "month": "2025-11",
-          "count": 59
+          "count": 57
         },
         {
           "month": "2025-12",
-          "count": 67
+          "count": 66
         },
         {
           "month": "2026-01",
@@ -2703,293 +3293,148 @@
         },
         {
           "month": "2026-02",
-          "count": 14
+          "count": 13
         }
       ]
     },
-    "무역/수출": {
-      "report_count": 1378,
+    "무역정책": {
+      "report_count": 921,
+      "category": "Economy - Fiscal",
+      "color": "#f59e0b",
       "top_issuers": [
         {
-          "name": "신한투자증권",
-          "count": 292
-        },
-        {
           "name": "iM증권",
-          "count": 212
-        },
-        {
-          "name": "키움증권",
           "count": 196
         },
         {
-          "name": "유진투자증권",
-          "count": 173
+          "name": "키움증권",
+          "count": 154
         },
         {
-          "name": "한화투자증권",
-          "count": 104
+          "name": "신한투자증권",
+          "count": 141
+        },
+        {
+          "name": "유진투자증권",
+          "count": 119
         },
         {
           "name": "대신증권",
-          "count": 99
+          "count": 83
         },
         {
-          "name": "IBK투자증권",
-          "count": 58
-        },
-        {
-          "name": "다올투자증권",
-          "count": 54
-        },
-        {
-          "name": "DS투자증권",
+          "name": "한화투자증권",
           "count": 51
         },
         {
           "name": "하나증권",
-          "count": 50
-        }
-      ],
-      "recent_reports": [
-        {
-          "title": "국내 반도체 수출, 업사이클(Up-Cycle) 진입",
-          "issuer": "하이투자증권",
-          "date": "2024-01-02"
-        },
-        {
-          "title": "한국 수출 - 따뜻했던 연말",
-          "issuer": "유진투자증권",
-          "date": "2024-01-02"
-        },
-        {
-          "title": "한국 12월 수출입; 미국 호조 속 온기 확산",
-          "issuer": "신한투자증권",
-          "date": "2024-01-02"
-        },
-        {
-          "title": "12월 한국 수출: 유종의 미",
-          "issuer": "한화투자증권",
-          "date": "2024-01-02"
-        },
-        {
-          "title": "한국 12월 수출입; 미국 호조 속 온기 확산",
-          "issuer": "신한투자증권",
-          "date": "2024-01-02"
-        },
-        {
-          "title": "China Focus-부진한 제조업, 양호한 소비",
-          "issuer": "유진투자증권",
-          "date": "2024-01-03"
-        },
-        {
-          "title": "완만한 회복이 기대되는 2024년 중국경제",
-          "issuer": "이베스트증권",
-          "date": "2024-01-03"
-        },
-        {
-          "title": "Market Weekly Check ME up!",
-          "issuer": "다올투자증권",
-          "date": "2024-01-05"
-        },
-        {
-          "title": "[IBKS Economy Monitor] 글로벌 경기 조정과 우리나라 수출",
-          "issuer": "IBK투자증권",
-          "date": "2024-01-05"
-        },
-        {
-          "title": "한국 수출 증가, 좋지만 의심스러운…",
-          "issuer": "이베스트증권",
-          "date": "2024-01-05"
-        }
-      ],
-      "monthly_trend": [
-        {
-          "month": "2025-03",
-          "count": 96
-        },
-        {
-          "month": "2025-04",
-          "count": 113
-        },
-        {
-          "month": "2025-05",
-          "count": 99
-        },
-        {
-          "month": "2025-06",
-          "count": 95
-        },
-        {
-          "month": "2025-07",
-          "count": 100
-        },
-        {
-          "month": "2025-08",
-          "count": 85
-        },
-        {
-          "month": "2025-09",
-          "count": 69
-        },
-        {
-          "month": "2025-10",
-          "count": 52
-        },
-        {
-          "month": "2025-11",
-          "count": 26
-        },
-        {
-          "month": "2025-12",
-          "count": 37
-        },
-        {
-          "month": "2026-01",
-          "count": 49
-        },
-        {
-          "month": "2026-02",
-          "count": 14
-        }
-      ]
-    },
-    "물가/인플레이션": {
-      "report_count": 932,
-      "top_issuers": [
-        {
-          "name": "신한투자증권",
-          "count": 176
-        },
-        {
-          "name": "키움증권",
-          "count": 139
-        },
-        {
-          "name": "iM증권",
-          "count": 112
-        },
-        {
-          "name": "유진투자증권",
-          "count": 102
-        },
-        {
-          "name": "대신증권",
-          "count": 85
-        },
-        {
-          "name": "하이투자증권",
-          "count": 66
-        },
-        {
-          "name": "다올투자증권",
           "count": 46
         },
         {
-          "name": "하나증권",
-          "count": 46
+          "name": "DS투자증권",
+          "count": 43
         },
         {
-          "name": "한화투자증권",
-          "count": 36
-        },
-        {
-          "name": "SK증권",
-          "count": 31
-        }
-      ],
-      "recent_reports": [
-        {
-          "title": "달러-원 하단 돌파는 아직은 쉽지 않아",
-          "issuer": "하이투자증권",
-          "date": "2024-01-02"
-        },
-        {
-          "title": "2024년도 여전히 유효한 ‘Bumpy’",
-          "issuer": "대신증권",
-          "date": "2024-01-02"
-        },
-        {
-          "title": "올해도 금리가 자산가격의 게임 체인저",
-          "issuer": "하이투자증권",
-          "date": "2024-01-03"
-        },
-        {
-          "title": "완만한 회복이 기대되는 2024년 중국경제",
-          "issuer": "이베스트증권",
-          "date": "2024-01-03"
-        },
-        {
-          "title": "1월에 넘어야 할 단기 이슈",
-          "issuer": "하이투자증권",
-          "date": "2024-01-04"
-        },
-        {
-          "title": "1/5 Weekly Macro",
-          "issuer": "키움증권",
-          "date": "2024-01-05"
-        },
-        {
-          "title": "12월 FOMC 의사록: 11월과 다른 점 찾기",
-          "issuer": "하이투자증권",
-          "date": "2024-01-05"
-        },
-        {
-          "title": "Market Weekly Check ME up!",
-          "issuer": "다올투자증권",
-          "date": "2024-01-05"
-        },
-        {
-          "title": "경기가 어디까지 둔화되어야 적정한가",
-          "issuer": "하나증권",
-          "date": "2024-01-05"
-        },
-        {
-          "title": "원화, 대내외 이벤트에 노출",
-          "issuer": "하이투자증권",
-          "date": "2024-01-08"
-        }
-      ],
-      "monthly_trend": [
-        {
-          "month": "2025-03",
-          "count": 37
-        },
-        {
-          "month": "2025-04",
-          "count": 20
-        },
-        {
-          "month": "2025-05",
-          "count": 40
-        },
-        {
-          "month": "2025-06",
-          "count": 35
-        },
-        {
-          "month": "2025-07",
+          "name": "IBK투자증권",
           "count": 34
         },
         {
+          "name": "유안타증권",
+          "count": 17
+        }
+      ],
+      "recent_reports": [
+        {
+          "title": "요즘 미국, 80년대 향기가 난다",
+          "issuer": "하이투자증권",
+          "date": "2024-01-29"
+        },
+        {
+          "title": "한-중 주가 차별화 시작되나?",
+          "issuer": "하이투자증권",
+          "date": "2024-02-06"
+        },
+        {
+          "title": "미리보는 바이든과 트럼프 2.0",
+          "issuer": "신한투자증권",
+          "date": "2024-03-15"
+        },
+        {
+          "title": "미리보는 바이든과 트럼프 2.0",
+          "issuer": "신한투자증권",
+          "date": "2024-03-15"
+        },
+        {
+          "title": "경기는 디커플링, 외환시장은 커플링",
+          "issuer": "메리츠증권",
+          "date": "2024-03-27"
+        },
+        {
+          "title": "2차 차이나 쇼크(2): 대륙의 실력",
+          "issuer": "하이투자증권",
+          "date": "2024-03-28"
+        },
+        {
+          "title": "04/19 Kiwoom Morning Letter",
+          "issuer": "키움증권",
+          "date": "2024-04-19"
+        },
+        {
+          "title": "일시적인 속도 조절, 안정적인 성장 경로",
+          "issuer": "대신증권",
+          "date": "2024-04-22"
+        },
+        {
+          "title": "[을지로 지표맛집] 양호한 중국 투자심리, 지속가능한 흐름일까?",
+          "issuer": "대신증권",
+          "date": "2024-05-07"
+        },
+        {
+          "title": "미 스태그플레이션 우려, 이번주 지표로 완화될 수 있을까?",
+          "issuer": "대신증권",
+          "date": "2024-05-13"
+        }
+      ],
+      "monthly_trend": [
+        {
+          "month": "2025-03",
+          "count": 89
+        },
+        {
+          "month": "2025-04",
+          "count": 108
+        },
+        {
+          "month": "2025-05",
+          "count": 93
+        },
+        {
+          "month": "2025-06",
+          "count": 90
+        },
+        {
+          "month": "2025-07",
+          "count": 93
+        },
+        {
           "month": "2025-08",
-          "count": 49
+          "count": 78
         },
         {
           "month": "2025-09",
-          "count": 42
+          "count": 63
         },
         {
           "month": "2025-10",
-          "count": 20
+          "count": 38
         },
         {
           "month": "2025-11",
-          "count": 15
+          "count": 12
         },
         {
           "month": "2025-12",
-          "count": 28
+          "count": 22
         },
         {
           "month": "2026-01",
@@ -2997,80 +3442,57 @@
         },
         {
           "month": "2026-02",
-          "count": 6
+          "count": 5
         }
       ]
     },
-    "미국": {
-      "report_count": 1033,
+    "미국정치": {
+      "report_count": 799,
+      "category": "Geopolitics",
+      "color": "#dc2626",
       "top_issuers": [
         {
           "name": "iM증권",
-          "count": 227
+          "count": 181
         },
         {
           "name": "키움증권",
-          "count": 176
+          "count": 154
         },
         {
           "name": "신한투자증권",
-          "count": 149
+          "count": 113
         },
         {
           "name": "유진투자증권",
-          "count": 111
+          "count": 84
         },
         {
           "name": "대신증권",
-          "count": 85
-        },
-        {
-          "name": "IBK투자증권",
-          "count": 58
+          "count": 78
         },
         {
           "name": "하나증권",
-          "count": 52
+          "count": 41
+        },
+        {
+          "name": "IBK투자증권",
+          "count": 40
         },
         {
           "name": "DS투자증권",
-          "count": 51
-        },
-        {
-          "name": "하이투자증권",
-          "count": 38
+          "count": 36
         },
         {
           "name": "유안타증권",
-          "count": 25
+          "count": 16
+        },
+        {
+          "name": "한화투자증권",
+          "count": 15
         }
       ],
       "recent_reports": [
-        {
-          "title": "금리 정상화 과정엔 침체는 없다",
-          "issuer": "DS투자증권",
-          "date": "2024-01-02"
-        },
-        {
-          "title": "연착륙에 걸림돌이 되지 않는 고용",
-          "issuer": "DS투자증권",
-          "date": "2024-01-08"
-        },
-        {
-          "title": "신한 Econ Check-Up",
-          "issuer": "신한투자증권",
-          "date": "2024-01-08"
-        },
-        {
-          "title": "신한 Econ Check-Up",
-          "issuer": "신한투자증권",
-          "date": "2024-01-08"
-        },
-        {
-          "title": "2024년 투자가 생각보다 어려울 것으로 보는 이유",
-          "issuer": "IBK투자증권",
-          "date": "2024-01-12"
-        },
         {
           "title": "Who's NEXT?",
           "issuer": "교보증권",
@@ -3082,74 +3504,101 @@
           "date": "2024-01-17"
         },
         {
-          "title": "1,300원 이하에 안착하기가 쉽지 않음을 보여주는 최근 환율",
-          "issuer": "IBK투자증권",
-          "date": "2024-01-19"
+          "title": "극단적 차별화(Divergence)와 코리아 디스카운트",
+          "issuer": "유진투자증권",
+          "date": "2024-02-05"
         },
         {
-          "title": "신한 Commodity Check-Up",
-          "issuer": "신한투자증권",
-          "date": "2024-01-22"
-        },
-        {
-          "title": "달러, 엔 그리고 원을 바라보는 시각",
+          "title": "한-중 주가 차별화 시작되나?",
           "issuer": "하이투자증권",
-          "date": "2024-01-22"
+          "date": "2024-02-06"
+        },
+        {
+          "title": "유가 리스크 VS 중국 증시 반등 모멘텀",
+          "issuer": "하이투자증권",
+          "date": "2024-02-19"
+        },
+        {
+          "title": "미국 대선 이후 에너지 시장",
+          "issuer": "신한투자증권",
+          "date": "2024-03-04"
+        },
+        {
+          "title": "미국 대선 이후 에너지 시장",
+          "issuer": "신한투자증권",
+          "date": "2024-03-04"
+        },
+        {
+          "title": "신한 Econ Check-Up",
+          "issuer": "신한투자증권",
+          "date": "2024-03-11"
+        },
+        {
+          "title": "신한 Econ Check-Up",
+          "issuer": "신한투자증권",
+          "date": "2024-03-11"
+        },
+        {
+          "title": "미국 대선과 외환시장",
+          "issuer": "신한투자증권",
+          "date": "2024-03-13"
         }
       ],
       "monthly_trend": [
         {
           "month": "2025-03",
-          "count": 76
+          "count": 74
         },
         {
           "month": "2025-04",
-          "count": 75
+          "count": 72
         },
         {
           "month": "2025-05",
-          "count": 71
+          "count": 63
         },
         {
           "month": "2025-06",
-          "count": 55
+          "count": 52
         },
         {
           "month": "2025-07",
-          "count": 56
+          "count": 52
         },
         {
           "month": "2025-08",
-          "count": 42
+          "count": 36
         },
         {
           "month": "2025-09",
-          "count": 37
+          "count": 25
         },
         {
           "month": "2025-10",
-          "count": 41
+          "count": 21
         },
         {
           "month": "2025-11",
-          "count": 38
+          "count": 11
         },
         {
           "month": "2025-12",
-          "count": 28
+          "count": 8
         },
         {
           "month": "2026-01",
-          "count": 37
+          "count": 24
         },
         {
           "month": "2026-02",
-          "count": 8
+          "count": 5
         }
       ]
     },
     "부동산": {
       "report_count": 355,
+      "category": "Real Estate",
+      "color": "#ec4899",
       "top_issuers": [
         {
           "name": "유진투자증권",
@@ -3295,8 +3744,159 @@
         }
       ]
     },
-    "원자재/에너지": {
+    "수출입": {
+      "report_count": 797,
+      "category": "Economy - Macro",
+      "color": "#3b82f6",
+      "top_issuers": [
+        {
+          "name": "신한투자증권",
+          "count": 211
+        },
+        {
+          "name": "유진투자증권",
+          "count": 98
+        },
+        {
+          "name": "한화투자증권",
+          "count": 78
+        },
+        {
+          "name": "iM증권",
+          "count": 78
+        },
+        {
+          "name": "키움증권",
+          "count": 71
+        },
+        {
+          "name": "다올투자증권",
+          "count": 47
+        },
+        {
+          "name": "대신증권",
+          "count": 47
+        },
+        {
+          "name": "IBK투자증권",
+          "count": 43
+        },
+        {
+          "name": "하나증권",
+          "count": 36
+        },
+        {
+          "name": "하이투자증권",
+          "count": 33
+        }
+      ],
+      "recent_reports": [
+        {
+          "title": "국내 반도체 수출, 업사이클(Up-Cycle) 진입",
+          "issuer": "하이투자증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "한국 수출 - 따뜻했던 연말",
+          "issuer": "유진투자증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "한국 12월 수출입; 미국 호조 속 온기 확산",
+          "issuer": "신한투자증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "12월 한국 수출: 유종의 미",
+          "issuer": "한화투자증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "한국 12월 수출입; 미국 호조 속 온기 확산",
+          "issuer": "신한투자증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "China Focus-부진한 제조업, 양호한 소비",
+          "issuer": "유진투자증권",
+          "date": "2024-01-03"
+        },
+        {
+          "title": "완만한 회복이 기대되는 2024년 중국경제",
+          "issuer": "이베스트증권",
+          "date": "2024-01-03"
+        },
+        {
+          "title": "Market Weekly Check ME up!",
+          "issuer": "다올투자증권",
+          "date": "2024-01-05"
+        },
+        {
+          "title": "[IBKS Economy Monitor] 글로벌 경기 조정과 우리나라 수출",
+          "issuer": "IBK투자증권",
+          "date": "2024-01-05"
+        },
+        {
+          "title": "한국 수출 증가, 좋지만 의심스러운…",
+          "issuer": "이베스트증권",
+          "date": "2024-01-05"
+        }
+      ],
+      "monthly_trend": [
+        {
+          "month": "2025-03",
+          "count": 31
+        },
+        {
+          "month": "2025-04",
+          "count": 52
+        },
+        {
+          "month": "2025-05",
+          "count": 46
+        },
+        {
+          "month": "2025-06",
+          "count": 33
+        },
+        {
+          "month": "2025-07",
+          "count": 45
+        },
+        {
+          "month": "2025-08",
+          "count": 27
+        },
+        {
+          "month": "2025-09",
+          "count": 25
+        },
+        {
+          "month": "2025-10",
+          "count": 32
+        },
+        {
+          "month": "2025-11",
+          "count": 19
+        },
+        {
+          "month": "2025-12",
+          "count": 24
+        },
+        {
+          "month": "2026-01",
+          "count": 33
+        },
+        {
+          "month": "2026-02",
+          "count": 11
+        }
+      ]
+    },
+    "원유/에너지": {
       "report_count": 561,
+      "category": "Energy & Transportation",
+      "color": "#10b981",
       "top_issuers": [
         {
           "name": "키움증권",
@@ -3443,35 +4043,37 @@
       ]
     },
     "유동성": {
-      "report_count": 235,
+      "report_count": 263,
+      "category": "Economy - Monetary",
+      "color": "#ef4444",
       "top_issuers": [
         {
           "name": "iM증권",
           "count": 73
         },
         {
-          "name": "키움증권",
-          "count": 30
+          "name": "유진투자증권",
+          "count": 37
         },
         {
           "name": "신한투자증권",
-          "count": 29
+          "count": 34
         },
         {
-          "name": "유진투자증권",
-          "count": 26
+          "name": "키움증권",
+          "count": 32
         },
         {
           "name": "대신증권",
-          "count": 17
+          "count": 21
+        },
+        {
+          "name": "DS투자증권",
+          "count": 13
         },
         {
           "name": "하이투자증권",
           "count": 13
-        },
-        {
-          "name": "DS투자증권",
-          "count": 11
         },
         {
           "name": "IBK투자증권",
@@ -3479,11 +4081,11 @@
         },
         {
           "name": "유안타증권",
-          "count": 9
+          "count": 10
         },
         {
           "name": "SK증권",
-          "count": 7
+          "count": 8
         }
       ],
       "recent_reports": [
@@ -3541,7 +4143,7 @@
       "monthly_trend": [
         {
           "month": "2025-03",
-          "count": 8
+          "count": 11
         },
         {
           "month": "2025-04",
@@ -3549,15 +4151,15 @@
         },
         {
           "month": "2025-05",
-          "count": 4
+          "count": 5
         },
         {
           "month": "2025-06",
-          "count": 13
+          "count": 15
         },
         {
           "month": "2025-07",
-          "count": 5
+          "count": 6
         },
         {
           "month": "2025-08",
@@ -3565,19 +4167,19 @@
         },
         {
           "month": "2025-09",
-          "count": 1
+          "count": 4
         },
         {
           "month": "2025-10",
-          "count": 23
+          "count": 25
         },
         {
           "month": "2025-11",
-          "count": 23
+          "count": 24
         },
         {
           "month": "2025-12",
-          "count": 25
+          "count": 27
         },
         {
           "month": "2026-01",
@@ -3589,55 +4191,221 @@
         }
       ]
     },
-    "재정정책": {
-      "report_count": 150,
+    "인플레이션": {
+      "report_count": 1341,
+      "category": "Economy - Monetary",
+      "color": "#ef4444",
       "top_issuers": [
         {
-          "name": "iM증권",
-          "count": 32
-        },
-        {
-          "name": "대신증권",
-          "count": 27
-        },
-        {
-          "name": "유진투자증권",
-          "count": 22
-        },
-        {
           "name": "신한투자증권",
-          "count": 17
+          "count": 282
+        },
+        {
+          "name": "iM증권",
+          "count": 167
         },
         {
           "name": "키움증권",
-          "count": 12
+          "count": 162
         },
         {
-          "name": "DS투자증권",
-          "count": 11
+          "name": "유진투자증권",
+          "count": 142
         },
         {
-          "name": "IBK투자증권",
-          "count": 11
-        },
-        {
-          "name": "한화투자증권",
-          "count": 8
+          "name": "대신증권",
+          "count": 127
         },
         {
           "name": "하이투자증권",
-          "count": 4
+          "count": 89
+        },
+        {
+          "name": "한화투자증권",
+          "count": 64
+        },
+        {
+          "name": "DS투자증권",
+          "count": 61
         },
         {
           "name": "하나증권",
-          "count": 3
+          "count": 58
+        },
+        {
+          "name": "다올투자증권",
+          "count": 49
         }
       ],
       "recent_reports": [
         {
+          "title": "달러-원 하단 돌파는 아직은 쉽지 않아",
+          "issuer": "하이투자증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "2024년도 여전히 유효한 ‘Bumpy’",
+          "issuer": "대신증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "연준이 본 크랙(crack)",
+          "issuer": "대신증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "금리 정상화 과정엔 침체는 없다",
+          "issuer": "DS투자증권",
+          "date": "2024-01-02"
+        },
+        {
+          "title": "올해도 금리가 자산가격의 게임 체인저",
+          "issuer": "하이투자증권",
+          "date": "2024-01-03"
+        },
+        {
+          "title": "완만한 회복이 기대되는 2024년 중국경제",
+          "issuer": "이베스트증권",
+          "date": "2024-01-03"
+        },
+        {
+          "title": "1월에 넘어야 할 단기 이슈",
+          "issuer": "하이투자증권",
+          "date": "2024-01-04"
+        },
+        {
+          "title": "1/5 Weekly Macro",
+          "issuer": "키움증권",
+          "date": "2024-01-05"
+        },
+        {
+          "title": "12월 FOMC 의사록: 11월과 다른 점 찾기",
+          "issuer": "하이투자증권",
+          "date": "2024-01-05"
+        },
+        {
+          "title": "Market Weekly Check ME up!",
+          "issuer": "다올투자증권",
+          "date": "2024-01-05"
+        }
+      ],
+      "monthly_trend": [
+        {
+          "month": "2025-03",
+          "count": 57
+        },
+        {
+          "month": "2025-04",
+          "count": 36
+        },
+        {
+          "month": "2025-05",
+          "count": 57
+        },
+        {
+          "month": "2025-06",
+          "count": 53
+        },
+        {
+          "month": "2025-07",
+          "count": 54
+        },
+        {
+          "month": "2025-08",
+          "count": 60
+        },
+        {
+          "month": "2025-09",
+          "count": 62
+        },
+        {
+          "month": "2025-10",
+          "count": 30
+        },
+        {
+          "month": "2025-11",
+          "count": 26
+        },
+        {
+          "month": "2025-12",
+          "count": 41
+        },
+        {
+          "month": "2026-01",
+          "count": 38
+        },
+        {
+          "month": "2026-02",
+          "count": 10
+        }
+      ]
+    },
+    "재정정책": {
+      "report_count": 264,
+      "category": "Economy - Fiscal",
+      "color": "#f59e0b",
+      "top_issuers": [
+        {
+          "name": "iM증권",
+          "count": 54
+        },
+        {
+          "name": "신한투자증권",
+          "count": 41
+        },
+        {
+          "name": "유진투자증권",
+          "count": 38
+        },
+        {
+          "name": "대신증권",
+          "count": 34
+        },
+        {
+          "name": "키움증권",
+          "count": 30
+        },
+        {
+          "name": "IBK투자증권",
+          "count": 17
+        },
+        {
+          "name": "DS투자증권",
+          "count": 13
+        },
+        {
+          "name": "한화투자증권",
+          "count": 10
+        },
+        {
+          "name": "다올투자증권",
+          "count": 7
+        },
+        {
+          "name": "유안타증권",
+          "count": 7
+        }
+      ],
+      "recent_reports": [
+        {
+          "title": "연준 B/S 축소: 속도조절과 중단의 조건",
+          "issuer": "메리츠증권",
+          "date": "2024-01-17"
+        },
+        {
           "title": "두 마리 토끼를 잡고 싶은 미국",
           "issuer": "한화투자증권",
           "date": "2024-02-19"
+        },
+        {
+          "title": "신한 Econ Check-Up",
+          "issuer": "신한투자증권",
+          "date": "2024-03-04"
+        },
+        {
+          "title": "신한 Econ Check-Up",
+          "issuer": "신한투자증권",
+          "date": "2024-03-04"
         },
         {
           "title": "시코노믹스 불확실성 지속",
@@ -3668,76 +4436,63 @@
           "title": "금리 상승, 그때와 지금의 같은 점과 다른 점",
           "issuer": "유진투자증권",
           "date": "2024-04-22"
-        },
-        {
-          "title": "일본 정부, 155엔을 용인할까",
-          "issuer": "하이투자증권",
-          "date": "2024-04-23"
-        },
-        {
-          "title": "미국 GDP - 아직 성장보다 물가를 걱정할 때",
-          "issuer": "유진투자증권",
-          "date": "2024-04-26"
-        },
-        {
-          "title": "드디어 시장개입 칼을 꺼낸 일본",
-          "issuer": "하이투자증권",
-          "date": "2024-04-30"
         }
       ],
       "monthly_trend": [
         {
           "month": "2025-03",
-          "count": 13
+          "count": 16
         },
         {
           "month": "2025-04",
-          "count": 5
-        },
-        {
-          "month": "2025-05",
-          "count": 17
-        },
-        {
-          "month": "2025-06",
-          "count": 9
-        },
-        {
-          "month": "2025-07",
           "count": 7
         },
         {
+          "month": "2025-05",
+          "count": 19
+        },
+        {
+          "month": "2025-06",
+          "count": 10
+        },
+        {
+          "month": "2025-07",
+          "count": 10
+        },
+        {
           "month": "2025-08",
-          "count": 5
+          "count": 6
         },
         {
           "month": "2025-09",
-          "count": 4
+          "count": 12
         },
         {
           "month": "2025-10",
-          "count": 12
+          "count": 32
         },
         {
           "month": "2025-11",
-          "count": 5
+          "count": 35
         },
         {
           "month": "2025-12",
-          "count": 12
+          "count": 29
         },
         {
           "month": "2026-01",
-          "count": 5
+          "count": 14
         },
         {
           "month": "2026-02",
-          "count": 1
+          "count": 3
         }
       ]
     },
     "주식시장": {
       "report_count": 999,
+      "category": "Financial Markets",
+      "color": "#8b5cf6",
       "top_issuers": [
         {
           "name": "키움증권",
@@ -3884,19 +4639,21 @@
       ]
     },
     "중국": {
-      "report_count": 152,
+      "report_count": 138,
+      "category": "Geopolitics",
+      "color": "#dc2626",
       "top_issuers": [
-        {
-          "name": "신한투자증권",
-          "count": 41
-        },
         {
           "name": "iM증권",
           "count": 37
         },
         {
+          "name": "신한투자증권",
+          "count": 37
+        },
+        {
           "name": "유진투자증권",
-          "count": 19
+          "count": 18
         },
         {
           "name": "하이투자증권",
@@ -3904,26 +4661,26 @@
         },
         {
           "name": "IBK투자증권",
-          "count": 12
+          "count": 11
         },
         {
           "name": "대신증권",
-          "count": 10
-        },
-        {
-          "name": "한화투자증권",
-          "count": 5
-        },
-        {
-          "name": "키움증권",
-          "count": 4
+          "count": 9
         },
         {
           "name": "하나증권",
           "count": 3
         },
         {
+          "name": "키움증권",
+          "count": 2
+        },
+        {
           "name": "SK증권",
+          "count": 2
+        },
+        {
+          "name": "이베스트증권",
           "count": 2
         }
       ],
@@ -3954,11 +4711,6 @@
           "date": "2024-01-15"
         },
         {
-          "title": "신한 Commodity Check-Up",
-          "issuer": "신한투자증권",
-          "date": "2024-01-15"
-        },
-        {
           "title": "중국 리스크의 국내 전이 위험 커져",
           "issuer": "하이투자증권",
           "date": "2024-01-17"
@@ -3977,9 +4729,22 @@
           "title": "투매 양상을 보이는 증화권 증시",
           "issuer": "하이투자증권",
           "date": "2024-01-23"
+        },
+        {
+          "title": "신한 FX Check-Up",
+          "issuer": "신한투자증권",
+          "date": "2024-01-29"
         }
       ],
       "monthly_trend": [
+        {
+          "month": "2024-12",
+          "count": 5
+        },
+        {
+          "month": "2025-01",
+          "count": 4
+        },
         {
           "month": "2025-02",
           "count": 3
@@ -3990,7 +4755,7 @@
         },
         {
           "month": "2025-04",
-          "count": 6
+          "count": 5
         },
         {
           "month": "2025-05",
@@ -4001,20 +4766,16 @@
           "count": 3
         },
         {
-          "month": "2025-07",
-          "count": 2
-        },
-        {
           "month": "2025-08",
           "count": 3
         },
         {
           "month": "2025-09",
-          "count": 4
+          "count": 3
         },
         {
           "month": "2025-10",
-          "count": 5
+          "count": 3
         },
         {
           "month": "2025-11",
@@ -4023,15 +4784,13 @@
         {
           "month": "2025-12",
           "count": 5
-        },
-        {
-          "month": "2026-01",
-          "count": 1
         }
       ]
     },
     "지정학": {
       "report_count": 382,
+      "category": "Geopolitics",
+      "color": "#dc2626",
       "top_issuers": [
         {
           "name": "신한투자증권",
@@ -4177,12 +4936,14 @@
         }
       ]
     },
-    "채권": {
-      "report_count": 539,
+    "채권시장": {
+      "report_count": 533,
+      "category": "Financial Markets",
+      "color": "#8b5cf6",
       "top_issuers": [
         {
           "name": "iM증권",
-          "count": 148
+          "count": 145
         },
         {
           "name": "키움증권",
@@ -4197,11 +4958,11 @@
           "count": 68
         },
         {
-          "name": "하이투자증권",
-          "count": 42
+          "name": "신한투자증권",
+          "count": 41
         },
         {
-          "name": "신한투자증권",
+          "name": "하이투자증권",
           "count": 41
         },
         {
@@ -4209,12 +4970,12 @@
           "count": 28
         },
         {
-          "name": "IBK투자증권",
+          "name": "DS투자증권",
           "count": 17
         },
         {
-          "name": "DS투자증권",
-          "count": 17
+          "name": "IBK투자증권",
+          "count": 15
         },
         {
           "name": "유안타증권",
@@ -4284,7 +5045,7 @@
         },
         {
           "month": "2025-05",
-          "count": 33
+          "count": 32
         },
         {
           "month": "2025-06",
@@ -4300,7 +5061,7 @@
         },
         {
           "month": "2025-09",
-          "count": 27
+          "count": 26
         },
         {
           "month": "2025-10",
@@ -4326,6 +5087,8 @@
     },
     "크립토": {
       "report_count": 46,
+      "category": "Blockchain",
+      "color": "#f97316",
       "top_issuers": [
         {
           "name": "iM증권",
@@ -4469,6 +5232,8 @@
     },
     "환율": {
       "report_count": 742,
+      "category": "Financial Markets",
+      "color": "#8b5cf6",
       "top_issuers": [
         {
           "name": "신한투자증권",
@@ -4617,239 +5382,249 @@
   },
   "bridge_topics": [
     {
-      "topic": "AI/기술",
-      "connected_count": 17,
+      "topic": "AI/반도체",
+      "connected_count": 18,
       "connected_topics": [
         "주식시장",
-        "무역/수출",
-        "금리/통화정책",
-        "미국",
-        "원자재/에너지",
+        "수출입",
+        "금리정책",
+        "무역정책",
+        "미국정치",
+        "원유/에너지",
+        "인플레이션",
         "GDP/성장",
         "환율",
-        "물가/인플레이션",
+        "고용",
         "지정학",
-        "채권",
+        "채권시장",
         "유동성",
         "부동산",
-        "고용/노동",
         "재정정책",
-        "중국",
         "크립토",
+        "중국",
         "금/안전자산"
       ],
       "report_count": 718
     },
     {
-      "topic": "금리/통화정책",
-      "connected_count": 17,
+      "topic": "금리정책",
+      "connected_count": 18,
       "connected_topics": [
-        "물가/인플레이션",
-        "무역/수출",
-        "미국",
+        "인플레이션",
+        "고용",
         "환율",
         "GDP/성장",
-        "고용/노동",
-        "채권",
+        "무역정책",
+        "미국정치",
         "주식시장",
-        "원자재/에너지",
-        "AI/기술",
-        "부동산",
-        "지정학",
+        "채권시장",
+        "수출입",
+        "원유/에너지",
+        "AI/반도체",
         "유동성",
+        "지정학",
+        "부동산",
         "재정정책",
         "중국",
         "금/안전자산",
         "크립토"
       ],
-      "report_count": 1653
+      "report_count": 1585
     },
     {
-      "topic": "무역/수출",
-      "connected_count": 17,
+      "topic": "무역정책",
+      "connected_count": 18,
       "connected_topics": [
-        "금리/통화정책",
-        "미국",
-        "GDP/성장",
-        "물가/인플레이션",
-        "AI/기술",
+        "미국정치",
+        "인플레이션",
+        "금리정책",
+        "수출입",
+        "고용",
         "주식시장",
+        "GDP/성장",
         "환율",
-        "원자재/에너지",
-        "고용/노동",
-        "채권",
+        "AI/반도체",
+        "채권시장",
+        "원유/에너지",
         "지정학",
+        "재정정책",
         "부동산",
         "유동성",
-        "재정정책",
         "중국",
         "금/안전자산",
         "크립토"
       ],
-      "report_count": 1378
+      "report_count": 921
     },
     {
-      "topic": "물가/인플레이션",
-      "connected_count": 17,
+      "topic": "미국정치",
+      "connected_count": 18,
       "connected_topics": [
-        "금리/통화정책",
-        "무역/수출",
-        "미국",
-        "고용/노동",
-        "GDP/성장",
-        "환율",
-        "채권",
+        "무역정책",
+        "금리정책",
+        "인플레이션",
         "주식시장",
-        "원자재/에너지",
+        "환율",
+        "수출입",
+        "고용",
+        "GDP/성장",
+        "채권시장",
+        "AI/반도체",
         "지정학",
-        "부동산",
-        "AI/기술",
-        "유동성",
+        "원유/에너지",
         "재정정책",
-        "중국",
+        "부동산",
+        "유동성",
         "금/안전자산",
+        "중국",
         "크립토"
       ],
-      "report_count": 932
+      "report_count": 799
     },
     {
-      "topic": "미국",
-      "connected_count": 17,
+      "topic": "원유/에너지",
+      "connected_count": 18,
       "connected_topics": [
-        "무역/수출",
-        "금리/통화정책",
-        "물가/인플레이션",
+        "금리정책",
+        "인플레이션",
         "주식시장",
-        "환율",
-        "GDP/성장",
-        "채권",
-        "고용/노동",
-        "AI/기술",
-        "지정학",
-        "원자재/에너지",
-        "부동산",
-        "유동성",
-        "재정정책",
-        "중국",
-        "금/안전자산",
-        "크립토"
-      ],
-      "report_count": 1033
-    },
-    {
-      "topic": "원자재/에너지",
-      "connected_count": 17,
-      "connected_topics": [
-        "무역/수출",
-        "금리/통화정책",
-        "주식시장",
-        "물가/인플레이션",
-        "미국",
-        "AI/기술",
+        "수출입",
+        "AI/반도체",
+        "무역정책",
+        "미국정치",
         "지정학",
         "환율",
+        "고용",
         "GDP/성장",
-        "채권",
-        "고용/노동",
+        "채권시장",
         "부동산",
         "금/안전자산",
         "유동성",
-        "중국",
         "재정정책",
+        "중국",
         "크립토"
       ],
       "report_count": 561
     },
     {
       "topic": "유동성",
-      "connected_count": 17,
+      "connected_count": 18,
       "connected_topics": [
-        "금리/통화정책",
-        "미국",
-        "무역/수출",
-        "채권",
+        "금리정책",
+        "인플레이션",
+        "채권시장",
+        "고용",
         "주식시장",
-        "물가/인플레이션",
+        "무역정책",
         "환율",
         "GDP/성장",
-        "AI/기술",
+        "미국정치",
+        "AI/반도체",
         "부동산",
-        "고용/노동",
-        "지정학",
-        "원자재/에너지",
-        "중국",
         "재정정책",
+        "수출입",
+        "지정학",
+        "원유/에너지",
+        "중국",
         "크립토",
         "금/안전자산"
       ],
-      "report_count": 235
+      "report_count": 263
+    },
+    {
+      "topic": "인플레이션",
+      "connected_count": 18,
+      "connected_topics": [
+        "금리정책",
+        "고용",
+        "무역정책",
+        "GDP/성장",
+        "미국정치",
+        "환율",
+        "채권시장",
+        "수출입",
+        "주식시장",
+        "원유/에너지",
+        "부동산",
+        "지정학",
+        "AI/반도체",
+        "유동성",
+        "재정정책",
+        "중국",
+        "금/안전자산",
+        "크립토"
+      ],
+      "report_count": 1341
     },
     {
       "topic": "주식시장",
-      "connected_count": 17,
+      "connected_count": 18,
       "connected_topics": [
-        "AI/기술",
-        "금리/통화정책",
-        "무역/수출",
-        "미국",
+        "AI/반도체",
+        "금리정책",
+        "무역정책",
+        "미국정치",
+        "인플레이션",
         "환율",
-        "원자재/에너지",
-        "물가/인플레이션",
-        "채권",
+        "원유/에너지",
+        "채권시장",
+        "수출입",
+        "고용",
         "GDP/성장",
         "지정학",
-        "고용/노동",
         "부동산",
         "유동성",
-        "중국",
         "재정정책",
+        "중국",
         "금/안전자산",
         "크립토"
       ],
       "report_count": 999
     },
     {
-      "topic": "채권",
-      "connected_count": 17,
+      "topic": "채권시장",
+      "connected_count": 18,
       "connected_topics": [
-        "금리/통화정책",
-        "미국",
-        "물가/인플레이션",
-        "무역/수출",
+        "금리정책",
+        "인플레이션",
         "환율",
+        "미국정치",
+        "고용",
+        "무역정책",
         "주식시장",
         "GDP/성장",
-        "고용/노동",
         "유동성",
-        "원자재/에너지",
-        "AI/기술",
-        "지정학",
         "재정정책",
+        "원유/에너지",
+        "수출입",
+        "AI/반도체",
+        "지정학",
         "부동산",
         "금/안전자산",
         "중국",
         "크립토"
       ],
-      "report_count": 539
+      "report_count": 533
     },
     {
       "topic": "환율",
-      "connected_count": 17,
+      "connected_count": 18,
       "connected_topics": [
-        "금리/통화정책",
-        "무역/수출",
-        "미국",
+        "금리정책",
+        "인플레이션",
+        "미국정치",
+        "무역정책",
         "주식시장",
-        "물가/인플레이션",
-        "채권",
+        "채권시장",
         "GDP/성장",
-        "원자재/에너지",
+        "고용",
+        "수출입",
+        "원유/에너지",
         "지정학",
-        "고용/노동",
-        "AI/기술",
+        "AI/반도체",
+        "재정정책",
         "유동성",
         "부동산",
-        "재정정책",
         "중국",
         "금/안전자산",
         "크립토"
@@ -4858,136 +5633,166 @@
     },
     {
       "topic": "GDP/성장",
-      "connected_count": 16,
+      "connected_count": 17,
       "connected_topics": [
-        "금리/통화정책",
-        "무역/수출",
-        "미국",
-        "물가/인플레이션",
+        "금리정책",
+        "인플레이션",
+        "수출입",
+        "무역정책",
+        "고용",
+        "미국정치",
         "환율",
-        "고용/노동",
-        "채권",
+        "채권시장",
         "주식시장",
         "부동산",
-        "AI/기술",
-        "원자재/에너지",
-        "지정학",
-        "중국",
-        "유동성",
+        "AI/반도체",
         "재정정책",
+        "원유/에너지",
+        "지정학",
+        "유동성",
+        "중국",
         "금/안전자산"
       ],
       "report_count": 745
     },
     {
-      "topic": "고용/노동",
-      "connected_count": 16,
+      "topic": "고용",
+      "connected_count": 17,
       "connected_topics": [
-        "금리/통화정책",
-        "물가/인플레이션",
-        "무역/수출",
-        "미국",
+        "금리정책",
+        "인플레이션",
+        "무역정책",
         "GDP/성장",
-        "채권",
+        "미국정치",
+        "수출입",
         "환율",
+        "채권시장",
         "주식시장",
-        "원자재/에너지",
         "부동산",
-        "AI/기술",
+        "원유/에너지",
+        "AI/반도체",
         "유동성",
+        "재정정책",
         "지정학",
         "중국",
-        "재정정책",
         "금/안전자산"
       ],
-      "report_count": 637
+      "report_count": 987
     },
     {
       "topic": "금/안전자산",
-      "connected_count": 16,
+      "connected_count": 17,
       "connected_topics": [
-        "금리/통화정책",
-        "원자재/에너지",
-        "무역/수출",
+        "금리정책",
+        "원유/에너지",
         "지정학",
-        "미국",
         "환율",
-        "채권",
+        "미국정치",
+        "채권시장",
+        "인플레이션",
         "주식시장",
-        "물가/인플레이션",
+        "무역정책",
+        "수출입",
+        "고용",
         "GDP/성장",
         "유동성",
         "부동산",
-        "AI/기술",
-        "고용/노동",
-        "중국",
-        "크립토"
+        "AI/반도체",
+        "크립토",
+        "중국"
       ],
       "report_count": 110
     },
     {
       "topic": "부동산",
-      "connected_count": 16,
+      "connected_count": 17,
       "connected_topics": [
-        "금리/통화정책",
-        "무역/수출",
+        "금리정책",
+        "인플레이션",
         "GDP/성장",
-        "미국",
-        "물가/인플레이션",
+        "고용",
+        "수출입",
         "주식시장",
+        "무역정책",
+        "미국정치",
         "환율",
-        "채권",
-        "고용/노동",
-        "원자재/에너지",
-        "중국",
-        "AI/기술",
+        "원유/에너지",
+        "채권시장",
+        "AI/반도체",
         "지정학",
         "유동성",
+        "중국",
         "재정정책",
         "금/안전자산"
       ],
       "report_count": 355
     },
     {
-      "topic": "중국",
-      "connected_count": 16,
+      "topic": "수출입",
+      "connected_count": 17,
       "connected_topics": [
-        "금리/통화정책",
+        "무역정책",
+        "금리정책",
+        "인플레이션",
+        "AI/반도체",
         "GDP/성장",
-        "무역/수출",
-        "부동산",
-        "주식시장",
+        "미국정치",
+        "고용",
         "환율",
-        "미국",
-        "물가/인플레이션",
-        "채권",
+        "원유/에너지",
+        "주식시장",
+        "지정학",
+        "부동산",
+        "채권시장",
+        "재정정책",
         "유동성",
-        "원자재/에너지",
-        "AI/기술",
-        "고용/노동",
+        "중국",
+        "금/안전자산"
+      ],
+      "report_count": 797
+    },
+    {
+      "topic": "중국",
+      "connected_count": 17,
+      "connected_topics": [
+        "금리정책",
+        "GDP/성장",
+        "인플레이션",
+        "주식시장",
+        "부동산",
+        "수출입",
+        "환율",
+        "고용",
+        "미국정치",
+        "무역정책",
+        "채권시장",
+        "유동성",
+        "원유/에너지",
+        "AI/반도체",
         "지정학",
         "재정정책",
         "금/안전자산"
       ],
-      "report_count": 152
+      "report_count": 138
     },
     {
       "topic": "지정학",
-      "connected_count": 16,
+      "connected_count": 17,
       "connected_topics": [
-        "무역/수출",
-        "금리/통화정책",
-        "미국",
-        "원자재/에너지",
+        "금리정책",
+        "미국정치",
+        "무역정책",
+        "인플레이션",
+        "원유/에너지",
         "주식시장",
         "환율",
-        "물가/인플레이션",
+        "수출입",
         "GDP/성장",
-        "AI/기술",
-        "채권",
+        "AI/반도체",
+        "고용",
+        "채권시장",
         "부동산",
         "금/안전자산",
-        "고용/노동",
         "유동성",
         "재정정책",
         "중국"
@@ -4996,48 +5801,116 @@
     },
     {
       "topic": "재정정책",
-      "connected_count": 15,
+      "connected_count": 16,
       "connected_topics": [
-        "금리/통화정책",
-        "미국",
-        "무역/수출",
+        "금리정책",
+        "인플레이션",
+        "미국정치",
+        "무역정책",
         "GDP/성장",
-        "채권",
+        "고용",
         "환율",
-        "물가/인플레이션",
+        "채권시장",
         "주식시장",
-        "AI/기술",
+        "수출입",
+        "AI/반도체",
         "유동성",
         "부동산",
         "지정학",
-        "원자재/에너지",
-        "고용/노동",
+        "원유/에너지",
         "중국"
       ],
-      "report_count": 150
+      "report_count": 264
     },
     {
       "topic": "크립토",
       "connected_count": 11,
       "connected_topics": [
-        "금리/통화정책",
+        "금리정책",
         "주식시장",
-        "채권",
         "유동성",
-        "미국",
+        "채권시장",
         "환율",
-        "AI/기술",
-        "무역/수출",
-        "원자재/에너지",
-        "금/안전자산",
-        "물가/인플레이션"
+        "AI/반도체",
+        "미국정치",
+        "인플레이션",
+        "무역정책",
+        "원유/에너지",
+        "금/안전자산"
       ],
       "report_count": 46
     }
   ],
+  "categories": {
+    "Economy - Monetary": {
+      "color": "#ef4444",
+      "subtopics": [
+        "금리정책",
+        "인플레이션",
+        "유동성"
+      ]
+    },
+    "Economy - Fiscal": {
+      "color": "#f59e0b",
+      "subtopics": [
+        "재정정책",
+        "무역정책"
+      ]
+    },
+    "Economy - Macro": {
+      "color": "#3b82f6",
+      "subtopics": [
+        "GDP/성장",
+        "고용",
+        "수출입"
+      ]
+    },
+    "Financial Markets": {
+      "color": "#8b5cf6",
+      "subtopics": [
+        "환율",
+        "주식시장",
+        "채권시장",
+        "금/안전자산"
+      ]
+    },
+    "Energy & Transportation": {
+      "color": "#10b981",
+      "subtopics": [
+        "원유/에너지"
+      ]
+    },
+    "Technology": {
+      "color": "#06b6d4",
+      "subtopics": [
+        "AI/반도체"
+      ]
+    },
+    "Real Estate": {
+      "color": "#ec4899",
+      "subtopics": [
+        "부동산"
+      ]
+    },
+    "Blockchain": {
+      "color": "#f97316",
+      "subtopics": [
+        "크립토"
+      ]
+    },
+    "Geopolitics": {
+      "color": "#dc2626",
+      "subtopics": [
+        "지정학",
+        "미국정치",
+        "중국"
+      ]
+    }
+  },
   "meta": {
     "total_reports": 3313,
     "date_range": "2024-01-02 ~ 2026-02-06",
+    "taxonomy": "AlphaVantage-style",
     "generated": "2026-02-07"
   }
 }
