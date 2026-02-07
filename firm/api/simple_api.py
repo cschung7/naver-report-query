@@ -2080,18 +2080,39 @@ def industry_reports():
 
         conditions = []
         params = []
+        words = []
 
         if q:
-            # Split into words — each word must appear in title OR summary
             words = q.split()
+            # OR match: any word in title or summary
+            word_conds = []
             for word in words:
-                conditions.append("(title ILIKE %s OR summary ILIKE %s)")
+                word_conds.append("(title ILIKE %s OR summary ILIKE %s)")
                 params.extend([f'%{word}%', f'%{word}%'])
+            conditions.append("(" + " OR ".join(word_conds) + ")")
         if issuer:
             conditions.append("issuer = %s")
             params.append(issuer)
 
         where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+
+        # Relevance scoring: count how many words match per row
+        if words:
+            relevance_parts = []
+            relevance_params = []
+            for word in words:
+                relevance_parts.append(
+                    "CASE WHEN title ILIKE %s THEN 2 ELSE 0 END + "
+                    "CASE WHEN summary ILIKE %s THEN 1 ELSE 0 END"
+                )
+                relevance_params.extend([f'%{word}%', f'%{word}%'])
+            relevance_expr = " + ".join(relevance_parts)
+            select_extra = f", ({relevance_expr}) AS relevance"
+            order_clause = "ORDER BY relevance DESC, issue_date DESC"
+        else:
+            select_extra = ""
+            order_clause = "ORDER BY issue_date DESC, title"
+            relevance_params = []
 
         # Count
         cur.execute(f"SELECT COUNT(*) as cnt FROM industry_reports {where}", params)
@@ -2100,11 +2121,11 @@ def industry_reports():
         # Fetch page
         offset = (page - 1) * per_page
         cur.execute(f"""
-            SELECT title, issuer, issue_date, summary
+            SELECT title, issuer, issue_date, summary {select_extra}
             FROM industry_reports {where}
-            ORDER BY issue_date DESC, title
+            {order_clause}
             LIMIT %s OFFSET %s
-        """, params + [per_page, offset])
+        """, relevance_params + params + [per_page, offset])
         rows = cur.fetchall()
         conn.close()
 
