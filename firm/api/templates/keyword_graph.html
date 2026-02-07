@@ -210,9 +210,12 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
             <div class="stat-chip">Edges: <b id="statEdges">0</b></div>
             <div class="stat-chip">Threshold: <b id="statThresh">10</b></div>
         </div>
-        <div class="top-nav">
-            <a href="https://web-production-e5d7.up.railway.app/theme-graph.html" target="_blank" class="top-nav-link theme-link">종목/테마 네트워크 &rarr;</a>
-            <a href="/industry" class="top-nav-link industry-link">산업분석 &rarr;</a>
+        <div class="top-nav" style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+            <a href="/analysis" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #10b981, #3b82f6); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">종목분석</a>
+            <a href="/industry" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #f59e0b, #8b5cf6); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">산업분석</a>
+            <a href="/strategy" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #8b5cf6, #06b6d4); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">투자전략</a>
+            <a href="/economy" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #06b6d4, #3b82f6); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">경제분석</a>
+            <a href="https://stock-chart-tau.vercel.app/" target="_blank" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">KRX차트</a>
         </div>
         <div id="network"></div>
         <div class="graph-tooltip" id="tooltip"></div>
