@@ -130,6 +130,17 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
     z-index: 100; backdrop-filter: blur(8px); pointer-events: none;
 }
 
+/* Preset buttons */
+.preset-group { display: flex; gap: 0.4rem; margin-bottom: 0.8rem; }
+.preset-btn {
+    flex: 1; padding: 0.5rem 0.4rem; border: 1px solid #475569;
+    border-radius: 6px; background: #0f172a; color: #94a3b8;
+    font-size: 0.75rem; cursor: pointer; text-align: center;
+    transition: all 0.2s; font-weight: 500;
+}
+.preset-btn:hover { border-color: #60a5fa; color: #e2e8f0; }
+.preset-btn.active { background: #3b82f6; border-color: #3b82f6; color: #fff; font-weight: 600; }
+
 @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
 }
@@ -144,6 +155,14 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
         </div>
         <div class="controls">
             <div class="control-group">
+                <label>그래프 복잡도</label>
+                <div class="preset-group">
+                    <button class="preset-btn" onclick="setPreset('simple')" id="preset-simple">핵심만</button>
+                    <button class="preset-btn active" onclick="setPreset('standard')" id="preset-standard">보통</button>
+                    <button class="preset-btn" onclick="setPreset('detailed')" id="preset-detailed">상세</button>
+                </div>
+            </div>
+            <div class="control-group">
                 <label>View Mode</label>
                 <select id="viewMode" onchange="switchView()">
                     <option value="industry">Industry Network (산업 연결)</option>
@@ -153,7 +172,7 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
             <div class="control-group">
                 <label>Min Shared Keywords: <span id="threshLabel">25</span></label>
                 <div class="slider-row">
-                    <input type="range" id="threshold" min="3" max="80" value="25" oninput="updateThreshold()">
+                    <input type="range" id="threshold" min="3" max="80" value="25" oninput="updateThreshold(true)">
                 </div>
             </div>
             <div class="control-group">
@@ -490,9 +509,32 @@ function switchView() {
     applyFilters();
 }
 
-function updateThreshold() {
-    const val = document.getElementById('threshold').value;
+const PRESETS = { simple: 45, standard: 25, detailed: 8 };
+
+function setPreset(level) {
+    const val = PRESETS[level];
+    document.getElementById('threshold').value = val;
     document.getElementById('threshLabel').textContent = val;
+    highlightPreset(level);
+    applyFilters();
+}
+
+function highlightPreset(active) {
+    ['simple', 'standard', 'detailed'].forEach(p => {
+        document.getElementById('preset-' + p).classList.toggle('active', p === active);
+    });
+}
+
+function updateThreshold(manual) {
+    const val = parseInt(document.getElementById('threshold').value);
+    document.getElementById('threshLabel').textContent = val;
+    if (manual) {
+        // Clear preset highlight when user drags slider manually
+        ['simple', 'standard', 'detailed'].forEach(p => {
+            const btn = document.getElementById('preset-' + p);
+            btn.classList.toggle('active', val === PRESETS[p]);
+        });
+    }
     if (currentView === 'industry') renderIndustryNetwork();
 }
 
