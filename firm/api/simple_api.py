@@ -2172,6 +2172,132 @@ def industry_keyword_graph_data():
         return jsonify({"error": str(e)}), 500
 
 
+# ============================================================
+# Strategy (투자전략) endpoints - uses naver_report DB
+# ============================================================
+
+@app.route('/strategy')
+def strategy_page():
+    """Serve the 투자전략 page."""
+    return render_template('strategy.html')
+
+
+@app.route('/strategy/stats')
+def strategy_stats():
+    """Get strategy report statistics."""
+    try:
+        import psycopg2
+        from psycopg2.extras import RealDictCursor
+        conn = psycopg2.connect(_pg_industry_uri.replace('/naver_industry', '/naver_report'))
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute("""
+            SELECT COUNT(*) as total,
+                   COUNT(DISTINCT issuer) as issuers,
+                   MIN(issue_date) as min_date,
+                   MAX(issue_date) as max_date
+            FROM strategy_reports
+        """)
+        row = cur.fetchone()
+        cur.execute("SELECT DISTINCT issuer FROM strategy_reports ORDER BY issuer")
+        issuers = [r['issuer'] for r in cur.fetchall()]
+        conn.close()
+        return jsonify({
+            "success": True,
+            "total": row['total'],
+            "issuers": issuers,
+            "min_date": str(row['min_date']),
+            "max_date": str(row['max_date'])
+        })
+    except Exception as e:
+        print(f"Strategy stats error: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/strategy/reports')
+def strategy_reports():
+    """Search/filter/paginate strategy reports."""
+    q = request.args.get('q', '').strip()
+    issuer = request.args.get('issuer', '').strip()
+    page = max(1, int(request.args.get('page', 1)))
+    per_page = min(50, max(5, int(request.args.get('per_page', 20))))
+
+    try:
+        import psycopg2
+        from psycopg2.extras import RealDictCursor
+        conn = psycopg2.connect(_pg_industry_uri.replace('/naver_industry', '/naver_report'))
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+
+        conditions = []
+        params = []
+        words = []
+
+        if q:
+            words = q.split()
+            word_conds = []
+            for word in words:
+                word_conds.append("(title ILIKE %s OR summary ILIKE %s)")
+                params.extend([f'%{word}%', f'%{word}%'])
+            conditions.append("(" + " OR ".join(word_conds) + ")")
+        if issuer:
+            conditions.append("issuer = %s")
+            params.append(issuer)
+
+        where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+
+        if words:
+            relevance_parts = []
+            relevance_params = []
+            for word in words:
+                relevance_parts.append(
+                    "CASE WHEN title ILIKE %s THEN 2 ELSE 0 END + "
+                    "CASE WHEN summary ILIKE %s THEN 1 ELSE 0 END"
+                )
+                relevance_params.extend([f'%{word}%', f'%{word}%'])
+            relevance_expr = " + ".join(relevance_parts)
+            select_extra = f", ({relevance_expr}) AS relevance"
+            order_clause = "ORDER BY relevance DESC, issue_date DESC"
+        else:
+            select_extra = ""
+            order_clause = "ORDER BY issue_date DESC, title"
+            relevance_params = []
+
+        cur.execute(f"SELECT COUNT(*) as cnt FROM strategy_reports {where}", params)
+        total = cur.fetchone()['cnt']
+
+        offset = (page - 1) * per_page
+        cur.execute(f"""
+            SELECT title, issuer, issue_date, summary {select_extra}
+            FROM strategy_reports {where}
+            {order_clause}
+            LIMIT %s OFFSET %s
+        """, relevance_params + params + [per_page, offset])
+        rows = cur.fetchall()
+        conn.close()
+
+        reports = []
+        for r in rows:
+            reports.append({
+                "title": r['title'],
+                "issuer": r['issuer'],
+                "issue_date": str(r['issue_date']),
+                "summary": r['summary'] or ""
+            })
+
+        total_pages = max(1, -(-total // per_page))
+
+        return jsonify({
+            "success": True,
+            "reports": reports,
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": total_pages
+        })
+    except Exception as e:
+        print(f"Strategy reports error: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 if __name__ == '__main__':
     print("=" * 60)
     print("SmartQuery API Server (Flask)")

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투자전략 - SmartQuery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+/* =============================================================================
+   WWAI-UI DESIGN TOKENS
+   ============================================================================= */
+
+:root {
+  --wwai-radius: 0.625rem;
+  --wwai-radius-sm: calc(var(--wwai-radius) - 4px);
+  --wwai-radius-md: calc(var(--wwai-radius) - 2px);
+  --wwai-radius-lg: var(--wwai-radius);
+
+  --wwai-bg-primary: #0f172a;
+  --wwai-bg-secondary: #1e293b;
+  --wwai-bg-tertiary: #334155;
+  --wwai-bg-hover: #475569;
+
+  --wwai-text-primary: #f8fafc;
+  --wwai-text-secondary: #cbd5e1;
+  --wwai-text-muted: #94a3b8;
+  --wwai-text-subtle: #64748b;
+
+  --wwai-border-primary: #475569;
+  --wwai-border-secondary: #334155;
+  --wwai-border-focus: #3b82f6;
+
+  --wwai-bullish: #10b981;
+  --wwai-bullish-light: #34d399;
+  --wwai-bullish-bg: rgba(16, 185, 129, 0.2);
+
+  --wwai-bearish: #ef4444;
+  --wwai-bearish-light: #f87171;
+  --wwai-bearish-bg: rgba(239, 68, 68, 0.2);
+
+  --wwai-neutral: #f59e0b;
+  --wwai-neutral-light: #fbbf24;
+  --wwai-neutral-bg: rgba(245, 158, 11, 0.2);
+
+  --wwai-accent: #3b82f6;
+  --wwai-accent-light: #60a5fa;
+  --wwai-accent-dark: #2563eb;
+  --wwai-accent-bg: rgba(59, 130, 246, 0.2);
+
+  --wwai-purple: #8b5cf6;
+  --wwai-cyan: #06b6d4;
+  --wwai-pink: #ec4899;
+
+  --wwai-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wwai-font-korean: 'Noto Sans KR', var(--wwai-font-sans);
+  --wwai-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --wwai-shadow-glow: 0 0 20px rgba(139, 92, 246, 0.3);
+  --wwai-transition-base: 0.2s ease;
+}
+
+[data-colorblind="true"] {
+  --wwai-bullish: #2563eb;
+  --wwai-bullish-light: #3b82f6;
+  --wwai-bullish-bg: rgba(37, 99, 235, 0.2);
+  --wwai-bearish: #ea580c;
+  --wwai-bearish-light: #f97316;
+  --wwai-bearish-bg: rgba(234, 88, 12, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =============================================================================
+   LAYOUT & COMPONENTS
+   ============================================================================= */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: var(--wwai-font-korean);
+    background: var(--wwai-bg-primary);
+    color: var(--wwai-text-primary);
+    min-height: 100vh; line-height: 1.6;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 1.25rem; }
+
+.header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1.5rem; padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, var(--wwai-bg-secondary) 0%, var(--wwai-bg-tertiary) 100%);
+    border-radius: var(--wwai-radius); border: 1px solid var(--wwai-border-secondary);
+}
+.header-left { display: flex; align-items: center; gap: 1rem; }
+.header-left h1 {
+    font-size: 1.5rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--wwai-purple), var(--wwai-cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.header-right { display: flex; gap: 0.6rem; align-items: center; }
+.back-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.5rem 1rem; background: rgba(255,255,255,0.08);
+    color: var(--wwai-text-secondary); text-decoration: none; border-radius: 8px;
+    font-size: 0.85rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.12);
+    transition: all var(--wwai-transition-base); backdrop-filter: blur(4px);
+}
+.back-link:hover { background: rgba(255,255,255,0.15); color: var(--wwai-text-primary); border-color: rgba(255,255,255,0.25); }
+
+.meta-bar {
+    display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+    margin-bottom: 1.25rem; padding: 0.75rem 1rem;
+    background: var(--wwai-bg-secondary); border-radius: var(--wwai-radius);
+    border: 1px solid var(--wwai-border-secondary); font-size: 0.8rem;
+}
+.meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--wwai-text-muted); }
+.meta-value { color: var(--wwai-text-primary); font-weight: 600; font-family: var(--wwai-font-mono); }
+
+/* Search & Filter Bar */
+.search-bar {
+    display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
+    margin-bottom: 1.25rem; padding: 0.75rem 1rem;
+    background: var(--wwai-bg-secondary); border-radius: var(--wwai-radius);
+    border: 1px solid var(--wwai-border-secondary);
+}
+.search-input {
+    flex: 1; min-width: 200px; padding: 0.5rem 0.75rem;
+    background: var(--wwai-bg-primary); color: var(--wwai-text-primary);
+    border: 1px solid var(--wwai-border-secondary); border-radius: var(--wwai-radius-sm);
+    font-family: var(--wwai-font-korean); font-size: 0.85rem;
+    transition: border-color var(--wwai-transition-base);
+}
+.search-input:focus { border-color: var(--wwai-border-focus); outline: none; }
+.search-input::placeholder { color: var(--wwai-text-subtle); }
+
+.filter-select {
+    padding: 0.5rem 0.75rem; font-size: 0.85rem;
+    background: var(--wwai-bg-primary); color: var(--wwai-text-primary);
+    border: 1px solid var(--wwai-border-secondary); border-radius: var(--wwai-radius-sm);
+    font-family: var(--wwai-font-korean); cursor: pointer;
+    transition: border-color var(--wwai-transition-base);
+}
+.filter-select:hover { border-color: var(--wwai-border-primary); }
+.filter-select:focus { border-color: var(--wwai-border-focus); outline: none; }
+
+.search-btn {
+    padding: 0.5rem 1.25rem; font-size: 0.85rem; font-weight: 600;
+    background: linear-gradient(135deg, var(--wwai-purple), var(--wwai-accent));
+    color: #fff; border: none; border-radius: var(--wwai-radius-sm);
+    cursor: pointer; transition: all var(--wwai-transition-base);
+    font-family: var(--wwai-font-korean);
+}
+.search-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+/* Report Cards */
+.report-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.report-card {
+    background: var(--wwai-bg-secondary); border-radius: var(--wwai-radius);
+    border: 1px solid var(--wwai-border-secondary); padding: 1rem 1.25rem;
+    border-left: 3px solid var(--wwai-purple);
+    transition: all var(--wwai-transition-base);
+}
+.report-card:hover {
+    border-color: var(--wwai-border-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--wwai-shadow-glow);
+}
+
+.report-title {
+    font-size: 1rem; font-weight: 700; color: var(--wwai-text-primary);
+    margin-bottom: 0.5rem; line-height: 1.4;
+}
+
+.report-meta {
+    display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+.issuer-badge {
+    display: inline-flex; align-items: center; padding: 0.15rem 0.5rem;
+    background: rgba(139, 92, 246, 0.2); color: #a78bfa;
+    border-radius: 4px; font-size: 0.7rem; font-weight: 600;
+}
+.report-date {
+    font-size: 0.75rem; color: var(--wwai-text-subtle);
+    font-family: var(--wwai-font-mono);
+}
+
+.report-summary {
+    font-size: 0.82rem; color: var(--wwai-text-muted);
+    line-height: 1.5; display: -webkit-box;
+    -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Pagination */
+.pagination {
+    display: flex; justify-content: center; align-items: center; gap: 0.5rem;
+    margin-top: 1.5rem; padding: 0.75rem;
+}
+.page-btn {
+    padding: 0.4rem 0.8rem; font-size: 0.8rem;
+    background: var(--wwai-bg-secondary); color: var(--wwai-text-muted);
+    border: 1px solid var(--wwai-border-secondary); border-radius: var(--wwai-radius-sm);
+    cursor: pointer; transition: all var(--wwai-transition-base);
+    font-family: var(--wwai-font-korean);
+}
+.page-btn:hover:not(:disabled) { background: var(--wwai-bg-tertiary); color: var(--wwai-text-primary); }
+.page-btn:disabled { opacity: 0.4; cursor: default; }
+.page-btn.active {
+    background: var(--wwai-purple); color: white;
+    border-color: var(--wwai-purple);
+}
+.page-info {
+    font-size: 0.78rem; color: var(--wwai-text-subtle);
+    font-family: var(--wwai-font-mono); padding: 0 0.5rem;
+}
+
+/* Loading & Empty States */
+.loading {
+    text-align: center; padding: 3rem; color: var(--wwai-text-muted);
+    font-size: 0.9rem;
+}
+.loading-spinner {
+    display: inline-block; width: 24px; height: 24px;
+    border: 3px solid var(--wwai-bg-tertiary);
+    border-top-color: var(--wwai-purple);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-bottom: 0.75rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty-state {
+    text-align: center; padding: 3rem; color: var(--wwai-text-subtle);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+    .search-bar { flex-direction: column; }
+    .search-input { min-width: unset; }
+}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            <h1>투자전략</h1>
+        </div>
+        <div class="header-right">
+            <a href="/" class="back-link">&larr; SmartQuery</a>
+            <a href="/analysis" class="back-link">종목 분석</a>
+            <a href="/industry" class="back-link">산업 분석</a>
+            <a href="https://stock-chart-tau.vercel.app/" target="_blank" class="back-link">KRX 차트</a>
+        </div>
+    </div>
+
+    <div class="meta-bar" id="meta-bar">
+        <div class="meta-item">리포트: <span class="meta-value" id="stat-total">-</span></div>
+        <div class="meta-item">증권사: <span class="meta-value" id="stat-issuers">-</span></div>
+        <div class="meta-item">기간: <span class="meta-value" id="stat-dates">-</span></div>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" class="search-input" id="search-input" placeholder="키워드 검색 (예: 금리, 달러, 자산배분, ETF)" autocomplete="off">
+        <select class="filter-select" id="issuer-select">
+            <option value="">전체 증권사</option>
+        </select>
+        <button class="search-btn" onclick="searchReports()">검색</button>
+    </div>
+
+    <div id="report-container">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <div>리포트를 불러오는 중...</div>
+        </div>
+    </div>
+
+    <div class="pagination" id="pagination" style="display: none;"></div>
+</div>
+
+<script>
+let currentPage = 1;
+let currentQuery = '';
+let currentIssuer = '';
+const perPage = 20;
+
+document.getElementById('search-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') searchReports();
+});
+
+async function loadStats() {
+    try {
+        const res = await fetch('/strategy/stats');
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('stat-total').textContent = data.total.toLocaleString();
+            document.getElementById('stat-issuers').textContent = data.issuers.length;
+            document.getElementById('stat-dates').textContent = data.min_date + ' ~ ' + data.max_date;
+            const sel = document.getElementById('issuer-select');
+            data.issuers.forEach(function(iss) {
+                const opt = document.createElement('option');
+                opt.value = iss; opt.textContent = iss;
+                sel.appendChild(opt);
+            });
+        }
+    } catch (e) {
+        console.error('Stats load error:', e);
+    }
+}
+
+async function loadReports(page) {
+    currentPage = page || 1;
+    const container = document.getElementById('report-container');
+    container.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div>리포트를 불러오는 중...</div></div>';
+
+    const params = new URLSearchParams({ page: currentPage, per_page: perPage });
+    if (currentQuery) params.set('q', currentQuery);
+    if (currentIssuer) params.set('issuer', currentIssuer);
+
+    try {
+        const res = await fetch('/strategy/reports?' + params.toString());
+        const data = await res.json();
+
+        if (!data.success) {
+            container.innerHTML = '<div class="empty-state">데이터를 불러올 수 없습니다.</div>';
+            return;
+        }
+
+        if (data.reports.length === 0) {
+            container.innerHTML = '<div class="empty-state">검색 결과가 없습니다.</div>';
+            document.getElementById('pagination').style.display = 'none';
+            return;
+        }
+
+        let html = '<div class="report-list">';
+        data.reports.forEach(function(r) {
+            const summary = r.summary ? (r.summary.length > 200 ? r.summary.substring(0, 200) + '...' : r.summary) : '';
+            html += '<div class="report-card">';
+            html += '<div class="report-title">' + escapeHtml(r.title) + '</div>';
+            html += '<div class="report-meta">';
+            html += '<span class="issuer-badge">' + escapeHtml(r.issuer) + '</span>';
+            html += '<span class="report-date">' + r.issue_date + '</span>';
+            html += '</div>';
+            if (summary) {
+                html += '<div class="report-summary">' + escapeHtml(summary) + '</div>';
+            }
+            html += '</div>';
+        });
+        html += '</div>';
+        container.innerHTML = html;
+
+        renderPagination(data.page, data.total_pages, data.total);
+    } catch (e) {
+        console.error('Reports load error:', e);
+        container.innerHTML = '<div class="empty-state">서버 오류가 발생했습니다.</div>';
+    }
+}
+
+function renderPagination(page, totalPages, total) {
+    const pag = document.getElementById('pagination');
+    if (totalPages <= 1) { pag.style.display = 'none'; return; }
+    pag.style.display = 'flex';
+
+    let html = '';
+    html += '<button class="page-btn" onclick="loadReports(' + (page - 1) + ')" ' + (page <= 1 ? 'disabled' : '') + '>&laquo; 이전</button>';
+
+    const start = Math.max(1, page - 2);
+    const end = Math.min(totalPages, page + 2);
+    if (start > 1) {
+        html += '<button class="page-btn" onclick="loadReports(1)">1</button>';
+        if (start > 2) html += '<span class="page-info">...</span>';
+    }
+    for (let i = start; i <= end; i++) {
+        html += '<button class="page-btn' + (i === page ? ' active' : '') + '" onclick="loadReports(' + i + ')">' + i + '</button>';
+    }
+    if (end < totalPages) {
+        if (end < totalPages - 1) html += '<span class="page-info">...</span>';
+        html += '<button class="page-btn" onclick="loadReports(' + totalPages + ')">' + totalPages + '</button>';
+    }
+
+    html += '<button class="page-btn" onclick="loadReports(' + (page + 1) + ')" ' + (page >= totalPages ? 'disabled' : '') + '>다음 &raquo;</button>';
+    html += '<span class="page-info">' + total.toLocaleString() + '건</span>';
+    pag.innerHTML = html;
+}
+
+function searchReports() {
+    currentQuery = document.getElementById('search-input').value.trim();
+    currentIssuer = document.getElementById('issuer-select').value;
+    loadReports(1);
+}
+
+function escapeHtml(text) {
+    const d = document.createElement('div');
+    d.textContent = text;
+    return d.innerHTML;
+}
+
+// Initialize
+loadStats();
+loadReports(1);
+</script>
+</body>
+</html>
