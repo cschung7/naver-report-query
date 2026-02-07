@@ -102,14 +102,15 @@ body {
     background: linear-gradient(135deg, var(--wwai-neutral), var(--wwai-purple));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
-.header-right { display: flex; gap: 0.5rem; align-items: center; }
+.header-right { display: flex; gap: 0.6rem; align-items: center; }
 .back-link {
     display: inline-flex; align-items: center; gap: 0.4rem;
-    padding: 0.4rem 0.75rem; background: var(--wwai-bg-tertiary);
-    color: var(--wwai-text-muted); text-decoration: none; border-radius: 6px;
-    font-size: 0.8rem; transition: all var(--wwai-transition-base);
+    padding: 0.5rem 1rem; background: rgba(255,255,255,0.08);
+    color: var(--wwai-text-secondary); text-decoration: none; border-radius: 8px;
+    font-size: 0.85rem; font-weight: 500; border: 1px solid rgba(255,255,255,0.12);
+    transition: all var(--wwai-transition-base); backdrop-filter: blur(4px);
 }
-.back-link:hover { background: var(--wwai-bg-hover); color: var(--wwai-text-primary); }
+.back-link:hover { background: rgba(255,255,255,0.15); color: var(--wwai-text-primary); border-color: rgba(255,255,255,0.25); }
 
 .meta-bar {
     display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
