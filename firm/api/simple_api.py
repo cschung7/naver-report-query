@@ -2082,8 +2082,11 @@ def industry_reports():
         params = []
 
         if q:
-            conditions.append("(title ILIKE %s OR summary ILIKE %s)")
-            params.extend([f'%{q}%', f'%{q}%'])
+            # Split into words — each word must appear in title OR summary
+            words = q.split()
+            for word in words:
+                conditions.append("(title ILIKE %s OR summary ILIKE %s)")
+                params.extend([f'%{word}%', f'%{word}%'])
         if issuer:
             conditions.append("issuer = %s")
             params.append(issuer)
