@@ -2017,6 +2017,118 @@ def analysis_page():
     return render_template('analysis.html')
 
 
+# =============================================================================
+# Industry Analysis (산업 분석) Endpoints
+# =============================================================================
+
+_pg_industry_uri = os.environ.get(
+    'INDUSTRY_POSTGRES_URI',
+    'postgresql://postgres:smartquery2025@centerbeam.proxy.rlwy.net:11334/naver_industry'
+)
+
+
+@app.route('/industry')
+def industry_page():
+    """Serve the 산업 분석 page."""
+    return render_template('industry.html')
+
+
+@app.route('/industry/stats')
+def industry_stats():
+    """Get industry report statistics."""
+    try:
+        import psycopg2
+        from psycopg2.extras import RealDictCursor
+        conn = psycopg2.connect(_pg_industry_uri)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute("""
+            SELECT COUNT(*) as total,
+                   COUNT(DISTINCT issuer) as issuers,
+                   MIN(issue_date) as min_date,
+                   MAX(issue_date) as max_date
+            FROM industry_reports
+        """)
+        row = cur.fetchone()
+        cur.execute("SELECT DISTINCT issuer FROM industry_reports ORDER BY issuer")
+        issuers = [r['issuer'] for r in cur.fetchall()]
+        conn.close()
+        return jsonify({
+            "success": True,
+            "total": row['total'],
+            "issuers": issuers,
+            "min_date": str(row['min_date']),
+            "max_date": str(row['max_date'])
+        })
+    except Exception as e:
+        print(f"Industry stats error: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+@app.route('/industry/reports')
+def industry_reports():
+    """Search/filter/paginate industry reports."""
+    q = request.args.get('q', '').strip()
+    issuer = request.args.get('issuer', '').strip()
+    page = max(1, int(request.args.get('page', 1)))
+    per_page = min(50, max(5, int(request.args.get('per_page', 20))))
+
+    try:
+        import psycopg2
+        from psycopg2.extras import RealDictCursor
+        conn = psycopg2.connect(_pg_industry_uri)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+
+        conditions = []
+        params = []
+
+        if q:
+            conditions.append("(title ILIKE %s OR summary ILIKE %s)")
+            params.extend([f'%{q}%', f'%{q}%'])
+        if issuer:
+            conditions.append("issuer = %s")
+            params.append(issuer)
+
+        where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+
+        # Count
+        cur.execute(f"SELECT COUNT(*) as cnt FROM industry_reports {where}", params)
+        total = cur.fetchone()['cnt']
+
+        # Fetch page
+        offset = (page - 1) * per_page
+        cur.execute(f"""
+            SELECT title, issuer, issue_date, summary
+            FROM industry_reports {where}
+            ORDER BY issue_date DESC, title
+            LIMIT %s OFFSET %s
+        """, params + [per_page, offset])
+        rows = cur.fetchall()
+        conn.close()
+
+        reports = []
+        for r in rows:
+            reports.append({
+                "title": r['title'],
+                "issuer": r['issuer'],
+                "issue_date": str(r['issue_date']),
+                "summary": r['summary'] or ""
+            })
+
+        total_pages = max(1, -(-total // per_page))  # ceil division
+
+        return jsonify({
+            "success": True,
+            "reports": reports,
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": total_pages
+        })
+    except Exception as e:
+        print(f"Industry reports error: {e}")
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 if __name__ == '__main__':
     print("=" * 60)
     print("SmartQuery API Server (Flask)")
