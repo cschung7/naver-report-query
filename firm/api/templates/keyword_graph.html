@@ -21,34 +21,16 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
     padding: 1.2rem; border-bottom: 1px solid #334155;
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
 }
-.sidebar-header h1 { font-size: 1.1rem; color: #f1f5f9; margin-bottom: 0.3rem; }
+.sidebar-header h1 { font-size: 1.1rem; color: #f59e0b; margin-bottom: 0.3rem; }
 .sidebar-header p { font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.5rem; }
+.sidebar-header .meta { font-size: 0.7rem; color: #64748b; }
 .top-nav {
     position: absolute; top: 12px; right: 16px; z-index: 20;
-    display: flex; gap: 0.5rem;
+    display: flex; gap: 0.35rem; flex-wrap: wrap;
 }
-.top-nav-link {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    padding: 0.55rem 1.1rem; text-decoration: none; border-radius: 8px;
-    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.01em;
-    transition: all 0.2s; backdrop-filter: blur(10px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-.top-nav-link.theme-link {
-    background: rgba(59,130,246,0.25); color: #93c5fd;
-    border: 1px solid rgba(59,130,246,0.5);
-}
-.top-nav-link.theme-link:hover {
-    background: rgba(59,130,246,0.45); color: #fff;
-    border-color: rgba(96,165,250,0.8); box-shadow: 0 2px 16px rgba(59,130,246,0.3);
-}
-.top-nav-link.industry-link {
-    background: rgba(16,185,129,0.2); color: #6ee7b7;
-    border: 1px solid rgba(16,185,129,0.45);
-}
-.top-nav-link.industry-link:hover {
-    background: rgba(16,185,129,0.4); color: #fff;
-    border-color: rgba(52,211,153,0.8); box-shadow: 0 2px 16px rgba(16,185,129,0.3);
+.top-nav a {
+    padding: 0.3rem 0.6rem; color: #fff; text-decoration: none;
+    border-radius: 6px; font-size: 0.75rem; font-weight: 600;
 }
 
 .controls { padding: 1rem; border-bottom: 1px solid #334155; }
@@ -60,20 +42,19 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
 }
 .slider-row { display: flex; align-items: center; gap: 0.5rem; }
 .slider-row input[type=range] { flex: 1; }
-.slider-row span { font-size: 0.75rem; color: #60a5fa; min-width: 24px; }
+.slider-row span { font-size: 0.75rem; color: #f59e0b; min-width: 24px; }
 
 .legend { padding: 0.8rem 1rem; border-bottom: 1px solid #334155; }
 .legend h3 { font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.5rem; }
-.legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; font-size: 0.75rem; }
+.legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; font-size: 0.72rem; }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-.legend-line { width: 20px; height: 3px; border-radius: 2px; }
 
 /* Detail panel */
 .detail-panel {
     flex: 1; overflow-y: auto; padding: 1rem;
     scrollbar-width: thin; scrollbar-color: #475569 #1e293b;
 }
-.detail-title { font-size: 0.9rem; color: #60a5fa; margin-bottom: 0.5rem; }
+.detail-title { font-size: 0.9rem; color: #f59e0b; margin-bottom: 0.5rem; }
 .detail-subtitle { font-size: 0.7rem; color: #94a3b8; margin-bottom: 0.8rem; }
 .kw-tag {
     display: inline-block; padding: 0.2rem 0.5rem; margin: 0.15rem;
@@ -87,10 +68,10 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
     padding: 0.5rem; margin-bottom: 0.4rem; background: #0f172a;
     border-radius: 6px; border: 1px solid #334155; cursor: pointer;
 }
-.connection-item:hover { border-color: #60a5fa; }
+.connection-item:hover { border-color: #f59e0b; }
 .conn-header { display: flex; justify-content: space-between; align-items: center; }
 .conn-name { font-size: 0.8rem; color: #f1f5f9; }
-.conn-count { font-size: 0.7rem; color: #60a5fa; font-weight: 600; }
+.conn-count { font-size: 0.7rem; color: #f59e0b; font-weight: 600; }
 .conn-keywords { font-size: 0.65rem; color: #64748b; margin-top: 0.3rem; }
 
 /* Main graph area */
@@ -99,7 +80,7 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
 
 /* Stats bar */
 .stats-bar {
-    position: absolute; top: 12px; left: 12px; right: 12px;
+    position: absolute; top: 12px; left: 12px;
     display: flex; gap: 0.5rem; z-index: 10; pointer-events: none;
 }
 .stat-chip {
@@ -107,7 +88,7 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
     border: 1px solid #334155; border-radius: 6px;
     font-size: 0.7rem; color: #94a3b8; backdrop-filter: blur(8px);
 }
-.stat-chip b { color: #60a5fa; }
+.stat-chip b { color: #f59e0b; }
 
 /* View toggle */
 .view-toggle {
@@ -119,16 +100,8 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
     padding: 0.5rem 1rem; background: #1e293b; color: #94a3b8;
     border: none; cursor: pointer; font-size: 0.75rem; transition: all 0.2s;
 }
-.view-btn.active { background: #3b82f6; color: #fff; }
+.view-btn.active { background: #f59e0b; color: #fff; }
 .view-btn:hover:not(.active) { background: #334155; }
-
-/* Tooltip */
-.graph-tooltip {
-    position: absolute; display: none; padding: 0.6rem 0.8rem;
-    background: rgba(15,23,42,0.95); border: 1px solid #475569;
-    border-radius: 8px; font-size: 0.75rem; max-width: 300px;
-    z-index: 100; backdrop-filter: blur(8px); pointer-events: none;
-}
 
 /* Preset buttons */
 .preset-group { display: flex; gap: 0.4rem; margin-bottom: 0.8rem; }
@@ -138,8 +111,8 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
     font-size: 0.75rem; cursor: pointer; text-align: center;
     transition: all 0.2s; font-weight: 500;
 }
-.preset-btn:hover { border-color: #60a5fa; color: #e2e8f0; }
-.preset-btn.active { background: #3b82f6; border-color: #3b82f6; color: #fff; font-weight: 600; }
+.preset-btn:hover { border-color: #f59e0b; color: #e2e8f0; }
+.preset-btn.active { background: #f59e0b; border-color: #f59e0b; color: #fff; font-weight: 600; }
 
 @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
@@ -152,6 +125,7 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
         <div class="sidebar-header">
             <h1>산업 키워드 연결 네트워크</h1>
             <p>Industry Keyword Relationship Graph</p>
+            <div class="meta" id="metaInfo">Loading...</div>
         </div>
         <div class="controls">
             <div class="control-group">
@@ -163,41 +137,33 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
                 </div>
             </div>
             <div class="control-group">
+                <label>Min Shared Keywords: <span id="threshLabel">25</span></label>
+                <div class="slider-row">
+                    <input type="range" id="threshold" min="3" max="80" value="25" oninput="updateThreshold()">
+                </div>
+            </div>
+            <div class="control-group">
+                <label>Category Filter</label>
+                <select id="catFilter" onchange="applyFilters()">
+                    <option value="">-- All Categories --</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Focus Industry</label>
+                <select id="focusIndustry" onchange="applyFilters()">
+                    <option value="">-- All Industries --</option>
+                </select>
+            </div>
+            <div class="control-group">
                 <label>View Mode</label>
                 <select id="viewMode" onchange="switchView()">
                     <option value="industry">Industry Network (산업 연결)</option>
                     <option value="keyword">Bridge Keywords (키워드 허브)</option>
                 </select>
             </div>
-            <div class="control-group">
-                <label>Min Shared Keywords: <span id="threshLabel">25</span></label>
-                <div class="slider-row">
-                    <input type="range" id="threshold" min="3" max="80" value="25" oninput="updateThreshold(true)">
-                </div>
-            </div>
-            <div class="control-group">
-                <label>Focus Industry</label>
-                <select id="focusIndustry" onchange="focusOnIndustry()">
-                    <option value="">-- All Industries --</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label>Keyword Type Filter</label>
-                <select id="kwTypeFilter" onchange="applyFilters()">
-                    <option value="all">All Types</option>
-                    <option value="DRIVER">DRIVER (동인)</option>
-                    <option value="SUPPLY_CHAIN">SUPPLY CHAIN (공급망)</option>
-                    <option value="TECH">TECH (기술)</option>
-                    <option value="POLICY">POLICY (정책)</option>
-                </select>
-            </div>
         </div>
-        <div class="legend">
-            <h3>Node Size = Keyword Connections</h3>
-            <div class="legend-item"><div class="legend-line" style="background:#f59e0b"></div> DRIVEN_BY (동인/수요)</div>
-            <div class="legend-item"><div class="legend-line" style="background:#10b981"></div> SUPPLIED_BY (공급망)</div>
-            <div class="legend-item"><div class="legend-line" style="background:#8b5cf6"></div> ENABLED_BY (기술)</div>
-            <div class="legend-item"><div class="legend-line" style="background:#ef4444"></div> SHAPED_BY (정책)</div>
+        <div class="legend" id="legendPanel">
+            <h3>AlphaVantage-style Categories</h3>
         </div>
         <div class="detail-panel" id="detailPanel">
             <div class="detail-title">Click a node to see details</div>
@@ -208,17 +174,16 @@ body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #0f17
         <div class="stats-bar" id="statsBar">
             <div class="stat-chip">Nodes: <b id="statNodes">0</b></div>
             <div class="stat-chip">Edges: <b id="statEdges">0</b></div>
-            <div class="stat-chip">Threshold: <b id="statThresh">10</b></div>
+            <div class="stat-chip">Threshold: <b id="statThresh">25</b></div>
         </div>
-        <div class="top-nav" style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
-            <a href="/analysis" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #10b981, #3b82f6); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">종목분석</a>
-            <a href="/industry" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #f59e0b, #8b5cf6); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">산업분석</a>
-            <a href="/strategy" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #8b5cf6, #06b6d4); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">투자전략</a>
-            <a href="/economy" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #06b6d4, #3b82f6); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">경제분석</a>
-            <a href="https://stock-chart-tau.vercel.app/" target="_blank" style="padding: 0.3rem 0.6rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">KRX차트</a>
+        <div class="top-nav">
+            <a href="/analysis" style="background: linear-gradient(135deg, #10b981, #3b82f6);">종목분석</a>
+            <a href="/industry" style="background: linear-gradient(135deg, #f59e0b, #8b5cf6);">산업분석</a>
+            <a href="/strategy" style="background: linear-gradient(135deg, #8b5cf6, #06b6d4);">투자전략</a>
+            <a href="/economy" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">경제분석</a>
+            <a href="https://stock-chart-tau.vercel.app/" target="_blank" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);">KRX차트</a>
         </div>
         <div id="network"></div>
-        <div class="graph-tooltip" id="tooltip"></div>
     </div>
 </div>
 
@@ -227,14 +192,8 @@ let graphData = null;
 let network = null;
 let currentView = 'industry';
 
-// Color palette for industries (by size group)
-const COLORS = {
-    large: '#3b82f6',   // blue - many connections
-    medium: '#10b981',  // green
-    small: '#f59e0b',   // amber
-    tiny: '#64748b',    // gray
-    keyword: '#8b5cf6', // purple for keyword nodes
-};
+// Category colors (from data, with fallback)
+let CAT_COLORS = {};
 
 const REL_COLORS = {
     DRIVEN_BY: '#f59e0b',
@@ -244,14 +203,48 @@ const REL_COLORS = {
     CATALYZED_BY: '#06b6d4',
 };
 
+function getNodeColor(ind) {
+    if (ind && ind.color) return ind.color;
+    return '#64748b';
+}
+
 async function loadData() {
     const resp = await fetch('/industry/keyword-graph-data');
     graphData = await resp.json();
+
+    // Build category color map and legend
+    if (graphData.categories) {
+        const legend = document.getElementById('legendPanel');
+        let html = '<h3>AlphaVantage-style Categories</h3>';
+        Object.entries(graphData.categories).forEach(([name, info]) => {
+            CAT_COLORS[name] = info.color;
+            html += `<div class="legend-item"><div class="legend-dot" style="background:${info.color}"></div> ${name} (${info.count})</div>`;
+        });
+        legend.innerHTML = html;
+    }
+
+    // Meta info
+    if (graphData.meta) {
+        document.getElementById('metaInfo').textContent =
+            `${graphData.meta.total_industries} industries | ${graphData.meta.total_edges} edges | ${graphData.meta.category_count} categories`;
+    }
+
     populateFilters();
     renderIndustryNetwork();
 }
 
 function populateFilters() {
+    // Category filter
+    const catSel = document.getElementById('catFilter');
+    if (graphData.categories) {
+        Object.entries(graphData.categories).forEach(([name, info]) => {
+            const opt = document.createElement('option');
+            opt.value = name;
+            opt.textContent = `${name} (${info.count})`;
+            catSel.appendChild(opt);
+        });
+    }
+    // Industry filter
     const sel = document.getElementById('focusIndustry');
     const sorted = [...graphData.industries].sort((a, b) => b.kw_count - a.kw_count);
     sorted.forEach(ind => {
@@ -262,18 +255,18 @@ function populateFilters() {
     });
 }
 
-function getNodeColor(kwCount) {
-    if (kwCount >= 80) return COLORS.large;
-    if (kwCount >= 30) return COLORS.medium;
-    if (kwCount >= 10) return COLORS.small;
-    return COLORS.tiny;
-}
-
 function renderIndustryNetwork() {
     const threshold = parseInt(document.getElementById('threshold').value);
     const focus = document.getElementById('focusIndustry').value;
+    const catFilter = document.getElementById('catFilter').value;
 
     let edges = graphData.edges.filter(e => e.shared >= threshold);
+
+    // Category filter
+    if (catFilter) {
+        const catInds = new Set(graphData.industries.filter(i => i.category === catFilter).map(i => i.name));
+        edges = edges.filter(e => catInds.has(e.ind1) || catInds.has(e.ind2));
+    }
 
     if (focus) {
         edges = edges.filter(e => e.ind1 === focus || e.ind2 === focus);
@@ -286,35 +279,36 @@ function renderIndustryNetwork() {
     const indMap = {};
     graphData.industries.forEach(ind => { indMap[ind.name] = ind; });
 
-    // Build nodes
+    // Build nodes with category colors
     const nodes = [];
     visibleInds.forEach(name => {
-        const ind = indMap[name] || { name, kw_count: 0, total_rels: 0 };
+        const ind = indMap[name] || { name, kw_count: 0, total_rels: 0, category: 'Other', color: '#64748b' };
         const size = Math.max(15, Math.min(60, 10 + ind.kw_count * 0.3));
+        const col = ind.color || '#64748b';
         nodes.push({
             id: name,
             label: name,
             size: size,
             color: {
-                background: getNodeColor(ind.kw_count),
-                border: getNodeColor(ind.kw_count),
-                highlight: { background: '#f1f5f9', border: '#3b82f6' },
+                background: col,
+                border: col,
+                highlight: { background: '#f1f5f9', border: '#f59e0b' },
             },
-            font: { color: '#e2e8f0', size: Math.max(10, Math.min(16, 8 + ind.kw_count * 0.08)) },
-            title: `${name}\nKeywords: ${ind.kw_count}\nRelationships: ${ind.total_rels}`,
+            font: { color: '#e2e8f0', size: Math.max(10, Math.min(16, 8 + ind.kw_count * 0.08)), face: 'Noto Sans KR' },
+            title: `${name}\n[${ind.category}]\nKeywords: ${ind.kw_count}\nRelationships: ${ind.total_rels}`,
             kwCount: ind.kw_count,
         });
     });
 
     // Build edges
-    const maxShared = Math.max(...edges.map(e => e.shared));
+    const maxShared = edges.length > 0 ? Math.max(...edges.map(e => e.shared)) : 1;
     const visEdges = edges.map((e, i) => ({
         id: `e${i}`,
         from: e.ind1,
         to: e.ind2,
         value: e.shared,
         title: `${e.ind1} ↔ ${e.ind2}\n${e.shared} shared keywords\n${e.keywords.join(', ')}`,
-        color: { color: `rgba(96, 165, 250, ${0.2 + 0.6 * (e.shared / maxShared)})`, highlight: '#60a5fa' },
+        color: { color: `rgba(245, 158, 11, ${0.15 + 0.6 * (e.shared / maxShared)})`, highlight: '#f59e0b' },
         width: Math.max(1, Math.min(8, e.shared / 10)),
         _data: e,
     }));
@@ -324,19 +318,13 @@ function renderIndustryNetwork() {
 }
 
 function renderKeywordNetwork() {
-    const typeFilter = document.getElementById('kwTypeFilter').value;
     const focus = document.getElementById('focusIndustry').value;
+    const catFilter = document.getElementById('catFilter').value;
 
     let keywords = graphData.bridge_keywords;
-    if (typeFilter !== 'all') {
-        keywords = keywords.filter(k => k.rel_types.some(r => {
-            if (typeFilter === 'DRIVER') return r === 'DRIVEN_BY';
-            if (typeFilter === 'SUPPLY_CHAIN') return r === 'SUPPLIED_BY';
-            if (typeFilter === 'TECH') return r === 'ENABLED_BY';
-            if (typeFilter === 'POLICY') return r === 'SHAPED_BY';
-            return false;
-        }));
-    }
+
+    const indMap = {};
+    graphData.industries.forEach(ind => { indMap[ind.name] = ind; });
 
     const nodes = [];
     const visEdges = [];
@@ -344,10 +332,15 @@ function renderKeywordNetwork() {
 
     keywords.forEach(kw => {
         let industries = kw.industries;
-        if (focus) {
-            if (!industries.includes(focus)) return;
+        if (focus && !industries.includes(focus)) return;
+        if (catFilter) {
+            industries = industries.filter(ind => {
+                const info = indMap[ind];
+                return info && info.category === catFilter;
+            });
+            if (industries.length === 0) return;
         }
-        // Add keyword node
+
         const size = Math.max(12, Math.min(50, 5 + kw.ind_count * 1.5));
         nodes.push({
             id: `kw:${kw.keyword}`,
@@ -359,11 +352,7 @@ function renderKeywordNetwork() {
             title: `${kw.keyword}\nType: ${kw.ktype}\nIndustries: ${kw.ind_count}`,
         });
 
-        // Add industry connections
         industries.forEach(ind => {
-            if (focus && ind !== focus && kw.keyword !== focus) {
-                // In focus mode, show all connected industries
-            }
             indNodes.add(ind);
             const relType = kw.rel_types[0] || 'DRIVEN_BY';
             visEdges.push({
@@ -376,18 +365,18 @@ function renderKeywordNetwork() {
         });
     });
 
-    // Add industry nodes
-    const indMap = {};
-    graphData.industries.forEach(ind => { indMap[ind.name] = ind; });
+    // Add industry nodes with category colors
     indNodes.forEach(name => {
-        const ind = indMap[name] || { name, kw_count: 0 };
+        const ind = indMap[name] || { name, kw_count: 0, color: '#64748b', category: 'Other' };
+        const col = ind.color || '#64748b';
         nodes.push({
             id: name,
             label: name,
             size: Math.max(15, Math.min(45, 10 + ind.kw_count * 0.25)),
-            color: { background: getNodeColor(ind.kw_count), border: getNodeColor(ind.kw_count) },
+            color: { background: col, border: col, highlight: { background: '#f1f5f9', border: '#f59e0b' } },
             font: { color: '#e2e8f0', size: 11 },
             shape: 'dot',
+            title: `${name}\n[${ind.category}]\nKeywords: ${ind.kw_count}`,
         });
     });
 
@@ -414,42 +403,26 @@ function drawNetwork(nodes, edges) {
             },
             stabilization: { iterations: 200, fit: true },
         },
-        interaction: {
-            hover: true,
-            tooltipDelay: 100,
-            zoomView: true,
-            dragView: true,
-        },
-        nodes: {
-            borderWidth: 2,
-            shadow: { enabled: true, color: 'rgba(0,0,0,0.3)', size: 5 },
-        },
-        edges: {
-            smooth: { type: 'continuous' },
-        },
+        interaction: { hover: true, tooltipDelay: 100, zoomView: true, dragView: true },
+        nodes: { borderWidth: 2, shadow: { enabled: true, color: 'rgba(0,0,0,0.3)', size: 5 } },
+        edges: { smooth: { type: 'continuous' } },
     };
 
     network = new vis.Network(container, data, options);
 
     network.on('click', function(params) {
-        if (params.nodes.length > 0) {
-            showDetail(params.nodes[0]);
-        }
+        if (params.nodes.length > 0) showDetail(params.nodes[0]);
     });
-
-    network.on('hoverNode', function(params) {
-        container.style.cursor = 'pointer';
-    });
-    network.on('blurNode', function() {
-        container.style.cursor = 'default';
-    });
+    network.on('hoverNode', () => { container.style.cursor = 'pointer'; });
+    network.on('blurNode', () => { container.style.cursor = 'default'; });
 }
 
 function showDetail(nodeId) {
     const panel = document.getElementById('detailPanel');
+    const indMap = {};
+    graphData.industries.forEach(ind => { indMap[ind.name] = ind; });
 
     if (nodeId.startsWith('kw:')) {
-        // Keyword node detail
         const kwName = nodeId.replace('kw:', '');
         const kw = graphData.bridge_keywords.find(k => k.keyword === kwName);
         if (!kw) return;
@@ -458,23 +431,34 @@ function showDetail(nodeId) {
             <div class="detail-subtitle">Type: ${kw.ktype} | ${kw.ind_count} industries</div>
             <div class="detail-subtitle">Relationship types: ${kw.rel_types.join(', ')}</div>
             <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.5rem 0 0.3rem">Connected Industries:</h4>
-            ${kw.industries.map(ind => `
-                <div class="connection-item" onclick="focusNode('${ind}')">
-                    <div class="conn-name">${ind}</div>
-                </div>
-            `).join('')}
+            ${kw.industries.slice(0, 20).map(ind => {
+                const info = indMap[ind];
+                const col = info ? info.color : '#64748b';
+                const cat = info ? info.category : '';
+                return `<div class="connection-item" onclick="focusNode('${ind}')">
+                    <div class="conn-header">
+                        <span class="conn-name"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${col};margin-right:4px;"></span>${ind}</span>
+                        <span style="font-size:0.65rem;color:#64748b;">${cat}</span>
+                    </div>
+                </div>`;
+            }).join('')}
         `;
     } else {
-        // Industry node detail
-        const ind = graphData.industries.find(i => i.name === nodeId);
+        const ind = indMap[nodeId] || {};
         const details = graphData.industry_details[nodeId] || [];
         const connections = graphData.edges
             .filter(e => e.ind1 === nodeId || e.ind2 === nodeId)
             .sort((a, b) => b.shared - a.shared);
 
+        const catColor = ind.color || '#64748b';
+        const catName = ind.category || 'Other';
+
         panel.innerHTML = `
             <div class="detail-title">${nodeId}</div>
-            <div class="detail-subtitle">Keywords: ${ind ? ind.kw_count : '?'} | Rel types: ${ind ? ind.rel_types.join(', ') : ''}</div>
+            <div class="detail-subtitle">
+                <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${catColor};margin-right:4px;"></span>
+                ${catName} | Keywords: ${ind.kw_count || '?'} | Rel types: ${(ind.rel_types || []).join(', ')}
+            </div>
 
             <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">Top Keywords:</h4>
             <div>${details.map(d => {
@@ -485,10 +469,12 @@ function showDetail(nodeId) {
             <h4 style="font-size:0.75rem;color:#94a3b8;margin:0.8rem 0 0.3rem">Connected Industries (${connections.length}):</h4>
             ${connections.slice(0, 15).map(e => {
                 const other = e.ind1 === nodeId ? e.ind2 : e.ind1;
+                const otherInfo = indMap[other] || {};
+                const otherCol = otherInfo.color || '#64748b';
                 return `
                     <div class="connection-item" onclick="focusNode('${other}')">
                         <div class="conn-header">
-                            <span class="conn-name">${other}</span>
+                            <span class="conn-name"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${otherCol};margin-right:4px;"></span>${other}</span>
                             <span class="conn-count">${e.shared} kw</span>
                         </div>
                         <div class="conn-keywords">${e.keywords.join(', ')}</div>
@@ -518,36 +504,24 @@ function setPreset(level) {
     const val = PRESETS[level];
     document.getElementById('threshold').value = val;
     document.getElementById('threshLabel').textContent = val;
-    highlightPreset(level);
+    ['simple', 'standard', 'detailed'].forEach(p => {
+        document.getElementById('preset-' + p).classList.toggle('active', p === level);
+    });
     applyFilters();
 }
 
-function highlightPreset(active) {
-    ['simple', 'standard', 'detailed'].forEach(p => {
-        document.getElementById('preset-' + p).classList.toggle('active', p === active);
-    });
-}
-
-function updateThreshold(manual) {
+function updateThreshold() {
     const val = parseInt(document.getElementById('threshold').value);
     document.getElementById('threshLabel').textContent = val;
-    if (manual) {
-        // Clear preset highlight when user drags slider manually
-        ['simple', 'standard', 'detailed'].forEach(p => {
-            const btn = document.getElementById('preset-' + p);
-            btn.classList.toggle('active', val === PRESETS[p]);
-        });
-    }
+    ['simple', 'standard', 'detailed'].forEach(p => {
+        document.getElementById('preset-' + p).classList.toggle('active', val === PRESETS[p]);
+    });
     if (currentView === 'industry') renderIndustryNetwork();
 }
 
 function applyFilters() {
     if (currentView === 'industry') renderIndustryNetwork();
     else renderKeywordNetwork();
-}
-
-function focusOnIndustry() {
-    applyFilters();
 }
 
 function updateStats(nodes, edges, thresh) {
