@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>종목 분석 - SmartQuery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-hover: #475569;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --text-subtle: #64748b;
+    --border: #475569;
+    --border-secondary: #334155;
+    --accent: #3b82f6;
+    --accent-light: #60a5fa;
+    --bullish: #10b981;
+    --bullish-light: #34d399;
+    --bullish-bg: rgba(16, 185, 129, 0.15);
+    --bearish: #ef4444;
+    --bearish-light: #f87171;
+    --bearish-bg: rgba(239, 68, 68, 0.15);
+    --neutral: #f59e0b;
+    --neutral-light: #fbbf24;
+    --neutral-bg: rgba(245, 158, 11, 0.15);
+    --purple: #8b5cf6;
+    --cyan: #06b6d4;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-korean: 'Noto Sans KR', var(--font-sans);
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    --radius: 0.625rem;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-korean); background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+.container { max-width: 1200px; margin: 0 auto; padding: 1.25rem; }
+
+.header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1.5rem; padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    border-radius: var(--radius); border: 1px solid var(--border-secondary);
+}
+.header-left { display: flex; align-items: center; gap: 1rem; }
+.header-left h1 {
+    font-size: 1.5rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--bullish), var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.header-right { display: flex; gap: 0.5rem; align-items: center; }
+.back-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.4rem 0.75rem; background: var(--bg-tertiary);
+    color: var(--text-muted); text-decoration: none; border-radius: 6px;
+    font-size: 0.8rem; transition: all 0.2s;
+}
+.back-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+.meta-bar {
+    display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+    margin-bottom: 1.25rem; padding: 0.75rem 1rem;
+    background: var(--bg-secondary); border-radius: var(--radius);
+    border: 1px solid var(--border-secondary); font-size: 0.8rem;
+}
+.meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--text-muted); }
+.meta-value { color: var(--text-primary); font-weight: 600; font-family: var(--font-mono); }
+.source-badge {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 500;
+}
+.source-badge.available { background: var(--bullish-bg); color: var(--bullish-light); }
+.source-badge.unavailable { background: rgba(100,116,139,0.2); color: var(--text-subtle); }
+
+.section-title {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 0.75rem; font-size: 1rem; font-weight: 700;
+}
+.section-count {
+    font-size: 0.75rem; font-weight: 500; padding: 0.15rem 0.5rem;
+    border-radius: 10px; font-family: var(--font-mono);
+}
+
+.picks-section { margin-bottom: 1.5rem; }
+.picks-section.buy { }
+.picks-section.buy .section-title { color: var(--bullish-light); }
+.picks-section.buy .section-count { background: var(--bullish-bg); color: var(--bullish-light); }
+.picks-section.hold .section-title { color: var(--neutral-light); }
+.picks-section.hold .section-count { background: var(--neutral-bg); color: var(--neutral-light); }
+
+.picks-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 0.75rem;
+}
+
+.pick-card {
+    background: var(--bg-secondary); border-radius: var(--radius);
+    border: 1px solid var(--border-secondary); padding: 1rem;
+    transition: all 0.2s; cursor: pointer;
+}
+.pick-card:hover { border-color: var(--border); transform: translateY(-1px); }
+.pick-card.buy { border-left: 3px solid var(--bullish); }
+.pick-card.hold { border-left: 3px solid var(--neutral); }
+
+.pick-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+.pick-company {
+    font-size: 1.05rem; font-weight: 700; color: var(--text-primary);
+    text-decoration: none; transition: color 0.2s;
+}
+.pick-company:hover { color: var(--accent-light); }
+.pick-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.badge {
+    padding: 0.1rem 0.45rem; border-radius: 4px;
+    font-size: 0.65rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.badge-sector { background: rgba(139,92,246,0.2); color: #a78bfa; }
+.badge-regime { font-family: var(--font-mono); }
+.badge-regime.deep_discount { background: var(--bullish-bg); color: var(--bullish-light); }
+.badge-regime.below_norm { background: rgba(59,130,246,0.2); color: var(--accent-light); }
+.badge-regime.fair_value { background: rgba(100,116,139,0.2); color: var(--text-muted); }
+.badge-regime.above_norm { background: var(--neutral-bg); color: var(--neutral-light); }
+.badge-regime.expensive { background: var(--bearish-bg); color: var(--bearish-light); }
+.badge-priority { font-family: var(--font-mono); }
+.badge-priority.critical { background: var(--bearish-bg); color: var(--bearish-light); }
+.badge-priority.high { background: rgba(249,115,22,0.2); color: #fb923c; }
+
+.pick-scores { display: flex; flex-direction: column; gap: 0.5rem; }
+.score-row { display: flex; align-items: center; gap: 0.5rem; }
+.score-label { font-size: 0.7rem; color: var(--text-muted); width: 65px; flex-shrink: 0; }
+.score-bar-bg {
+    flex: 1; height: 8px; background: var(--bg-primary);
+    border-radius: 4px; overflow: hidden; position: relative;
+}
+.score-bar-fill {
+    height: 100%; border-radius: 4px;
+    transition: width 0.5s ease;
+}
+.score-value {
+    font-size: 0.7rem; font-weight: 600; font-family: var(--font-mono);
+    width: 38px; text-align: right; flex-shrink: 0;
+}
+
+.pick-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid var(--border-secondary);
+}
+.conviction-stars { color: var(--neutral); font-size: 0.85rem; letter-spacing: 2px; }
+.conviction-label { font-size: 0.65rem; color: var(--text-subtle); }
+
+.macro-placeholder {
+    background: var(--bg-secondary); border-radius: var(--radius);
+    border: 1px solid var(--border-secondary); padding: 1.5rem;
+    text-align: center; color: var(--text-subtle); margin-bottom: 1.5rem;
+}
+.macro-placeholder .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.macro-placeholder .text { font-size: 0.85rem; }
+
+.loading {
+    text-align: center; padding: 3rem; color: var(--text-muted);
+}
+.loading .spinner {
+    display: inline-block; width: 32px; height: 32px;
+    border: 3px solid var(--border-secondary); border-top-color: var(--accent);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+    .picks-grid { grid-template-columns: 1fr; }
+    .header { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+    .meta-bar { flex-direction: column; gap: 0.5rem; }
+}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            <h1>📊 종목 분석</h1>
+        </div>
+        <div class="header-right">
+            <a href="/" class="back-link">← SmartQuery</a>
+            <a href="https://stock-chart-tau.vercel.app/" target="_blank" class="back-link">📈 KRX 차트</a>
+        </div>
+    </div>
+
+    <div class="meta-bar" id="meta-bar">
+        <div class="meta-item">분석일: <span class="meta-value" id="meta-date">-</span></div>
+        <div class="meta-item">종목 수: <span class="meta-value" id="meta-count">-</span></div>
+        <div class="meta-item" id="meta-sources"></div>
+    </div>
+
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p style="margin-top: 0.75rem;">분석 데이터 로딩 중...</p>
+    </div>
+
+    <div id="content" style="display: none;">
+        <div class="macro-placeholder" id="macro-section">
+            <div class="icon">🌐</div>
+            <div class="text">매크로 / 리스크 분석 — 준비중</div>
+        </div>
+
+        <div class="picks-section buy" id="buy-section">
+            <div class="section-title">
+                🟢 BUY 추천
+                <span class="section-count" id="buy-count">0</span>
+            </div>
+            <div class="picks-grid" id="buy-grid"></div>
+        </div>
+
+        <div class="picks-section hold" id="hold-section">
+            <div class="section-title">
+                🟡 HOLD 관찰
+                <span class="section-count" id="hold-count">0</span>
+            </div>
+            <div class="picks-grid" id="hold-grid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', loadAnalysis);
+
+async function loadAnalysis() {
+    try {
+        const resp = await fetch('/analysis/daily');
+        const result = await resp.json();
+
+        if (!result.success || !result.data) {
+            document.getElementById('loading').innerHTML = '<p style="color: var(--bearish-light);">분석 데이터를 불러올 수 없습니다.</p>';
+            return;
+        }
+
+        const data = result.data;
+        renderMeta(data.meta);
+        renderPicks(data.integrated_picks || []);
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+    } catch (e) {
+        document.getElementById('loading').innerHTML = '<p style="color: var(--bearish-light);">오류: ' + e.message + '</p>';
+    }
+}
+
+function renderMeta(meta) {
+    if (!meta) return;
+    document.getElementById('meta-date').textContent = meta.date || '-';
+
+    const sources = meta.sources || {};
+    const srcEl = document.getElementById('meta-sources');
+    const labels = { econ: '경제', industry: '산업', firm: '종목', strategy: '전략' };
+    srcEl.innerHTML = Object.entries(sources).map(([k, v]) =>
+        `<span class="source-badge ${v ? 'available' : 'unavailable'}">${v ? '✅' : '⚠️'} ${labels[k] || k}</span>`
+    ).join(' ');
+}
+
+function renderPicks(picks) {
+    const buyPicks = picks.filter(p => p.action === 'BUY');
+    const holdPicks = picks.filter(p => p.action === 'HOLD');
+
+    document.getElementById('meta-count').textContent = picks.length;
+    document.getElementById('buy-count').textContent = buyPicks.length;
+    document.getElementById('hold-count').textContent = holdPicks.length;
+
+    document.getElementById('buy-grid').innerHTML = buyPicks.map(p => renderCard(p, 'buy')).join('');
+    document.getElementById('hold-grid').innerHTML = holdPicks.map(p => renderCard(p, 'hold')).join('');
+
+    if (buyPicks.length === 0) {
+        document.getElementById('buy-grid').innerHTML = '<div style="color: var(--text-subtle); padding: 1rem;">해당 종목 없음</div>';
+    }
+    if (holdPicks.length === 0) {
+        document.getElementById('hold-grid').innerHTML = '<div style="color: var(--text-subtle); padding: 1rem;">해당 종목 없음</div>';
+    }
+}
+
+function renderCard(pick, type) {
+    const ucs = pick.ucs_lrs || 0;
+    const align = pick.alignment_score || 0;
+    const regime = (pick.valuation_regime || 'UNKNOWN').toLowerCase();
+    const regimeLabel = {
+        deep_discount: 'DEEP DISCOUNT', below_norm: 'BELOW NORM',
+        fair_value: 'FAIR VALUE', above_norm: 'ABOVE NORM', expensive: 'EXPENSIVE'
+    }[regime] || regime.toUpperCase();
+    const priority = (pick.firm_priority || '').toLowerCase();
+    const conviction = pick.conviction_level || 'LOW';
+
+    const stars = { VERY_HIGH: '★★★', HIGH: '★★', MEDIUM: '★', LOW: '' }[conviction] || '';
+    const convLabel = { VERY_HIGH: '매우 높음', HIGH: '높음', MEDIUM: '보통', LOW: '낮음' }[conviction] || conviction;
+
+    const ucsColor = ucs >= 0.85 ? 'var(--bearish-light)' : ucs >= 0.75 ? '#fb923c' : 'var(--accent-light)';
+    const alignColor = align >= 0.75 ? 'var(--bullish-light)' : align >= 0.65 ? 'var(--neutral-light)' : 'var(--text-muted)';
+
+    const searchUrl = `/?q=${encodeURIComponent(pick.company + ' 투자의견')}`;
+
+    return `
+    <div class="pick-card ${type}" onclick="window.location.href='${searchUrl}'">
+        <div class="pick-header">
+            <a href="${searchUrl}" class="pick-company">${pick.company}</a>
+            <div class="pick-badges">
+                <span class="badge badge-sector">${pick.sector}</span>
+                <span class="badge badge-regime ${regime}">${regimeLabel}</span>
+                ${priority ? `<span class="badge badge-priority ${priority}">${priority.toUpperCase()}</span>` : ''}
+            </div>
+        </div>
+        <div class="pick-scores">
+            <div class="score-row">
+                <span class="score-label">UCS-LRS</span>
+                <div class="score-bar-bg">
+                    <div class="score-bar-fill" style="width: ${ucs * 100}%; background: ${ucsColor};"></div>
+                </div>
+                <span class="score-value" style="color: ${ucsColor};">${ucs.toFixed(3)}</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">Alignment</span>
+                <div class="score-bar-bg">
+                    <div class="score-bar-fill" style="width: ${align * 100}%; background: ${alignColor};"></div>
+                </div>
+                <span class="score-value" style="color: ${alignColor};">${align.toFixed(3)}</span>
+            </div>
+        </div>
+        <div class="pick-footer">
+            <div>
+                <span class="conviction-stars">${stars}</span>
+                <span class="conviction-label">${convLabel}</span>
+            </div>
+            <span style="font-size: 0.65rem; color: var(--text-subtle);">클릭하여 검색</span>
+        </div>
+    </div>`;
+}
+</script>
+</body>
+</html>

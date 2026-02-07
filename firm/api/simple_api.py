@@ -1938,6 +1938,68 @@ def serve_theme_graph():
         return f"Error loading theme graph: {e}", 500
 
 
+# =============================================================================
+# Daily Analysis (종목 분석) Endpoints
+# =============================================================================
+
+_pg_analysis_uri = os.environ.get(
+    'POSTGRES_URI',
+    'postgresql://postgres:smartquery2025@centerbeam.proxy.rlwy.net:11334/naver_report'
+)
+
+ANALYSIS_NAS_DIR = '/mnt/nas/WWAI/NaverReport/outputs'
+
+
+def _get_analysis_from_db(date_str=None):
+    """Get daily analysis from PostgreSQL."""
+    try:
+        import psycopg2
+        from psycopg2.extras import RealDictCursor
+        conn = psycopg2.connect(_pg_analysis_uri)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        if date_str:
+            cur.execute("SELECT date, data FROM daily_analysis WHERE date = %s", (date_str,))
+        else:
+            cur.execute("SELECT date, data FROM daily_analysis ORDER BY date DESC LIMIT 1")
+        row = cur.fetchone()
+        conn.close()
+        if row:
+            return row['data'] if isinstance(row['data'], dict) else json.loads(row['data'])
+    except Exception as e:
+        print(f"DB analysis fetch error: {e}")
+    return None
+
+
+def _get_analysis_from_nas():
+    """Fallback: read latest unified_analysis JSON from NAS."""
+    import glob as glob_mod
+    files = sorted(glob_mod.glob(os.path.join(ANALYSIS_NAS_DIR, 'unified_analysis_*.json')))
+    if not files:
+        return None
+    try:
+        with open(files[-1], 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"NAS analysis read error: {e}")
+        return None
+
+
+@app.route('/analysis/daily')
+def analysis_daily():
+    """Get latest daily analysis data (JSON API)."""
+    date_str = request.args.get('date')
+    data = _get_analysis_from_db(date_str) or _get_analysis_from_nas()
+    if not data:
+        return jsonify({"success": False, "error": "No analysis data available"}), 404
+    return jsonify({"success": True, "data": data})
+
+
+@app.route('/analysis')
+def analysis_page():
+    """Serve the 종목 분석 page."""
+    return render_template('analysis.html')
+
+
 if __name__ == '__main__':
     print("=" * 60)
     print("SmartQuery API Server (Flask)")
