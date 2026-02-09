@@ -467,7 +467,7 @@ class SmartQuery:
         start_time = datetime.now()
 
         # Check exact cache first
-        cache_key = self._cache_key(question, max_reports)
+        cache_key = self._cache_key(f"{question}|{date_from}|{date_to}", max_reports)
         cached_result = self._get_cached(cache_key)
         if cached_result is not None:
             cached_result.execution_time_ms = 0.1  # Exact cache hit
@@ -478,11 +478,11 @@ class SmartQuery:
                 print("[Cache] EXACT HIT - returning cached result")
             return cached_result
 
-        # Check semantic cache if vector client available
+        # Check semantic cache if vector client available (skip when date filters applied)
         query_embedding = None
         if self.vector_client:
             query_embedding = self.vector_client.embed_text(question)
-            semantic_hit = self._get_semantic_cached(query_embedding)
+            semantic_hit = self._get_semantic_cached(query_embedding) if not date_from and not date_to else None
             if semantic_hit:
                 result, score, orig_query = semantic_hit
                 result.execution_time_ms = 0.2  # Semantic cache hit
@@ -759,13 +759,13 @@ class SmartQuery:
         # Cache the result (exact match)
         self._set_cache(cache_key, result)
 
-        # Also cache for semantic lookup
-        if query_embedding is not None:
-            self._set_semantic_cache(query_embedding, result, question)
-        elif self.vector_client:
-            # Generate embedding if not already done
-            emb = self.vector_client.embed_text(question)
-            self._set_semantic_cache(emb, result, question)
+        # Also cache for semantic lookup (skip when date filters to avoid pollution)
+        if not date_from and not date_to:
+            if query_embedding is not None:
+                self._set_semantic_cache(query_embedding, result, question)
+            elif self.vector_client:
+                emb = self.vector_client.embed_text(question)
+                self._set_semantic_cache(emb, result, question)
 
         return result
 

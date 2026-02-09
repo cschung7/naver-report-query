@@ -144,7 +144,7 @@ class EconQuery:
         start_time = time.time()
         self.metrics['total_queries'] += 1
 
-        cache_key = self._get_cache_key(question)
+        cache_key = self._get_cache_key(f"{question}|{date_from}|{date_to}")
 
         # Check exact cache
         if use_cache:
@@ -158,8 +158,8 @@ class EconQuery:
         # Generate embedding for semantic search and cache
         query_embedding = np.array(self.vector_client.embed_text(question))
 
-        # Check semantic cache
-        if use_cache:
+        # Check semantic cache (skip when date filters are applied - different dates need different results)
+        if use_cache and not date_from and not date_to:
             semantic_match = self._check_semantic_cache(query_embedding)
             if semantic_match:
                 match_key, similarity = semantic_match
@@ -230,9 +230,12 @@ class EconQuery:
             cache_hit="MISS"
         )
 
-        # Add to cache
+        # Add to cache (date-filtered results use exact cache only to avoid semantic cache pollution)
         if use_cache:
-            self._add_to_cache(cache_key, result, query_embedding)
+            if date_from or date_to:
+                self.exact_cache[cache_key] = (result, time.time(), query_embedding)
+            else:
+                self._add_to_cache(cache_key, result, query_embedding)
 
         return result
 
