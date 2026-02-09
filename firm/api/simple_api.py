@@ -2077,6 +2077,9 @@ def industry_reports():
     """Search/filter/paginate industry reports."""
     q = request.args.get('q', '').strip()
     issuer = request.args.get('issuer', '').strip()
+    date_from = request.args.get('date_from', '').strip()
+    date_to = request.args.get('date_to', '').strip()
+    sort = request.args.get('sort', 'relevance').strip()
     page = max(1, int(request.args.get('page', 1)))
     per_page = min(50, max(5, int(request.args.get('per_page', 20))))
 
@@ -2101,6 +2104,12 @@ def industry_reports():
         if issuer:
             conditions.append("issuer = %s")
             params.append(issuer)
+        if date_from:
+            conditions.append("issue_date >= %s")
+            params.append(date_from)
+        if date_to:
+            conditions.append("issue_date <= %s")
+            params.append(date_to)
 
         where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
@@ -2116,11 +2125,19 @@ def industry_reports():
                 relevance_params.extend([f'%{word}%', f'%{word}%'])
             relevance_expr = " + ".join(relevance_parts)
             select_extra = f", ({relevance_expr}) AS relevance"
-            order_clause = "ORDER BY relevance DESC, issue_date DESC"
         else:
             select_extra = ""
-            order_clause = "ORDER BY issue_date DESC, title"
             relevance_params = []
+
+        # Sort order
+        if sort == 'date_asc':
+            order_clause = "ORDER BY issue_date ASC, title"
+        elif sort == 'date_desc':
+            order_clause = "ORDER BY issue_date DESC, title"
+        elif words:
+            order_clause = "ORDER BY relevance DESC, issue_date DESC"
+        else:
+            order_clause = "ORDER BY issue_date DESC, title"
 
         # Count
         cur.execute(f"SELECT COUNT(*) as cnt FROM industry_reports {where}", params)
@@ -2226,6 +2243,9 @@ def strategy_reports():
     """Search/filter/paginate strategy reports."""
     q = request.args.get('q', '').strip()
     issuer = request.args.get('issuer', '').strip()
+    date_from = request.args.get('date_from', '').strip()
+    date_to = request.args.get('date_to', '').strip()
+    sort = request.args.get('sort', 'relevance').strip()
     page = max(1, int(request.args.get('page', 1)))
     per_page = min(50, max(5, int(request.args.get('per_page', 20))))
 
@@ -2249,6 +2269,12 @@ def strategy_reports():
         if issuer:
             conditions.append("issuer = %s")
             params.append(issuer)
+        if date_from:
+            conditions.append("issue_date >= %s")
+            params.append(date_from)
+        if date_to:
+            conditions.append("issue_date <= %s")
+            params.append(date_to)
 
         where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
@@ -2263,11 +2289,18 @@ def strategy_reports():
                 relevance_params.extend([f'%{word}%', f'%{word}%'])
             relevance_expr = " + ".join(relevance_parts)
             select_extra = f", ({relevance_expr}) AS relevance"
-            order_clause = "ORDER BY relevance DESC, issue_date DESC"
         else:
             select_extra = ""
-            order_clause = "ORDER BY issue_date DESC, title"
             relevance_params = []
+
+        if sort == 'date_asc':
+            order_clause = "ORDER BY issue_date ASC, title"
+        elif sort == 'date_desc':
+            order_clause = "ORDER BY issue_date DESC, title"
+        elif words:
+            order_clause = "ORDER BY relevance DESC, issue_date DESC"
+        else:
+            order_clause = "ORDER BY issue_date DESC, title"
 
         cur.execute(f"SELECT COUNT(*) as cnt FROM strategy_reports {where}", params)
         total = cur.fetchone()['cnt']
@@ -2357,6 +2390,9 @@ def economy_reports():
     """Search/filter/paginate economy reports."""
     q = request.args.get('q', '').strip()
     issuer = request.args.get('issuer', '').strip()
+    date_from = request.args.get('date_from', '').strip()
+    date_to = request.args.get('date_to', '').strip()
+    sort = request.args.get('sort', 'relevance').strip()
     page = max(1, int(request.args.get('page', 1)))
     per_page = min(50, max(5, int(request.args.get('per_page', 20))))
 
@@ -2380,6 +2416,12 @@ def economy_reports():
         if issuer:
             conditions.append("issuer = %s")
             params.append(issuer)
+        if date_from:
+            conditions.append("issue_date >= %s")
+            params.append(date_from)
+        if date_to:
+            conditions.append("issue_date <= %s")
+            params.append(date_to)
 
         where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
@@ -2394,11 +2436,18 @@ def economy_reports():
                 relevance_params.extend([f'%{word}%', f'%{word}%'])
             relevance_expr = " + ".join(relevance_parts)
             select_extra = f", ({relevance_expr}) AS relevance"
-            order_clause = "ORDER BY relevance DESC, issue_date DESC"
         else:
             select_extra = ""
-            order_clause = "ORDER BY issue_date DESC, title"
             relevance_params = []
+
+        if sort == 'date_asc':
+            order_clause = "ORDER BY issue_date ASC, title"
+        elif sort == 'date_desc':
+            order_clause = "ORDER BY issue_date DESC, title"
+        elif words:
+            order_clause = "ORDER BY relevance DESC, issue_date DESC"
+        else:
+            order_clause = "ORDER BY issue_date DESC, title"
 
         cur.execute(f"SELECT COUNT(*) as cnt FROM econ_reports {where}", params)
         total = cur.fetchone()['cnt']

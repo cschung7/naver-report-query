@@ -274,6 +274,19 @@ body {
         <select class="filter-select" id="issuer-select">
             <option value="">전체 증권사</option>
         </select>
+        <select class="filter-select" id="period-filter">
+            <option value="90">3개월</option>
+            <option value="180">6개월</option>
+            <option value="365" selected>1년</option>
+            <option value="730">2년</option>
+            <option value="1825">5년</option>
+            <option value="">전체</option>
+        </select>
+        <select class="filter-select" id="sort-filter">
+            <option value="relevance">관련성순</option>
+            <option value="date_desc">최신순</option>
+            <option value="date_asc">오래된순</option>
+        </select>
         <button class="search-btn" onclick="searchReports()">검색</button>
     </div>
 
@@ -291,11 +304,23 @@ body {
 let currentPage = 1;
 let currentQuery = '';
 let currentIssuer = '';
+let currentSort = 'relevance';
 const perPage = 20;
 
 document.getElementById('search-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') searchReports();
 });
+document.getElementById('period-filter').addEventListener('change', function() { searchReports(); });
+document.getElementById('sort-filter').addEventListener('change', function() { searchReports(); });
+
+function getDateRange() {
+    const days = document.getElementById('period-filter').value;
+    if (!days) return { date_from: '', date_to: '' };
+    const now = new Date();
+    const from = new Date(now.getTime() - parseInt(days) * 86400000);
+    const fmt = d => d.toISOString().slice(0, 10);
+    return { date_from: fmt(from), date_to: fmt(now) };
+}
 
 async function loadStats() {
     try {
@@ -325,6 +350,10 @@ async function loadReports(page) {
     const params = new URLSearchParams({ page: currentPage, per_page: perPage });
     if (currentQuery) params.set('q', currentQuery);
     if (currentIssuer) params.set('issuer', currentIssuer);
+    const dr = getDateRange();
+    if (dr.date_from) params.set('date_from', dr.date_from);
+    if (dr.date_to) params.set('date_to', dr.date_to);
+    params.set('sort', currentSort);
 
     try {
         const res = await fetch('/economy/reports?' + params.toString());
@@ -395,6 +424,7 @@ function renderPagination(page, totalPages, total) {
 function searchReports() {
     currentQuery = document.getElementById('search-input').value.trim();
     currentIssuer = document.getElementById('issuer-select').value;
+    currentSort = document.getElementById('sort-filter').value;
     loadReports(1);
 }
 
@@ -406,7 +436,7 @@ function escapeHtml(text) {
 
 // Initialize
 loadStats();
-loadReports(1);
+searchReports();
 </script>
 </body>
 </html>
