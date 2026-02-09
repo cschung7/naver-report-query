@@ -220,6 +220,39 @@ body {
 }
 .wwai-btn-theme:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
 
+.search-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.85rem;
+  color: var(--wwai-text-muted);
+  white-space: nowrap;
+}
+
+.wwai-select {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  font-family: var(--wwai-font-korean);
+  background: var(--wwai-bg-primary);
+  border: 1px solid var(--wwai-border-secondary);
+  border-radius: var(--wwai-radius-sm);
+  color: var(--wwai-text-primary);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--wwai-transition-base);
+}
+.wwai-select:focus { border-color: var(--wwai-border-focus); }
+
 .search-hints {
   display: flex;
   flex-wrap: wrap;
@@ -507,6 +540,7 @@ body {
   .domain-tab .tab-icon { font-size: 1.5rem; }
   .reports-grid { grid-template-columns: 1fr; }
   .search-row { flex-direction: column; }
+  .search-filters { flex-wrap: wrap; }
 }
     </style>
 </head>
@@ -542,6 +576,27 @@ body {
             <div class="search-row">
                 <input type="text" class="wwai-input" id="search-input" placeholder="질문을 입력하세요..." autofocus>
                 <button class="wwai-btn" id="search-btn" onclick="executeQuery()">🔍 검색</button>
+            </div>
+            <div class="search-filters">
+                <div class="filter-group">
+                    <label class="filter-label">📅 기간</label>
+                    <select class="wwai-select" id="period-filter">
+                        <option value="90">3개월</option>
+                        <option value="180">6개월</option>
+                        <option value="365" selected>1년</option>
+                        <option value="730">2년</option>
+                        <option value="1825">5년</option>
+                        <option value="">전체</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">정렬</label>
+                    <select class="wwai-select" id="sort-filter" onchange="applySortFilter()">
+                        <option value="relevance">관련성순</option>
+                        <option value="date_desc">최신순</option>
+                        <option value="date_asc">오래된순</option>
+                    </select>
+                </div>
             </div>
             <div class="search-hints" id="search-hints">
                 <!-- Dynamic hints based on domain -->
@@ -654,11 +709,21 @@ async function executeQuery() {
     setStatus('검색 중...', false);
     document.getElementById('results').innerHTML = '<div class="loading"><div class="spinner"></div><div>검색 중...</div></div>';
 
+    // Build request body with date filter
+    const body = { question, max_reports: 20 };
+    const periodDays = document.getElementById('period-filter').value;
+    if (periodDays) {
+        const now = new Date();
+        const from = new Date(now.getTime() - parseInt(periodDays) * 86400000);
+        body.date_from = from.toISOString().slice(0, 10);
+        body.date_to = now.toISOString().slice(0, 10);
+    }
+
     try {
         const response = await fetch(`/api/${currentDomain}/query`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question, max_reports: 20 })
+            body: JSON.stringify(body)
         });
 
         const data = await response.json();
@@ -858,6 +923,30 @@ function formatDate(s) {
     if (!s) return '';
     try { return new Date(s).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }); }
     catch (e) { return s; }
+}
+
+function applySortFilter() {
+    if (!lastResult?.reports?.length) return;
+    const sortBy = document.getElementById('sort-filter').value;
+    const sorted = [...lastResult.reports];
+    if (sortBy === 'date_desc') {
+        sorted.sort((a, b) => {
+            const da = a.issue_date || a.date || '';
+            const db = b.issue_date || b.date || '';
+            return db.localeCompare(da);
+        });
+    } else if (sortBy === 'date_asc') {
+        sorted.sort((a, b) => {
+            const da = a.issue_date || a.date || '';
+            const db = b.issue_date || b.date || '';
+            return da.localeCompare(db);
+        });
+    }
+    // For 'relevance', keep original order (server-side ranking)
+    const grid = document.querySelector('.reports-grid');
+    if (grid) {
+        grid.innerHTML = sorted.map(r => renderReportCard(r)).join('');
+    }
 }
 
 function openThemeExplorer() {

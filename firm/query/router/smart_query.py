@@ -110,7 +110,9 @@ class SmartQuery:
         question: str,
         max_reports: int = 20,
         max_claims: int = 50,
-        verbose: bool = False
+        verbose: bool = False,
+        date_from: str = None,
+        date_to: str = None
     ) -> SmartQueryResult:
         """
         Execute fast query using only PostgreSQL and Neo4j (no vector DB).
@@ -142,8 +144,14 @@ class SmartQuery:
                 params['valuation_regime'] = entities.valuation_keywords[0]
             if entities.growth_keywords:
                 params['growth_regime'] = entities.growth_keywords[0]
-            if entities.date_range:
+            # Explicit date params override entity-extracted dates
+            if date_from:
+                params['date_from'] = date_from
+            elif entities.date_range:
                 params['date_from'] = entities.date_range.get('from')
+            if date_to:
+                params['date_to'] = date_to
+            elif entities.date_range:
                 params['date_to'] = entities.date_range.get('to')
 
             # Use text search if no structured filters
@@ -247,7 +255,9 @@ class SmartQuery:
         question: str,
         max_reports: int = 20,
         max_claims: int = 50,
-        verbose: bool = False
+        verbose: bool = False,
+        date_from: str = None,
+        date_to: str = None
     ) -> SmartQueryResult:
         """
         Execute intelligent query with automatic routing.
@@ -278,6 +288,12 @@ class SmartQuery:
         if verbose:
             print(f"[Planner] Decision: {decision.intent.value}")
             print(f"[Planner] DBs: {decision.get_active_databases()}")
+
+        # Inject explicit date filters into pg_params
+        if date_from:
+            decision.pg_params['date_from'] = date_from
+        if date_to:
+            decision.pg_params['date_to'] = date_to
 
         # Step 4: Execute queries
         result = self._execute_queries(

@@ -763,6 +763,8 @@ def query():
         verbose = data.get('verbose', False)
         auto_refine = data.get('auto_refine', True)  # Auto-refine by default
         use_vector = data.get('use_vector', False)  # Vector DB disabled by default (slow)
+        date_from = data.get('date_from', None)
+        date_to = data.get('date_to', None)
     else:
         question = request.args.get('q', '')
         max_reports = int(request.args.get('max_reports', 20))
@@ -770,6 +772,8 @@ def query():
         verbose = request.args.get('verbose', 'false').lower() == 'true'
         auto_refine = request.args.get('auto_refine', 'true').lower() == 'true'
         use_vector = request.args.get('use_vector', 'false').lower() == 'true'
+        date_from = request.args.get('date_from', None)
+        date_to = request.args.get('date_to', None)
 
     if not question:
         return jsonify({"error": "Missing 'question' or 'q' parameter"}), 400
@@ -813,14 +817,18 @@ def query():
                 question=refined_query,
                 max_reports=max_reports,
                 max_claims=max_claims,
-                verbose=verbose
+                verbose=verbose,
+                date_from=date_from,
+                date_to=date_to
             )
         else:
             result = sq.query(
                 question=refined_query,
                 max_reports=max_reports,
                 max_claims=max_claims,
-                verbose=verbose
+                verbose=verbose,
+                date_from=date_from,
+                date_to=date_to
             )
 
         response = {
