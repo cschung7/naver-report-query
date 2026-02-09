@@ -449,7 +449,9 @@ class SmartQuery:
         self,
         question: str,
         max_reports: int = 20,
-        verbose: bool = False
+        verbose: bool = False,
+        date_from: str = None,
+        date_to: str = None
     ) -> QueryResult:
         """
         Execute intelligent query with multi-stage search strategy.
@@ -549,6 +551,11 @@ class SmartQuery:
                 if analysis['issuer']:
                     search_params['issuer'] = analysis['issuer']
 
+                if date_from:
+                    search_params['date_from'] = date_from
+                if date_to:
+                    search_params['date_to'] = date_to
+
                 additional = self.pg_client.search_reports(**search_params)
 
                 # Merge results avoiding duplicates
@@ -566,11 +573,16 @@ class SmartQuery:
                 # Try with just the most important keyword
                 main_keyword = max(keywords, key=len) if keywords else None
                 if main_keyword:
-                    reports = self.pg_client.search_reports(
-                        query=main_keyword,
-                        limit=max_reports,
-                        broad_search=True
-                    )
+                    fallback_params = {
+                        'query': main_keyword,
+                        'limit': max_reports,
+                        'broad_search': True
+                    }
+                    if date_from:
+                        fallback_params['date_from'] = date_from
+                    if date_to:
+                        fallback_params['date_to'] = date_to
+                    reports = self.pg_client.search_reports(**fallback_params)
                     if verbose:
                         print(f"[Fallback Search] Found {len(reports)} reports with '{main_keyword}'")
 

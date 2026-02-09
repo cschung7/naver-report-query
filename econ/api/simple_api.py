@@ -108,16 +108,20 @@ def query():
         data = request.get_json() or {}
         question = data.get('question', '')
         max_reports = data.get('max_reports', 10)
+        date_from = data.get('date_from', None)
+        date_to = data.get('date_to', None)
     else:
         question = request.args.get('q', '')
         max_reports = int(request.args.get('limit', 10))
+        date_from = request.args.get('date_from', None)
+        date_to = request.args.get('date_to', None)
 
     if not question:
         return jsonify({'success': False, 'error': 'No question provided'}), 400
 
     try:
         eq = get_eq()
-        result = eq.query(question, max_reports=max_reports)
+        result = eq.query(question, max_reports=max_reports, date_from=date_from, date_to=date_to)
 
         cache_type = 'HIT' if 'HIT' in result.cache_hit else 'MISS'
         logger.info(f"[CACHE] {result.cache_hit} | {result.execution_time_ms}ms | {question}")

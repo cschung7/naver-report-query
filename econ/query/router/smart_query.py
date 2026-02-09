@@ -136,7 +136,9 @@ class EconQuery:
         self,
         question: str,
         max_reports: int = 10,
-        use_cache: bool = True
+        use_cache: bool = True,
+        date_from: str = None,
+        date_to: str = None
     ) -> QueryResult:
         """Execute query with caching and multi-source search."""
         start_time = time.time()
@@ -180,7 +182,9 @@ class EconQuery:
         pg_results = self.pg_client.search_reports(
             query=question,
             keywords=keywords,
-            limit=max_reports
+            limit=max_reports,
+            date_from=date_from,
+            date_to=date_to
         )
 
         # Search vectors

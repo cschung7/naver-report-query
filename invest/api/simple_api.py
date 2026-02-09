@@ -242,10 +242,14 @@ def query():
         question = data.get('question', '')
         max_reports = data.get('max_reports', 20)
         verbose = data.get('verbose', False)
+        date_from = data.get('date_from', None)
+        date_to = data.get('date_to', None)
     else:
         question = request.args.get('q', '')
         max_reports = int(request.args.get('max_reports', 20))
         verbose = request.args.get('verbose', 'false').lower() == 'true'
+        date_from = request.args.get('date_from', None)
+        date_to = request.args.get('date_to', None)
 
     if not question:
         return jsonify({"error": "Missing 'question' or 'q' parameter"}), 400
@@ -256,7 +260,9 @@ def query():
         result = sq.query(
             question=question,
             max_reports=max_reports,
-            verbose=verbose
+            verbose=verbose,
+            date_from=date_from,
+            date_to=date_to
         )
 
         response = {
