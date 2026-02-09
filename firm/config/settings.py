@@ -24,7 +24,7 @@ class Settings:
     postgres_uri: str = field(
         default_factory=lambda: os.getenv(
             "POSTGRES_URI_FIRM",
-            os.getenv("POSTGRES_URI", "postgresql://naver:naver@localhost:5432/naver_report")
+            os.getenv("POSTGRES_URI", "postgresql://kg_user:kg_secure_password_2025@localhost:5432/naver_report")
         )
     )
     neo4j_uri: str = field(

@@ -19,7 +19,7 @@ EXTRACTION_PATH = DATA_ROOT / "Extraction_IndustryAnalysis/extractions"
 MARKER_PATH = DATA_ROOT / "Marker/IndustryAnalysis"
 
 # Database settings
-POSTGRES_URI = os.getenv("POSTGRES_URI_INDUSTRY", os.getenv("POSTGRES_URI", "postgresql://naver:naver@localhost:5432/naver_industry"))
+POSTGRES_URI = os.getenv("POSTGRES_URI_INDUSTRY", os.getenv("POSTGRES_URI", "postgresql://kg_user:kg_secure_password_2025@localhost:5432/naver_industry"))
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD", "naverneo4j")
