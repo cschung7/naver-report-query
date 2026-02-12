@@ -26,12 +26,12 @@ CORS(app)
 # Gateway port - uses Railway's PORT env var
 GATEWAY_PORT = int(os.environ.get('PORT', 8000))
 
-# Backend endpoints (internal services on localhost)
+# Backend endpoints - all served by FirmAnalysis on port 8080
 BACKENDS = {
     'firm': 'http://localhost:8080',
-    'invest': 'http://localhost:8001',
-    'industry': 'http://localhost:8002',
-    'econ': 'http://localhost:8003'
+    'invest': 'http://localhost:8080',
+    'industry': 'http://localhost:8080',
+    'econ': 'http://localhost:8080'
 }
 
 DOMAIN_NAMES = {
