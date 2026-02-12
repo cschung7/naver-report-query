@@ -1952,7 +1952,7 @@ def serve_theme_graph():
 
 _pg_analysis_uri = os.environ.get(
     'POSTGRES_URI',
-    'postgresql://postgres:smartquery2025@centerbeam.proxy.rlwy.net:11334/naver_report'
+    'postgresql://kg_user:kg_secure_password_2025@localhost:5432/naver_report'
 )
 
 ANALYSIS_NAS_DIR = '/mnt/nas/WWAI/NaverReport/outputs'
@@ -2031,7 +2031,7 @@ def analysis_page():
 
 _pg_industry_uri = os.environ.get(
     'INDUSTRY_POSTGRES_URI',
-    'postgresql://postgres:smartquery2025@centerbeam.proxy.rlwy.net:11334/naver_industry'
+    'postgresql://kg_user:kg_secure_password_2025@localhost:5432/naver_industry'
 )
 
 
@@ -2345,7 +2345,7 @@ def strategy_reports():
 
 _pg_econ_uri = os.environ.get(
     'ECON_POSTGRES_URI',
-    'postgresql://postgres:smartquery2025@centerbeam.proxy.rlwy.net:11334/naver_econ'
+    'postgresql://kg_user:kg_secure_password_2025@localhost:5432/naver_econ'
 )
 
 @app.route('/economy')
