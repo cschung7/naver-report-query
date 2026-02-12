@@ -51,6 +51,66 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/analysis')
+@app.route('/analysis/<path:path>')
+def proxy_analysis(path=''):
+    """Proxy to FirmAnalysis /analysis page and sub-routes."""
+    try:
+        url = f"{BACKENDS['firm']}/analysis"
+        if path:
+            url += f"/{path}"
+        resp = requests.get(url, params=request.args, timeout=30)
+        return Response(resp.content, status=resp.status_code,
+                       content_type=resp.headers.get('content-type', 'text/html'))
+    except Exception as e:
+        return f"Error: {e}", 502
+
+
+@app.route('/industry')
+@app.route('/industry/<path:path>')
+def proxy_industry_page(path=''):
+    """Proxy to FirmAnalysis /industry page and sub-routes."""
+    try:
+        url = f"{BACKENDS['firm']}/industry"
+        if path:
+            url += f"/{path}"
+        resp = requests.get(url, params=request.args, timeout=30)
+        return Response(resp.content, status=resp.status_code,
+                       content_type=resp.headers.get('content-type', 'text/html'))
+    except Exception as e:
+        return f"Error: {e}", 502
+
+
+@app.route('/strategy')
+@app.route('/strategy/<path:path>')
+def proxy_strategy_page(path=''):
+    """Proxy to FirmAnalysis /strategy page and sub-routes."""
+    try:
+        url = f"{BACKENDS['firm']}/strategy"
+        if path:
+            url += f"/{path}"
+        resp = requests.get(url, params=request.args, timeout=30)
+        return Response(resp.content, status=resp.status_code,
+                       content_type=resp.headers.get('content-type', 'text/html'))
+    except Exception as e:
+        return f"Error: {e}", 502
+
+
+@app.route('/economy')
+@app.route('/economy/<path:path>')
+def proxy_economy_page(path=''):
+    """Proxy to FirmAnalysis /economy page and sub-routes."""
+    try:
+        url = f"{BACKENDS['firm']}/economy"
+        if path:
+            url += f"/{path}"
+        resp = requests.get(url, params=request.args, timeout=30)
+        return Response(resp.content, status=resp.status_code,
+                       content_type=resp.headers.get('content-type', 'text/html'))
+    except Exception as e:
+        return f"Error: {e}", 502
+
+
 @app.route('/api')
 def api_info():
     """API information endpoint."""
